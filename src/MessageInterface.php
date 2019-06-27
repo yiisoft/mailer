@@ -137,11 +137,23 @@ interface MessageInterface
     public function setSubject(string $subject): self;
 
     /**
+     * Returns the message text body.
+     * @return string the message text body.
+     */
+    public function getTextBody(): string;
+
+    /**
      * Sets message plain text content.
      * @param string $text message plain text content.
      * @return $this self reference.
      */
     public function setTextBody(string $text): self;
+
+    /**
+     * Returns the message HTML body.
+     * @return string the message HTML body.
+     */
+    public function getHtmlBody(): string;
 
     /**
      * Sets message HTML content.

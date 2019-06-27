@@ -106,10 +106,20 @@ class TestMessage extends BaseMessage
         return $this;
     }
 
+    public function getTextBody(): string
+    {
+        return $this->textBody;
+    }
+
     public function setTextBody(string $text): MessageInterface
     {
         $this->textBody = $text;
         return $this;
+    }
+
+    public function getHtmlBody(): string
+    {
+        return $this->htmlBody;
     }
 
     public function setHtmlBody(string $html): MessageInterface
