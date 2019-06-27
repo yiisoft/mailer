@@ -80,13 +80,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\Mailer\\": "src",
-            "Yiisoft\\Mailer\\Tests\\": "tests"
+            "Yiisoft\\Mailer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "yii\\build\\": "build"
+            "Yiisoft\\Mailer\\Tests\\": "tests"
         }
     },
     "extra": {
