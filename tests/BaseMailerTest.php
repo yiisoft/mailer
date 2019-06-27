@@ -61,18 +61,22 @@ class BaseMailerTest extends TestCase
         $this->assertFalse($mailer->useFileTransport);
         $this->assertEquals('/tmp/mail', $mailer->fileTransportPath);
 
-        $mailer->fileTransportPath = '/tmp/mail';
+        $mailer->fileTransportPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mail';
         $mailer->useFileTransport = true;
-        $mailer->fileTransportCallback = function () {
-            return 'message.txt';
+        $filename = 'message.txt';
+        $mailer->fileTransportCallback = function () use ($filename) {
+            return $filename;
         };
         $message = $mailer->compose()
-            ->setTo('to@example.com')
+            ->setTo([
+                'foo@example.com',
+                'bar@example.com',
+            ])
             ->setFrom('from@example.com')
             ->setSubject('test subject')
             ->setTextBody('text body' . microtime(true));
         $this->assertTrue($mailer->send($message));
-        $file = $mailer->fileTransportPath . '/message.txt';
+        $file = $mailer->fileTransportPath . DIRECTORY_SEPARATOR . $filename;
         $this->assertTrue(is_file($file));
         $this->assertEquals($message->toString(), file_get_contents($file));
     }
@@ -106,5 +110,6 @@ class BaseMailerTest extends TestCase
             $event->stopPropagation();
         });
         $this->assertFalse($mailer->beforeSend(new TestMessage()));
+        $this->assertFalse($mailer->send(new TestMessage()));
     }
 }
