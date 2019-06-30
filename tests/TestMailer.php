@@ -23,4 +23,13 @@ class TestMailer extends BaseMailer
     {
         return parent::beforeSend($message);
     }
+
+    public $lastTransportFilename;
+
+    protected function generateMessageFileName(): string
+    {
+        $filename = parent::generateMessageFileName();
+        $this->lastTransportFilename = $filename;
+        return $filename;
+    }
 }

@@ -71,4 +71,11 @@ abstract class TestCase extends BaseTestCase
 
         file_put_contents($filename, $data);
     }
+
+    protected function getObjectPropertyValue($obj, $name)
+    {
+        $property = new \ReflectionProperty(get_class($obj), $name);
+        $property->setAccessible(true);
+        return $property->getValue($obj);
+    }
 }

@@ -22,8 +22,8 @@ class BaseMailerTest extends TestCase
 
         $composer = $mailer->getComposer();
         $composer->setViewPath($viewPath);
-        $composer->htmlLayout = false;
-        $composer->textLayout = false;
+        $composer->setHtmlLayout('');
+        $composer->setTextayout('');
 
         $htmlViewName = 'test_html_view';
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
@@ -39,34 +39,51 @@ class BaseMailerTest extends TestCase
             'html' => $htmlViewName,
             'text' => $textViewName,
         ]);
-        $this->assertEquals($htmlViewFileContent, $message->htmlBody, 'Unable to render html!');
-        $this->assertEquals($textViewFileContent, $message->textBody, 'Unable to render text!');
+        $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
+        $this->assertEquals($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
 
         $message = $mailer->compose($htmlViewName);
-        $this->assertEquals($htmlViewFileContent, $message->htmlBody, 'Unable to render html by direct view!');
-        $this->assertEquals(strip_tags($htmlViewFileContent), $message->textBody, 'Unable to render text by direct view!');
-    }
-
-    public function testSetComposer()
-    {
-        $composer = new Composer($this->get(View::class), '/tmp/views');
-        $mailer = $this->getMailer();
-        $mailer->setComposer($composer);
-        $this->assertEquals($composer, $mailer->getComposer());
+        $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
+        $this->assertEquals(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
     }
 
     public function testUseFileTransport()
     {
         $mailer = $this->getMailer();
-        $this->assertFalse($mailer->useFileTransport);
-        $this->assertEquals('/tmp/mail', $mailer->fileTransportPath);
+        $this->assertFalse($mailer->getUseFileTransport());
 
-        $mailer->fileTransportPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mail';
-        $mailer->useFileTransport = true;
-        $filename = 'message.txt';
-        $mailer->fileTransportCallback = function () use ($filename) {
+        $fileTransportPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mail';
+        $mailer->setFileTransportPath($fileTransportPath);
+        $this->assertSame($fileTransportPath, $mailer->getFileTransportPath());
+
+        $mailer->setUseFileTransport(true);
+        $this->assertTrue($mailer->getUseFileTransport());
+        $message = $mailer->compose()
+            ->setTo('to@example.com')
+            ->setFrom('from@example.com')
+            ->setSubject('test subject')
+            ->setTextBody('text body' . microtime(true));
+        $this->assertTrue($mailer->send($message));
+        $file = $fileTransportPath . DIRECTORY_SEPARATOR . $mailer->lastTransportFilename;
+        $this->assertTrue(is_file($file));
+        $this->assertEquals($message->toString(), file_get_contents($file));
+    }
+
+    public function testUseFileTransportWithCallback()
+    {
+        $mailer = $this->getMailer();
+        $this->assertFalse($mailer->getUseFileTransport());
+
+        $fileTransportPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mail';
+        $mailer->setFileTransportPath($fileTransportPath);
+        $this->assertSame($fileTransportPath, $mailer->getFileTransportPath());
+
+        $mailer->setUseFileTransport(true);
+        $this->assertTrue($mailer->getUseFileTransport());
+        $filename = md5(uniqid()) . '.txt';
+        $mailer->setFileTransportCallback(function () use ($filename) {
             return $filename;
-        };
+        });
         $message = $mailer->compose()
             ->setTo([
                 'foo@example.com',
@@ -76,7 +93,7 @@ class BaseMailerTest extends TestCase
             ->setSubject('test subject')
             ->setTextBody('text body' . microtime(true));
         $this->assertTrue($mailer->send($message));
-        $file = $mailer->fileTransportPath . DIRECTORY_SEPARATOR . $filename;
+        $file = $fileTransportPath . DIRECTORY_SEPARATOR . $filename;
         $this->assertTrue(is_file($file));
         $this->assertEquals($message->toString(), file_get_contents($file));
     }
@@ -97,7 +114,7 @@ class BaseMailerTest extends TestCase
             [[new TestMessage()]],
             [[new TestMessage(), new TestMessage()]],
         ];
-    }
+;    }
 
     public function testBeforeSend()
     {

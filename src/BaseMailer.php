@@ -8,7 +8,7 @@ use Yiisoft\Mailer\Event\{AfterSend, BeforeSend};
 /**
  * BaseMailer serves as a base class that implements the basic functions required by [[MailerInterface]].
  *
- * Concrete child classes should may focus on implementing the [[sendMessage()]] method.
+ * Concrete child classes may focus on implementing the [[sendMessage()]] method.
  */
 abstract class BaseMailer implements MailerInterface
 {
@@ -17,11 +17,49 @@ abstract class BaseMailer implements MailerInterface
      * to the actual recipients. This is usually used during development for debugging purpose.
      * @see fileTransportPath
      */
-    public $useFileTransport = false;
+    private $useFileTransport = false;
+
+    /**
+     * Returns a bool value that indicating whether use file transport.
+     * @return bool
+     */
+    public function getUseFileTransport(): bool
+    {
+        return $this->useFileTransport;
+    }
+
+    /**
+     * Sets a bool value that indicating whether use file transport.
+     * @param bool $value
+     */
+    public function setUseFileTransport(bool $value)
+    {
+        $this->useFileTransport = $value;
+    }
+
     /**
      * @var string the directory where the email messages are saved when [[useFileTransport]] is true.
      */
-    public $fileTransportPath = '/tmp/mail';
+    private $fileTransportPath = '/tmp/mail';
+
+    /**
+     * Returns file transport path.
+     * @return string
+     */
+    public function getFileTransportPath(): string
+    {
+        return $this->fileTransportPath;
+    }
+
+    /**
+     * Sets file transport path.
+     * @param string $path
+     */
+    public function setFileTransportPath(string $path)
+    {
+        $this->fileTransportPath = $path;
+    }
+
     /**
      * @var callable a PHP callback that will be called by [[send()]] when [[useFileTransport]] is true.
      * The callback should return a file name which will be used to save the email message.
@@ -33,7 +71,16 @@ abstract class BaseMailer implements MailerInterface
      * function ($mailer, $message)
      * ```
      */
-    public $fileTransportCallback;
+    private $fileTransportCallback;
+
+    /**
+     * Sets file transport callback.
+     * @param callable $callback
+     */
+    public function setFileTransportCallback(Callable $callback)
+    {
+        $this->fileTransportCallback = $callback;
+    }
 
     /**
      * @var MessageFactoryInterface $messageFactory
@@ -75,16 +122,6 @@ abstract class BaseMailer implements MailerInterface
     public function getComposer(): Composer
     {
         return $this->composer;
-    }
-
-    /**
-     * Sets message composer.
-     * 
-     * @param Composer $composer message composer instance.
-     */
-    public function setComposer(Composer $composer)
-    {
-        $this->composer = $composer;
     }
 
     /**
@@ -212,7 +249,7 @@ abstract class BaseMailer implements MailerInterface
     /**
      * @return string the file name for saving the message when [[useFileTransport]] is true.
      */
-    public function generateMessageFileName()
+    protected function generateMessageFileName(): string
     {
         $time = microtime(true);
 

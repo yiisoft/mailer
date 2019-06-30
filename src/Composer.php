@@ -12,16 +12,36 @@ class Composer
      * @var string|bool HTML layout view name.
      * See [[Template::$htmlLayout]] for detailed documentation.
      */
-    public $htmlLayout = 'layouts/html';
+    private $htmlLayout = 'layouts/html';
+
+    /**
+     * Sets html layout.
+     * @param string $layout
+     */
+    public function setHtmlLayout(string $layout)
+    {
+        $this->htmlLayout = $layout;
+    }
+    
     /**
      * @var string|bool text layout view name.
      * See [[Template::$textLayout]] for detailed documentation.
      */
-    public $textLayout = 'layouts/text';
+    private $textLayout = 'layouts/text';
+
+    /**
+     * Sets text layout.
+     * @param string $layout
+     */
+    public function setTextayout(string $layout)
+    {
+        $this->textLayout = $layout;
+    }
     /**
      * @var View view instance.
      */
     private $view;
+
     /**
      * @var string the directory containing view files for composing mail messages.
      */
@@ -78,12 +98,9 @@ class Composer
      */
     protected function createTemplate($viewName): Template
     {
-        $template = new Template();
-        $template->view = $this->view;
-        $template->viewPath = $this->viewPath;
-        $template->htmlLayout = $this->htmlLayout;
-        $template->textLayout = $this->textLayout;
-        $template->viewName = $viewName;
+        $template = new Template($this->view, $this->viewPath, $viewName);
+        $template->setHtmlLayout($this->htmlLayout);
+        $template->setTextLayout($this->textLayout);
 
         return $template;
     }

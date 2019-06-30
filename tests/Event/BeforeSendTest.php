@@ -10,7 +10,7 @@ class BeforeSendTest extends TestCase
     {
         $message = new TestMessage();
         $event = new BeforeSend($message);
-        $this->assertEquals($message, $event->message);
+        $this->assertEquals($message, $event->getMessage());
         $this->assertFalse($event->isPropagationStopped());
     }
 

@@ -17,23 +17,44 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * @var Template
+     * @dataProvider setUpData
      */
-    public function createTemplate()
+    public function testSetup($viewPath, $viewName, $htmlLayout, $textLayout)
     {
-        $template = new Template();
-        $template->viewPath = $this->getTestFilePath();
-        $template->view = $this->get(View::class);
+        $template = new Template($this->get(View::class), $viewPath, $viewName);
+        $template->setHtmlLayout($htmlLayout);
+        $template->setTextLayout($textLayout);
+        $this->assertSame($viewPath, $this->getObjectPropertyValue($template, 'viewPath'));
+        $this->assertSame($viewName, $this->getObjectPropertyValue($template, 'viewName'));
+        $this->assertSame($textLayout, $this->getObjectPropertyValue($template, 'textLayout'));
+        $this->assertSame($textLayout, $this->getObjectPropertyValue($template, 'textLayout'));
+    }
+
+    public function setUpData()
+    {
+        return [
+            ['/tmp/foo', 'bar', '', ''],
+            ['/tmp/bar', 'baz', 'layouts/html', 'layouts/text'],
+            ['/tmp/bar', ['html' => 'html', 'text' => 'text'], 'layouts/html', 'layouts/text'],
+        ];
+    }
+
+    /**
+     * @return Template
+     */
+    public function createTemplate($viewPath, $viewName)
+    {
+        $template = new Template($this->get(View::class), $viewPath, $viewName);
 
         return $template;
     }
 
     public function testRender()
     {
-        $template = $this->createTemplate();
-
+        $viewPath = $this->getTestFilePath(); 
         $viewName = 'test_view';
-        $viewFileName = $this->getTestFilePath() . DIRECTORY_SEPARATOR . $viewName . '.php';
+        $template = $this->createTemplate($viewPath, $viewName);
+        $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
         $viewFileContent = '<?php echo $testParam; ?>';
         $this->saveFile($viewFileName, $viewFileContent);
 
@@ -49,17 +70,17 @@ class TemplateTest extends TestCase
      */
     public function testRenderLayout()
     {
-        $template = $this->createTemplate();
 
-        $filePath = $this->getTestFilePath();
+        $viewPath = $this->getTestFilePath();
 
         $viewName = 'test_view2';
-        $viewFileName = $filePath . DIRECTORY_SEPARATOR . $viewName . '.php';
+        $template = $this->createTemplate($viewPath, $viewName);
+        $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
         $viewFileContent = 'view file content';
         $this->saveFile($viewFileName, $viewFileContent);
 
         $layoutName = 'test_layout';
-        $layoutFileName = $filePath . DIRECTORY_SEPARATOR . $layoutName . '.php';
+        $layoutFileName = $viewPath . DIRECTORY_SEPARATOR . $layoutName . '.php';
         $layoutFileContent = 'Begin Layout <?php echo $content; ?> End Layout';
         $this->saveFile($layoutFileName, $layoutFileContent);
 
@@ -72,35 +93,36 @@ class TemplateTest extends TestCase
      */
     public function testCompose()
     {
-        $template = $this->createTemplate();
-
-        $template->htmlLayout = false;
-        $template->textLayout = false;
-
+        $viewPath = $this->getTestFilePath();
         $htmlViewName = 'test_html_view';
-        $htmlViewFileName = $this->getTestFilePath() . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
-        $htmlViewFileContent = 'HTML <b>view file</b> content';
-        $this->saveFile($htmlViewFileName, $htmlViewFileContent);
-
         $textViewName = 'test_text_view';
-        $textViewFileName = $this->getTestFilePath() . DIRECTORY_SEPARATOR . $textViewName . '.php';
-        $textViewFileContent = 'Plain text view file content';
-        $this->saveFile($textViewFileName, $textViewFileContent);
-
-        $template->viewName = [
+        $viewName = [
             'html' => $htmlViewName,
             'text' => $textViewName,
         ];
-        $message = new TestMessage();
-        $template->compose($message);
-        $this->assertEquals($htmlViewFileContent, $message->htmlBody, 'Unable to render html!');
-        $this->assertEquals($textViewFileContent, $message->textBody, 'Unable to render text!');
+        $template = $this->createTemplate($viewPath, $viewName);
+
+        $template->setHtmlLayout('');
+        $template->setTextLayout('');
+
+        $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
+        $htmlViewFileContent = 'HTML <b>view file</b> content';
+        $this->saveFile($htmlViewFileName, $htmlViewFileContent);
+
+        $textViewFileName = $viewPath . DIRECTORY_SEPARATOR . $textViewName . '.php';
+        $textViewFileContent = 'Plain text view file content';
+        $this->saveFile($textViewFileName, $textViewFileContent);
 
         $message = new TestMessage();
-        $template->viewName = $htmlViewName;
         $template->compose($message);
-        $this->assertEquals($htmlViewFileContent, $message->htmlBody, 'Unable to render html by direct view!');
-        $this->assertEquals(strip_tags($htmlViewFileContent), $message->textBody, 'Unable to render text by direct view!');
+        $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
+        $this->assertEquals($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
+
+        $message = new TestMessage();
+        $template2 = $this->createTemplate($viewPath, $htmlViewName);
+        $template2->compose($message);
+        $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
+        $this->assertEquals(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
     }
 
     public function htmlAndPlainProvider()
@@ -147,17 +169,16 @@ TEXT
      */
     public function testComposePlainTextFallback($htmlViewFileContent, $expectedTextRendering)
     {
-        $template = $this->createTemplate();
-
+        $viewPath = $this->getTestFilePath();
         $htmlViewName = 'test_html_view';
-        $htmlViewFileName = $this->getTestFilePath() . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
-        $this->saveFile($htmlViewFileName, $htmlViewFileContent);
+        $template = $this->createTemplate($viewPath, $htmlViewName);
 
-        $template->viewName = $htmlViewName;
+        $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
+        $this->saveFile($htmlViewFileName, $htmlViewFileContent);
 
         $message = new TestMessage();
         $template->compose($message);
-        $this->assertEqualsWithoutLE($htmlViewFileContent, $message->htmlBody, 'Unable to render html!');
-        $this->assertEqualsWithoutLE($expectedTextRendering, $message->textBody, 'Unable to render text!');
+        $this->assertEqualsWithoutLE($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
+        $this->assertEqualsWithoutLE($expectedTextRendering, $message->getTextBody(), 'Unable to render text!');
     }
 }

@@ -2,6 +2,7 @@
 namespace Yiisoft\Mailer;
 
 use Yiisoft\View\ViewContextInterface;
+use Yiisoft\View\View;
 
 /**
  * Template composes the message from view templates, ensuring isolated view rendering. It allows
@@ -18,15 +19,18 @@ class Template implements ViewContextInterface
     /**
      * @var MessageInterface related mail message instance.
      */
-    public $message;
+    private $message;
+ 
     /**
      * @var \Yiisoft\View\View view instance used for rendering.
      */
-    public $view;
+    private $view;
+
     /**
      * @var string path to the directory containing view files.
      */
-    public $viewPath;
+    private $viewPath;
+
     /**
      * @var string|array name of the view to use as a template. The value could be:
      *
@@ -36,7 +40,20 @@ class Template implements ViewContextInterface
      *   for rendering the HTML body, while 'text' element is for rendering the text body. For example,
      *   `['html' => 'contact-html', 'text' => 'contact-text']`.
      */
-    public $viewName;
+    private $viewName;
+
+    /**
+     * @param View $view
+     * @param string $viewPath
+     * @param string|array $viewName
+     */
+    public function __construct(View $view, string $viewPath, $viewName)
+    {
+        $this->view = $view;
+        $this->viewPath = $viewPath;
+        $this->viewName = $viewName;
+    }
+ 
     /**
      * @var string HTML layout view name. It is the layout used to render HTML mail body.
      * The property can take the following values:
@@ -44,13 +61,31 @@ class Template implements ViewContextInterface
      * - a relative view name: a view file relative to [[viewPath]], e.g., 'layouts/html'.
      * - an empty string: the layout is disabled.
      */
-    public $htmlLayout = '';
+    private $htmlLayout = '';
+
+    /**
+     * Sets html layout.
+     * @param string $layout
+     */
+    public function setHtmlLayout(string $layout)
+    {
+        $this->htmlLayout = $layout;
+    }
+
     /**
      * @var string text layout view name. This is the layout used to render TEXT mail body.
      * Please refer to [[htmlLayout]] for possible values that this property can take.
      */
-    public $textLayout = '';
+    private $textLayout = '';
 
+    /**
+     * Sets text layout.
+     * @param string $layout
+     */
+    public function setTextLayout(string $layout)
+    {
+        $this->textLayout = $layout;
+    }
 
     /**
      * {@inheritdoc}
@@ -65,7 +100,7 @@ class Template implements ViewContextInterface
      * @param MessageInterface $message the message to be composed.
      * @param array $params the parameters (name-value pairs) that will be extracted and made available in the view file.
      */
-    public function compose(MessageInterface $message, $params = [])
+    public function compose(MessageInterface $message, $params = []): void
     {
         $this->message = $message;
 

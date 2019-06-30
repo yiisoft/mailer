@@ -27,16 +27,11 @@ abstract class BaseMessage implements MessageInterface
 
     /**
      * Sends this email message.
-     * @param MailerInterface $mailer the mailer that should be used to send this message.
-     * If no mailer is given it will first check if [[mailer]] is set and if not,
-     * the "mail" application component will be used instead.
      * @return bool whether this message is sent successfully.
      */
-    public function send(MailerInterface $mailer = null): bool
+    public function send(): bool
     {
-        $mailer = $mailer ?: $this->mailer;
-
-        return $mailer->send($this);
+        return $this->mailer->send($this);
     }
 
     /**

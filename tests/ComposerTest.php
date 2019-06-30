@@ -16,15 +16,30 @@ class ComposerTest extends TestCase
         return $this->get(Composer::class);
     }
 
-    public function testSetup()
+    /**
+     * @dataProvider setUpData
+     */
+    public function testSetup($viewPath, $htmlLayout, $textLayout)
     {
-        $composer = $this->getComposer();
+        $composer = new Composer($this->get(View::class), $viewPath);
+        $composer->setHtmlLayout($htmlLayout);
+        $composer->setTextayout($textLayout);
         $this->assertEquals($composer->getView(), $this->get(View::class));
-        $this->assertEquals(realpath($composer->getViewPath()), realpath(__DIR__ . '/../views'));
+        $this->assertSame($viewPath, $composer->getViewPath());
+        $this->assertSame($htmlLayout, $this->getObjectPropertyValue($composer, 'htmlLayout'));
+        $this->assertSame($textLayout, $this->getObjectPropertyValue($composer, 'textLayout'));
+    }
+
+    public function setUpData()
+    {
+        return [
+            ['/tmp/views', '', ''],
+            ['/tmp/views', 'layouts/html', 'layouts/text'],
+        ];
     }
 
     public function testSetView()
-    {
+    { 
         $view = new View('/tmp/views', new Theme(), $this->get(EventDispatcherInterface::class), $this->get(LoggerInterface::class));
         $composer = $this->getComposer();
         $composer->setView($view);
@@ -50,10 +65,10 @@ class ComposerTest extends TestCase
         /* @var $template Template */
         $template = $method->invoke($composer, $viewName);
 
-        $this->assertSame($composer->getView(), $template->view);
-        $this->assertEquals($viewName, $template->viewName);
-        $this->assertEquals($composer->getViewPath(), $template->viewPath);
-        $this->assertEquals($composer->htmlLayout, $template->htmlLayout);
-        $this->assertEquals($composer->textLayout, $template->textLayout);
+        $this->assertSame($composer->getView(), $this->getObjectPropertyValue($template, 'view'));
+        $this->assertEquals($viewName, $this->getObjectPropertyValue($template, 'viewName'));
+        $this->assertEquals($this->getObjectPropertyValue($composer, 'viewPath'), $template->getViewPath());
+        $this->assertEquals($this->getObjectPropertyValue($composer, 'htmlLayout'), $this->getObjectPropertyValue($template, 'htmlLayout'));
+        $this->assertEquals($this->getObjectPropertyValue($composer, 'textLayout'), $this->getObjectPropertyValue($template, 'textLayout'));
     }
 }
