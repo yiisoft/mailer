@@ -53,14 +53,24 @@ class FileMailer extends BaseMailer
     }
 
     /**
+     * @return string the filename for saving the message.
+     */
+    protected function generateMessageFilename(): string
+    {
+        $time = microtime(true);
+
+        return date('Ymd-His-', $time) . sprintf('%04d', (int) (($time - (int) $time) * 10000)) . '-' . sprintf('%04d', mt_rand(0, 10000)) . '.eml';
+    }
+
+    /**
      * {@inheritdoc}
      */
-    protected function sendMessage(MessageInterface $message): bool
+    protected function sendMessage(MessageInterface $message): void
     {
         if ($this->filenameCallback !== null) {
             $filename = call_user_func($this->filenameCallback, $this, $message);
         } else {
-            $filename = $this->generateMessageFileName();
+            $filename = $this->generateMessageFilename();
         }
         $filename = $this->path . DIRECTORY_SEPARATOR . $filename;
         $filepath = dirname($filename);
@@ -68,7 +78,5 @@ class FileMailer extends BaseMailer
             mkdir($filepath, 0777, true);
         }
         file_put_contents($filename, $message->toString());
-
-        return true;
     }
 }

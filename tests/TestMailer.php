@@ -2,6 +2,7 @@
 namespace Yiisoft\Mailer\Tests;
 
 use Yiisoft\Mailer\{FileMailer, MessageInterface};
+use InvalidArgumentException;
 
 class TestMailer extends FileMailer
 {
@@ -10,11 +11,14 @@ class TestMailer extends FileMailer
     /**
      * {@inheritdoc}
      */    
-    protected function sendMessage(MessageInterface $message): bool
+    protected function sendMessage(MessageInterface $message): void
     {
-        $isSuccessful = parent::sendMessage($message);
+        if (empty($message->getSubject())) {
+            throw new InvalidArgumentException("Message's subject is required");
+        }
+
+        parent::sendMessage($message);
         $this->sentMessages[] = $message;
-        return $isSuccessful;
     }
 
     /**

@@ -113,12 +113,12 @@ class TemplateTest extends TestCase
         $textViewFileContent = 'Plain text view file content';
         $this->saveFile($textViewFileName, $textViewFileContent);
 
-        $message = new TestMessage();
+        $message = $this->createMessage();
         $template->compose($message);
         $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
         $this->assertEquals($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
 
-        $message = new TestMessage();
+        $message = $this->createMessage();
         $template2 = $this->createTemplate($viewPath, $htmlViewName);
         $template2->compose($message);
         $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
@@ -176,7 +176,7 @@ TEXT
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
         $this->saveFile($htmlViewFileName, $htmlViewFileContent);
 
-        $message = new TestMessage();
+        $message = $this->createMessage();
         $template->compose($message);
         $this->assertEqualsWithoutLE($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
         $this->assertEqualsWithoutLE($expectedTextRendering, $message->getTextBody(), 'Unable to render text!');

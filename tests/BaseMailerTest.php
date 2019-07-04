@@ -3,8 +3,8 @@ namespace Yiisoft\Mailer\Tests;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Yiisoft\EventDispatcher\Provider\Provider;
-use Yiisoft\Mailer\{Composer, MessageInterface, Event\BeforeSend};
-use Yiisoft\View\View;
+use Yiisoft\Mailer\{MessageInterface, Event\BeforeSend};
+use InvalidArgumentException;
 
 class BaseMailerTest extends TestCase
 {
@@ -53,29 +53,41 @@ class BaseMailerTest extends TestCase
     public function testSendMultiple($messages)
     {
         $mailer = $this->getMailer();
-        $this->assertSame(count($messages), $mailer->sendMultiple($messages));
+        $this->assertCount(0, $mailer->sendMultiple($messages));
     }
 
     public function messagesProvider()
     {
         return [
             [[]],
-            [[new TestMessage()]],
-            [[new TestMessage(), new TestMessage()]],
+            [[$this->createMessage('foo')]],
+            [[$this->createMessage('bar'), $this->createMessage('baz')]],
         ];
 ;    }
+
+    public function testSendMultipleExceptions()
+    {
+        $mailer = $this->getMailer();
+        $messages = [$this->createMessage(''), $this->createMessage()];
+        /** @var MessageInterface[] $failed */
+        $failed = $mailer->sendMultiple($messages);
+        $this->assertCount(1, $failed);
+        $this->assertEquals($messages[0], $failed[0]);
+        $this->assertEquals(new InvalidArgumentException("Message's subject is required"), $failed[0]->getError());
+    }
 
     public function testBeforeSend()
     {
         $mailer = $this->getMailer();
-        $this->assertTrue($mailer->beforeSend(new TestMessage()));
+        $message = $this->createMessage();
+        $this->assertTrue($mailer->beforeSend($message));
 
         /** @var Provider $provider */
         $provider = $this->get(ListenerProviderInterface::class);
         $provider->attach(function(BeforeSend $event) {
             $event->stopPropagation();
         });
-        $this->assertFalse($mailer->beforeSend(new TestMessage()));
-        $this->assertFalse($mailer->send(new TestMessage()));
+        $this->assertFalse($mailer->beforeSend($message));
+        $this->assertNull($mailer->send($message));
     }
 }

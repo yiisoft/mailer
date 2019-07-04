@@ -4,7 +4,7 @@ namespace Yiisoft\Mailer\Tests;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use yii\di\Container;
 use Psr\Container\ContainerInterface;
-use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Mailer\{MailerInterface, MessageInterface};
 
 abstract class TestCase extends BaseTestCase
 {
@@ -39,6 +39,18 @@ abstract class TestCase extends BaseTestCase
     protected function getMailer()
     {
         return $this->get(MailerInterface::class);
+    }
+
+    /**
+     * Creates a new message instance.
+     * @return MessageInterface
+     */
+    protected function createMessage($subject = 'foo', $from = 'from@example.com', $to = 'to@example.com'): MessageInterface
+    {
+        return (new TestMessage())
+            ->setSubject($subject)
+            ->setFrom($from)
+            ->setTo($to);
     }
 
     /**

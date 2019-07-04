@@ -6,8 +6,8 @@ class BaseMessageTest extends TestCase
     public function testSend()
     {
         $mailer = $this->getMailer();
-        $message = $mailer->compose();
-        $this->assertTrue($message->send($mailer));
+        $message = $mailer->compose()->setSubject('foo');
+        $message->send();
         $this->assertEquals($message, $mailer->sentMessages[0], 'Unable to send message!');
     }
 

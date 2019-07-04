@@ -11,25 +11,11 @@ use Yiisoft\Mailer\MessageInterface;
 class AfterSend extends SendEvent
 {
     /**
-     * @var bool $successful whether the message was sent successfully.
-     */
-    private $successful;
-
-    /**
-     * @return bool whether the message was sent successfully.
-     */
-    public function isSuccessful(): bool
-    {
-        return $this->successful;
-    }
-
-    /**
      * @param MessageInterface $message
      * @param bool $successful
      */
-    public function __construct(MessageInterface $message, bool $successful)
+    public function __construct(MessageInterface $message)
     {
         $this->message = $message;
-        $this->successful = $successful;
     }
 }

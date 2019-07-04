@@ -3,7 +3,7 @@ namespace Yiisoft\Mailer\Tests;
 
 class FileMailerTest extends TestCase
 {
-    public function testUseFileTransport()
+    public function testSend()
     {
         $mailer = $this->getMailer();
 
@@ -16,13 +16,13 @@ class FileMailerTest extends TestCase
             ->setFrom('from@example.com')
             ->setSubject('test subject')
             ->setTextBody('text body' . microtime(true));
-        $this->assertTrue($mailer->send($message));
+        $mailer->send($message);
         $file = $path . DIRECTORY_SEPARATOR . $mailer->lastTransportFilename;
         $this->assertTrue(is_file($file));
         $this->assertEquals($message->toString(), file_get_contents($file));
     }
 
-    public function testUseFileTransportWithCallback()
+    public function testFilenameCallback()
     {
         $mailer = $this->getMailer();
 
@@ -42,7 +42,7 @@ class FileMailerTest extends TestCase
             ->setFrom('from@example.com')
             ->setSubject('test subject')
             ->setTextBody('text body' . microtime(true));
-        $this->assertTrue($mailer->send($message));
+        $mailer->send($message);
         $file = $path . DIRECTORY_SEPARATOR . $filename;
         $this->assertTrue(is_file($file));
         $this->assertEquals($message->toString(), file_get_contents($file));

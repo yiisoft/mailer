@@ -25,10 +25,10 @@ interface MessageInterface
 {
     /**
      * Sets mailer.
-     * 
      * @param MailerInterface $mailer
+     * @return $this self reference.
      */
-    public function setMailer(MailerInterface $mailer);
+    public function setMailer(MailerInterface $mailer): self;
 
     /**
      * Returns the character set of this message.
@@ -245,13 +245,25 @@ interface MessageInterface
 
     /**
      * Sends this email message.
-     * @return bool whether this message is sent successfully.
+     * @throws \Throwable throws an exception on send fails.
      */
-    public function send(): bool;
+    public function send(): void;
 
     /**
      * Returns string representation of this message.
      * @return string the string representation of this message.
      */
     public function toString(): string;
+
+    /**
+     * Returns error represents why send fails.
+     * @return \Throwable
+     */
+    public function getError(): \Throwable;
+
+    /**
+     * Sets send fails error.
+     * @param \Throwable $e
+     */
+    public function setError(\Throwable $e): void;
 }

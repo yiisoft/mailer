@@ -39,17 +39,18 @@ interface MailerInterface
     /**
      * Sends the given email message.
      * @param MessageInterface $message email message instance to be sent
-     * @return bool whether the message has been sent successfully
+     * @throws \Throwable throws an exception on send fails.
      */
-    public function send(MessageInterface $message): bool;
+    public function send(MessageInterface $message): void;
 
     /**
      * Sends multiple messages at once.
      *
      * This method may be implemented by some mailers which support more efficient way of sending multiple messages in the same batch.
+     * It must collects failed messages and set corresponding exceptions via MessageInterface::setError, then returns them.
      *
      * @param array $messages list of email messages, which should be sent.
-     * @return int number of messages that are successfully sent.
+     * @return array an array of fails messages.
      */
-    public function sendMultiple(array $messages): int;
+    public function sendMultiple(array $messages): array;
 }

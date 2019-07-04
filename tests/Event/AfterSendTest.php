@@ -9,18 +9,17 @@ class AfterSendTest extends TestCase
     /**
      * @dataProvider successfulProvider
      */
-    public function testIsSuccessful($message, $successful)
+    public function testIsSuccessful($message)
     {
-        $event = new AfterSend($message, $successful);
+        $event = new AfterSend($message);
         $this->assertSame($message, $event->getMessage());
-        $this->assertSame($successful, $event->isSuccessful());
     }
 
     public function successfulProvider()
     {
         return [
-            [(new TestMessage())->setSubject('foo'), false],
-            [(new TestMessage())->setSubject('bar'), true],
+            [$this->createMessage('foo')],
+            [$this->createMessage('bar')],
         ];
     }
 }

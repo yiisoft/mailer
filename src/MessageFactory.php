@@ -30,7 +30,6 @@ class MessageFactory implements MessageFactoryInterface
     {
         /** @var MessageInterface $message */
         $message = new $this->class;
-        $message->setMailer($mailer);
-        return $message;
+        return $message->setMailer($mailer);
     }
 }

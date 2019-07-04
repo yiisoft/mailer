@@ -101,12 +101,12 @@ abstract class BaseMailer implements MailerInterface
      * Otherwise, it will call [[sendMessage()]] to send the email to its recipient(s).
      * Child classes should implement [[sendMessage()]] with the actual email sending logic.
      * @param MessageInterface $message email message instance to be sent
-     * @return bool whether the message has been sent successfully
+     * @throws \Throwable throws an exception on send fails.
      */
-    public function send(MessageInterface $message): bool
+    public function send(MessageInterface $message): void
     {
         if (!$this->beforeSend($message)) {
-            return false;
+            return;
         }
 
         $address = $message->getTo();
@@ -115,10 +115,8 @@ abstract class BaseMailer implements MailerInterface
         }
         $this->logger->info('Sending email "' . $message->getSubject() . '" to "' . $address . '"');
         
-        $isSuccessful = $this->sendMessage($message);
-        $this->afterSend($message, $isSuccessful);
-
-        return $isSuccessful;
+        $this->sendMessage($message);
+        $this->afterSend($message);
     }
 
     /**
@@ -129,37 +127,32 @@ abstract class BaseMailer implements MailerInterface
      * sending multiple messages.
      *
      * @param array $messages list of email messages, which should be sent.
-     * @return int number of messages that are successfully sent.
+     * @return array an array of fails messages, the corresponding error can be retrieved
+     * by MessageInterface::getError.
      */
-    public function sendMultiple(array $messages): int
+    public function sendMultiple(array $messages): array
     {
-        $successCount = 0;
+        $failed = [];
+        /** @var MessageInterface[] $messages */
         foreach ($messages as $message) {
-            if ($this->send($message)) {
-                $successCount++;
+            try {
+                $this->send($message);
+            } catch (\Throwable $e) {
+                $message->setError($e);
+                $failed[] = $message;
             }
         }
 
-        return $successCount;
+        return $failed;
     }
 
     /**
      * Sends the specified message.
      * This method should be implemented by child classes with the actual email sending logic.
      * @param MessageInterface $message the message to be sent
-     * @return bool whether the message is sent successfully
+     * @throws \Throwable throws an exception on send fails.
      */
-    abstract protected function sendMessage(MessageInterface $message): bool;
-
-    /**
-     * @return string the file name for saving the message when [[useFileTransport]] is true.
-     */
-    protected function generateMessageFileName(): string
-    {
-        $time = microtime(true);
-
-        return date('Ymd-His-', $time) . sprintf('%04d', (int) (($time - (int) $time) * 10000)) . '-' . sprintf('%04d', mt_rand(0, 10000)) . '.eml';
-    }
+    abstract protected function sendMessage(MessageInterface $message): void;
 
     /**
      * This method is invoked right before mail send.
@@ -180,10 +173,9 @@ abstract class BaseMailer implements MailerInterface
      * You may override this method to do some postprocessing or logging based on mail send status.
      * If you override this method, please make sure you call the parent implementation first.
      * @param MessageInterface $message
-     * @param bool $isSuccessful
      */
-    protected function afterSend(MessageInterface $message, $isSuccessful)
+    protected function afterSend(MessageInterface $message): void
     {
-        $this->eventDispatcher->dispatch(new AfterSend($message, $isSuccessful));
+        $this->eventDispatcher->dispatch(new AfterSend($message));
     }
 }

@@ -20,18 +20,40 @@ abstract class BaseMessage implements MessageInterface
     /**
      * {@inheritdoc}
      */
-    public function setMailer(MailerInterface $mailer)
+    public function setMailer(MailerInterface $mailer): MessageInterface
     {
         $this->mailer = $mailer;
+        return $this;
     }
 
     /**
      * Sends this email message.
-     * @return bool whether this message is sent successfully.
+     * @throws \Throwable throws an exception on send fails.
      */
-    public function send(): bool
+    public function send(): void
     {
-        return $this->mailer->send($this);
+        $this->mailer->send($this);
+    }
+
+    /**
+     * @var \Throwable $error the error represents why send fails.
+     */
+    private $error;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getError(): \Throwable
+    {
+        return $this->error;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setError(\Throwable $e): void
+    {
+        $this->error = $e;
     }
 
     /**
