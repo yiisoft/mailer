@@ -70,17 +70,17 @@ abstract class BaseMailer implements MailerInterface
      *
      * - a relative view name (e.g. "contact") located under [[viewPath]].
      *
-     * @param array $params the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
      * @return MessageInterface message instance.
      */
-    public function compose($view = null, array $params = []): MessageInterface
+    public function compose($view = null, array $parameters = []): MessageInterface
     {
         $message = $this->createMessage();
         if ($view === null) {
             return $message;
         }
 
-        $this->composer->compose($message, $view, $params);
+        $this->composer->compose($message, $view, $parameters);
 
         return $message;
     }
@@ -168,7 +168,7 @@ abstract class BaseMailer implements MailerInterface
      * @param MessageInterface $message
      * @return bool whether to continue sending an email.
      */
-    protected function beforeSend(MessageInterface $message)
+    protected function beforeSend(MessageInterface $message): bool
     {
         /** @var BeforeSend $event */
         $event = $this->eventDispatcher->dispatch(new BeforeSend($message));

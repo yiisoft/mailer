@@ -58,11 +58,11 @@ class TemplateTest extends TestCase
         $viewFileContent = '<?php echo $testParam; ?>';
         $this->saveFile($viewFileName, $viewFileContent);
 
-        $params = [
+        $parameters = [
             'testParam' => 'test output'
         ];
-        $renderResult = $template->render($viewName, $params);
-        $this->assertEquals($params['testParam'], $renderResult);
+        $renderResult = $template->render($viewName, $parameters);
+        $this->assertEquals($parameters['testParam'], $renderResult);
     }
 
     /**

@@ -98,21 +98,21 @@ class Template implements ViewContextInterface
     /**
      * Composes the given mail message according to this template.
      * @param MessageInterface $message the message to be composed.
-     * @param array $params the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
      */
-    public function compose(MessageInterface $message, $params = []): void
+    public function compose(MessageInterface $message, $parameters = []): void
     {
         $this->message = $message;
 
         if (is_array($this->viewName)) {
             if (isset($this->viewName['html'])) {
-                $html = $this->render($this->viewName['html'], $params, $this->htmlLayout);
+                $html = $this->render($this->viewName['html'], $parameters, $this->htmlLayout);
             }
             if (isset($this->viewName['text'])) {
-                $text = $this->render($this->viewName['text'], $params, $this->textLayout);
+                $text = $this->render($this->viewName['text'], $parameters, $this->textLayout);
             }
         } else {
-            $html = $this->render($this->viewName, $params, $this->htmlLayout);
+            $html = $this->render($this->viewName, $parameters, $this->htmlLayout);
         }
 
         if (isset($html)) {
@@ -139,13 +139,13 @@ class Template implements ViewContextInterface
      * Renders the view specified with optional parameters and layout.
      * The view will be rendered using the [[view]] component.
      * @param string $view a view name of the view file.
-     * @param array $params the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
      * @param string $layout layout view name. If the value is empty, no layout will be applied.
      * @return string the rendering result.
      */
-    public function render(string $view, array $params = [], string $layout = ''): string
+    public function render(string $view, array $parameters = [], string $layout = ''): string
     {
-        $output = $this->view->render($view, $params, $this);
+        $output = $this->view->render($view, $parameters, $this);
         if ($layout === '') {
             return $output;
         }

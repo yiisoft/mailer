@@ -31,10 +31,10 @@ interface MailerInterface
      *   `['html' => 'contact-html', 'text' => 'contact-text']`.
      * - null, meaning the message instance will be returned without body content.
      *
-     * @param array $params the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
      * @return MessageInterface message instance.
      */
-    public function compose($view = null, array $params = []): MessageInterface;
+    public function compose($view = null, array $parameters = []): MessageInterface;
 
     /**
      * Sends the given email message.

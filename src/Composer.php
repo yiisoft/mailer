@@ -115,10 +115,10 @@ class Composer
      *   for rendering the HTML body, while 'text' element is for rendering the text body. For example,
      *   `['html' => 'contact-html', 'text' => 'contact-text']`.
      *
-     * @param array $params the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
      */
-    public function compose(MessageInterface $message, $view, array $params = [])
+    public function compose(MessageInterface $message, $view, array $parameters = []): void
     {
-        $this->createTemplate($view)->compose($message, $params);
+        $this->createTemplate($view)->compose($message, $parameters);
     }
 }
