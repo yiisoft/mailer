@@ -12,7 +12,6 @@ class AfterSend extends SendEvent
 {
     /**
      * @param MessageInterface $message
-     * @param bool $successful
      */
     public function __construct(MessageInterface $message)
     {

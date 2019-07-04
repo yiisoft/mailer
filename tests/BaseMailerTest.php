@@ -1,10 +1,10 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
+use InvalidArgumentException;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Mailer\{MessageInterface, Event\BeforeSend};
-use InvalidArgumentException;
 
 class BaseMailerTest extends TestCase
 {

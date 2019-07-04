@@ -1,8 +1,8 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use yii\di\Container;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Mailer\{MailerInterface, MessageInterface};
 

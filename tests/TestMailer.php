@@ -1,8 +1,8 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
-use Yiisoft\Mailer\{FileMailer, MessageInterface};
 use InvalidArgumentException;
+use Yiisoft\Mailer\{FileMailer, MessageInterface};
 
 class TestMailer extends FileMailer
 {
