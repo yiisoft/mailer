@@ -96,9 +96,7 @@ abstract class BaseMailer implements MailerInterface
 
     /**
      * Sends the given email message.
-     * This method will log a message about the email being sent.
-     * If [[useFileTransport]] is true, it will save the email as a file under [[fileTransportPath]].
-     * Otherwise, it will call [[sendMessage()]] to send the email to its recipient(s).
+     * This method will log a message about the email being sent. 
      * Child classes should implement [[sendMessage()]] with the actual email sending logic.
      * @param MessageInterface $message email message instance to be sent
      * @throws \Throwable throws an exception on send fails.

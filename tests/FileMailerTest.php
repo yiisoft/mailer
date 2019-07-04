@@ -17,7 +17,7 @@ class FileMailerTest extends TestCase
             ->setSubject('test subject')
             ->setTextBody('text body' . microtime(true));
         $mailer->send($message);
-        $file = $path . DIRECTORY_SEPARATOR . $mailer->lastTransportFilename;
+        $file = $path . DIRECTORY_SEPARATOR . $mailer->lastFilename;
         $this->assertTrue(is_file($file));
         $this->assertEquals($message->toString(), file_get_contents($file));
     }

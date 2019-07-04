@@ -29,12 +29,12 @@ class TestMailer extends FileMailer
         return parent::beforeSend($message);
     }
 
-    public $lastTransportFilename;
+    public $lastFilename;
 
     protected function generateMessageFileName(): string
     {
         $filename = parent::generateMessageFileName();
-        $this->lastTransportFilename = $filename;
+        $this->lastFilename = $filename;
         return $filename;
     }
 }
