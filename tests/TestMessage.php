@@ -8,27 +8,27 @@ use Yiisoft\Mailer\{BaseMessage, MessageInterface};
  */
 class TestMessage extends BaseMessage
 {
-    private $id;
+    public $id;
 
-    private $encoding;
+    public $encoding;
 
-    private $charset = '';
+    public $charset = '';
 
-    private $from;
+    public $from;
 
-    private $replyTo;
+    public $replyTo;
 
-    private $to;
+    public $to;
 
-    private $cc;
+    public $cc;
 
-    private $bcc;
+    public $bcc;
 
-    private $subject = '';
+    public $subject = '';
 
-    private $textBody = '';
+    public $textBody = '';
 
-    private $htmlBody = '';
+    public $htmlBody = '';
 
     public function getCharset(): string
     {
@@ -150,7 +150,7 @@ class TestMessage extends BaseMessage
 
     public function toString(): string
     {
-        $s = var_export($this, true);
+        $s = json_encode($this);
         return $s;
     }
 

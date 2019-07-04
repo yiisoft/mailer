@@ -13,76 +13,6 @@ use Yiisoft\Mailer\Event\{AfterSend, BeforeSend};
 abstract class BaseMailer implements MailerInterface
 {
     /**
-     * @var bool whether to save email messages as files under [[fileTransportPath]] instead of sending them
-     * to the actual recipients. This is usually used during development for debugging purpose.
-     * @see fileTransportPath
-     */
-    private $useFileTransport = false;
-
-    /**
-     * Returns a bool value that indicating whether use file transport.
-     * @return bool
-     */
-    public function getUseFileTransport(): bool
-    {
-        return $this->useFileTransport;
-    }
-
-    /**
-     * Sets a bool value that indicating whether use file transport.
-     * @param bool $value
-     */
-    public function setUseFileTransport(bool $value)
-    {
-        $this->useFileTransport = $value;
-    }
-
-    /**
-     * @var string the directory where the email messages are saved when [[useFileTransport]] is true.
-     */
-    private $fileTransportPath = '/tmp/mail';
-
-    /**
-     * Returns file transport path.
-     * @return string
-     */
-    public function getFileTransportPath(): string
-    {
-        return $this->fileTransportPath;
-    }
-
-    /**
-     * Sets file transport path.
-     * @param string $path
-     */
-    public function setFileTransportPath(string $path)
-    {
-        $this->fileTransportPath = $path;
-    }
-
-    /**
-     * @var callable a PHP callback that will be called by [[send()]] when [[useFileTransport]] is true.
-     * The callback should return a file name which will be used to save the email message.
-     * If not set, the file name will be generated based on the current timestamp.
-     *
-     * The signature of the callback is:
-     *
-     * ```php
-     * function ($mailer, $message)
-     * ```
-     */
-    private $fileTransportCallback;
-
-    /**
-     * Sets file transport callback.
-     * @param callable $callback
-     */
-    public function setFileTransportCallback(Callable $callback)
-    {
-        $this->fileTransportCallback = $callback;
-    }
-
-    /**
      * @var MessageFactoryInterface $messageFactory
      */
     private $messageFactory;
@@ -184,12 +114,8 @@ abstract class BaseMailer implements MailerInterface
             $address = implode(', ', array_keys($address));
         }
         $this->logger->info('Sending email "' . $message->getSubject() . '" to "' . $address . '"');
-
-        if ($this->useFileTransport) {
-            $isSuccessful = $this->saveMessage($message);
-        } else {
-            $isSuccessful = $this->sendMessage($message);
-        }
+        
+        $isSuccessful = $this->sendMessage($message);
         $this->afterSend($message, $isSuccessful);
 
         return $isSuccessful;
@@ -224,27 +150,6 @@ abstract class BaseMailer implements MailerInterface
      * @return bool whether the message is sent successfully
      */
     abstract protected function sendMessage(MessageInterface $message): bool;
-
-    /**
-     * Saves the message as a file under [[fileTransportPath]].
-     * @param MessageInterface $message
-     * @return bool whether the message is saved successfully
-     */
-    protected function saveMessage(MessageInterface $message): bool
-    {
-        $path = $this->fileTransportPath;
-        if (!is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
-        if ($this->fileTransportCallback !== null) {
-            $filename = call_user_func($this->fileTransportCallback, $this, $message);
-        } else {
-            $filename = $this->generateMessageFileName();
-        }
-        file_put_contents($path . DIRECTORY_SEPARATOR . $filename, $message->toString());
-
-        return true;
-    }
 
     /**
      * @return string the file name for saving the message when [[useFileTransport]] is true.

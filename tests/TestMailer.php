@@ -1,9 +1,9 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
-use Yiisoft\Mailer\{BaseMailer, MessageInterface};
+use Yiisoft\Mailer\{FileMailer, MessageInterface};
 
-class TestMailer extends BaseMailer
+class TestMailer extends FileMailer
 {
     public $sentMessages = [];
 
@@ -12,8 +12,9 @@ class TestMailer extends BaseMailer
      */    
     protected function sendMessage(MessageInterface $message): bool
     {
+        $isSuccessful = parent::sendMessage($message);
         $this->sentMessages[] = $message;
-        return true;
+        return $isSuccessful;
     }
 
     /**

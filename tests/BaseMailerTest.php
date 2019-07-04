@@ -47,57 +47,6 @@ class BaseMailerTest extends TestCase
         $this->assertEquals(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
     }
 
-    public function testUseFileTransport()
-    {
-        $mailer = $this->getMailer();
-        $this->assertFalse($mailer->getUseFileTransport());
-
-        $fileTransportPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mail';
-        $mailer->setFileTransportPath($fileTransportPath);
-        $this->assertSame($fileTransportPath, $mailer->getFileTransportPath());
-
-        $mailer->setUseFileTransport(true);
-        $this->assertTrue($mailer->getUseFileTransport());
-        $message = $mailer->compose()
-            ->setTo('to@example.com')
-            ->setFrom('from@example.com')
-            ->setSubject('test subject')
-            ->setTextBody('text body' . microtime(true));
-        $this->assertTrue($mailer->send($message));
-        $file = $fileTransportPath . DIRECTORY_SEPARATOR . $mailer->lastTransportFilename;
-        $this->assertTrue(is_file($file));
-        $this->assertEquals($message->toString(), file_get_contents($file));
-    }
-
-    public function testUseFileTransportWithCallback()
-    {
-        $mailer = $this->getMailer();
-        $this->assertFalse($mailer->getUseFileTransport());
-
-        $fileTransportPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mail';
-        $mailer->setFileTransportPath($fileTransportPath);
-        $this->assertSame($fileTransportPath, $mailer->getFileTransportPath());
-
-        $mailer->setUseFileTransport(true);
-        $this->assertTrue($mailer->getUseFileTransport());
-        $filename = md5(uniqid()) . '.txt';
-        $mailer->setFileTransportCallback(function () use ($filename) {
-            return $filename;
-        });
-        $message = $mailer->compose()
-            ->setTo([
-                'foo@example.com',
-                'bar@example.com',
-            ])
-            ->setFrom('from@example.com')
-            ->setSubject('test subject')
-            ->setTextBody('text body' . microtime(true));
-        $this->assertTrue($mailer->send($message));
-        $file = $fileTransportPath . DIRECTORY_SEPARATOR . $filename;
-        $this->assertTrue(is_file($file));
-        $this->assertEquals($message->toString(), file_get_contents($file));
-    }
-
     /**
      * @dataProvider messagesProvider
      */

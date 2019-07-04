@@ -57,5 +57,6 @@ return [
             'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
             'logger'=> Reference::to(LoggerInterface::class)
         ],
+        'setPath()' => [sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mails'],
     ],
 ];
