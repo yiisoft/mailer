@@ -8,9 +8,6 @@ class TestMailer extends FileMailer
 {
     public $sentMessages = [];
 
-    /**
-     * {@inheritdoc}
-     */    
     protected function sendMessage(MessageInterface $message): void
     {
         if (empty($message->getSubject())) {
@@ -21,9 +18,6 @@ class TestMailer extends FileMailer
         $this->sentMessages[] = $message;
     }
 
-    /**
-     * {@inheritdoc}
-     */    
     public function beforeSend(MessageInterface $message): bool
     {
         return parent::beforeSend($message);
@@ -31,9 +25,9 @@ class TestMailer extends FileMailer
 
     public $lastFilename;
 
-    protected function generateMessageFileName(): string
+    protected function generateMessageFilename(): string
     {
-        $filename = parent::generateMessageFileName();
+        $filename = parent::generateMessageFilename();
         $this->lastFilename = $filename;
         return $filename;
     }

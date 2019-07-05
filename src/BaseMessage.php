@@ -4,9 +4,6 @@ namespace Yiisoft\Mailer;
 /**
  * BaseMessage serves as a base class that implements the [[send()]] method required by [[MessageInterface]].
  *
- * By default, [[send()]] will use the "mail" application component to send the current message.
- * The "mail" application component should be a mailer instance implementing [[MailerInterface]].
- *
  * @see BaseMailer
  */
 abstract class BaseMessage implements MessageInterface
@@ -17,9 +14,6 @@ abstract class BaseMessage implements MessageInterface
      */
     private $mailer;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setMailer(MailerInterface $mailer): MessageInterface
     {
         $this->mailer = $mailer;
@@ -40,17 +34,11 @@ abstract class BaseMessage implements MessageInterface
      */
     private $error;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getError(): \Throwable
     {
         return $this->error;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setError(\Throwable $e): void
     {
         $this->error = $e;

@@ -87,9 +87,6 @@ class Template implements ViewContextInterface
         $this->textLayout = $layout;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getViewPath(): string
     {
         return $this->viewPath;

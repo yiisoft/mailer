@@ -33,9 +33,6 @@ class BeforeSend extends SendEvent implements StoppableEventInterface
         $this->stopPropagation = true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPropagationStopped(): bool
     {
         return $this->stopPropagation;

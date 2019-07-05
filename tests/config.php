@@ -8,6 +8,8 @@ use Yiisoft\Mailer\{Composer, MailerInterface, MessageFactory, MessageFactoryInt
 use Yiisoft\Mailer\Tests\{TestMailer, TestMessage};
 use Yiisoft\View\{Theme, View};
 
+$tempDir = sys_get_temp_dir();
+
 return [
     ListenerProviderInterface::class => [
         '__class' => Provider::class,
@@ -30,7 +32,7 @@ return [
     View::class => [
         '__class' => View::class,
         '__construct()' => [
-            'basePath'=> sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'views',
+            'basePath'=> $tempDir . DIRECTORY_SEPARATOR . 'views',
             'theme'=> Reference::to(Theme::class),
             'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
             'logger' => Reference::to(LoggerInterface::class)
@@ -46,7 +48,7 @@ return [
         '__class' => Composer::class,
         '__construct()' => [
             'view' => Reference::to(View::class),
-            'viewPath' => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'views'
+            'viewPath' => $tempDir . DIRECTORY_SEPARATOR . 'views'
         ],
     ],
     MailerInterface::class => [
@@ -55,8 +57,8 @@ return [
             'messageFactory'=> Reference::to(MessageFactoryInterface::class),
             'composer'=> Reference::to(Composer::class),
             'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
-            'logger'=> Reference::to(LoggerInterface::class)
+            'logger'=> Reference::to(LoggerInterface::class),
+            'path' => $tempDir . DIRECTORY_SEPARATOR . 'mails',
         ],
-        'setPath()' => [sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'mails'],
     ],
 ];

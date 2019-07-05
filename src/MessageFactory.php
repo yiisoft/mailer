@@ -23,9 +23,6 @@ class MessageFactory implements MessageFactoryInterface
         $this->class = $class;    
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(MailerInterface $mailer): MessageInterface
     {
         /** @var MessageInterface $message */
