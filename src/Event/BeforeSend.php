@@ -6,15 +6,12 @@ use Yiisoft\Mailer\MessageInterface;
 
 /**
  * BeforeSend event is triggered right before sending the message.
- * 
+ *
  * @see \Yiisoft\Mailer\BaseMailer::beforeSend()
  * @see stopPropagation() stop sending message.
  */
 class BeforeSend extends SendEvent implements StoppableEventInterface
 {
-    /**
-     * @param MessageInterface $message
-     */
     public function __construct(MessageInterface $message)
     {
         $this->message = $message;

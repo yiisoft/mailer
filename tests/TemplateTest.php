@@ -19,7 +19,7 @@ class TemplateTest extends TestCase
     /**
      * @dataProvider setUpData
      */
-    public function testSetup($viewPath, $viewName, $htmlLayout, $textLayout)
+    public function testSetup(string $viewPath, $viewName, string $htmlLayout, string $textLayout): void
     {
         $template = new Template($this->get(View::class), $viewPath, $viewName);
         $template->setHtmlLayout($htmlLayout);
@@ -30,7 +30,7 @@ class TemplateTest extends TestCase
         $this->assertSame($textLayout, $this->getObjectPropertyValue($template, 'textLayout'));
     }
 
-    public function setUpData()
+    public function setUpData(): array
     {
         return [
             ['/tmp/foo', 'bar', '', ''],
@@ -42,16 +42,16 @@ class TemplateTest extends TestCase
     /**
      * @return Template
      */
-    public function createTemplate($viewPath, $viewName)
+    public function createTemplate(string $viewPath, $viewName): Template
     {
         $template = new Template($this->get(View::class), $viewPath, $viewName);
 
         return $template;
     }
 
-    public function testRender()
+    public function testRender(): void
     {
-        $viewPath = $this->getTestFilePath(); 
+        $viewPath = $this->getTestFilePath();
         $viewName = 'test_view';
         $template = $this->createTemplate($viewPath, $viewName);
         $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
@@ -68,7 +68,7 @@ class TemplateTest extends TestCase
     /**
      * @depends testRender
      */
-    public function testRenderLayout()
+    public function testRenderLayout(): void
     {
 
         $viewPath = $this->getTestFilePath();
@@ -91,7 +91,7 @@ class TemplateTest extends TestCase
     /**
      * @depends testRenderLayout
      */
-    public function testCompose()
+    public function testCompose(): void
     {
         $viewPath = $this->getTestFilePath();
         $htmlViewName = 'test_html_view';
@@ -125,7 +125,7 @@ class TemplateTest extends TestCase
         $this->assertEquals(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
     }
 
-    public function htmlAndPlainProvider()
+    public function htmlAndPlainProvider(): array
     {
         return [
             [
@@ -167,7 +167,7 @@ TEXT
      * @param string $htmlViewFileContent
      * @param string $expectedTextRendering
      */
-    public function testComposePlainTextFallback($htmlViewFileContent, $expectedTextRendering)
+    public function testComposePlainTextFallback(string $htmlViewFileContent, string $expectedTextRendering): void
     {
         $viewPath = $this->getTestFilePath();
         $htmlViewName = 'test_html_view';

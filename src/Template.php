@@ -20,9 +20,9 @@ class Template implements ViewContextInterface
      * @var MessageInterface related mail message instance.
      */
     private $message;
- 
+
     /**
-     * @var \Yiisoft\View\View view instance used for rendering.
+     * @var View view instance used for rendering.
      */
     private $view;
 
@@ -53,7 +53,7 @@ class Template implements ViewContextInterface
         $this->viewPath = $viewPath;
         $this->viewName = $viewName;
     }
- 
+
     /**
      * @var string HTML layout view name. It is the layout used to render HTML mail body.
      * The property can take the following values:
@@ -67,7 +67,7 @@ class Template implements ViewContextInterface
      * Sets html layout.
      * @param string $layout
      */
-    public function setHtmlLayout(string $layout)
+    public function setHtmlLayout(string $layout): void
     {
         $this->htmlLayout = $layout;
     }
@@ -82,7 +82,7 @@ class Template implements ViewContextInterface
      * Sets text layout.
      * @param string $layout
      */
-    public function setTextLayout(string $layout)
+    public function setTextLayout(string $layout): void
     {
         $this->textLayout = $layout;
     }

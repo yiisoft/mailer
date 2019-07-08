@@ -2,11 +2,11 @@
 namespace Yiisoft\Mailer\Unit\Event;
 
 use Yiisoft\Mailer\Event\BeforeSend;
-use Yiisoft\Mailer\Tests\{TestCase, TestMessage};
+use Yiisoft\Mailer\Tests\TestCase;
 
 class BeforeSendTest extends TestCase
 {
-    public function testSetup()
+    public function testSetup(): void
     {
         $message = $this->createMessage();
         $event = new BeforeSend($message);
@@ -14,7 +14,7 @@ class BeforeSendTest extends TestCase
         $this->assertFalse($event->isPropagationStopped());
     }
 
-    public function testStopPropagation()
+    public function testStopPropagation(): void
     {
         $event = new BeforeSend($this->createMessage());
         $event->stopPropagation();

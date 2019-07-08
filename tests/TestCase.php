@@ -1,10 +1,10 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
-use yii\di\Container;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Mailer\{MailerInterface, MessageInterface};
+use Yiisoft\Di\Container;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -32,11 +32,11 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->container->get($id);
     }
-    
+
     /**
-     * @return TestMailer mailer instance.
+     * @return MailerInterface mailer instance.
      */
-    protected function getMailer()
+    protected function getMailer(): MailerInterface
     {
         return $this->get(MailerInterface::class);
     }
@@ -45,7 +45,7 @@ abstract class TestCase extends BaseTestCase
      * Creates a new message instance.
      * @return MessageInterface
      */
-    protected function createMessage($subject = 'foo', $from = 'from@example.com', $to = 'to@example.com'): MessageInterface
+    protected function createMessage(string $subject = 'foo', string $from = 'from@example.com', string $to = 'to@example.com'): MessageInterface
     {
         return (new TestMessage())
             ->setSubject($subject)
@@ -69,12 +69,12 @@ abstract class TestCase extends BaseTestCase
     /**
      * @return string test file path.
      */
-    protected function getTestFilePath()
+    protected function getTestFilePath(): string
     {
         return sys_get_temp_dir() . DIRECTORY_SEPARATOR . basename(str_replace('\\', '_', get_class($this))) . '_' . getmypid();
     }
 
-    protected function saveFile($filename, $data)
+    protected function saveFile(string $filename, string $data): void
     {
         $path = dirname($filename);
         if (!is_dir($path)) {
@@ -84,7 +84,7 @@ abstract class TestCase extends BaseTestCase
         file_put_contents($filename, $data);
     }
 
-    protected function getObjectPropertyValue($obj, $name)
+    protected function getObjectPropertyValue($obj, string $name)
     {
         $property = new \ReflectionProperty(get_class($obj), $name);
         $property->setAccessible(true);

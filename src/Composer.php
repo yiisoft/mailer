@@ -18,11 +18,11 @@ class Composer
      * Sets html layout.
      * @param string $layout
      */
-    public function setHtmlLayout(string $layout)
+    public function setHtmlLayout(string $layout): void
     {
         $this->htmlLayout = $layout;
     }
-    
+
     /**
      * @var string|bool text layout view name.
      * See [[Template::$textLayout]] for detailed documentation.
@@ -33,7 +33,7 @@ class Composer
      * Sets text layout.
      * @param string $layout
      */
-    public function setTextayout(string $layout)
+    public function setTextayout(string $layout): void
     {
         $this->textLayout = $layout;
     }
@@ -58,7 +58,7 @@ class Composer
     /**
      * @param string $path the directory that contains the view files for composing mail messages.
      */
-    public function setViewPath(string $path)
+    public function setViewPath(string $path): void
     {
         $this->viewPath = $path;
     }
@@ -67,7 +67,7 @@ class Composer
      * @param View $view view instance or its array configuration that will be used to
      * render message bodies.
      */
-    public function setView(View $view)
+    public function setView(View $view): void
     {
         $this->view = $view;
     }
@@ -79,7 +79,7 @@ class Composer
     {
         return $this->view;
     }
-    
+
     /**
      * @param View $view
      * @param string $viewPath

@@ -14,7 +14,7 @@ class FileMailer extends BaseMailer
      * @var string $path
      */
     private $path;
-    
+
     /**
      * Returns path.
      * @return string
@@ -54,7 +54,7 @@ class FileMailer extends BaseMailer
     }
 
     /**
-     * @var callable a PHP callback that return a file name which will be used to 
+     * @var callable a PHP callback that return a file name which will be used to
      * save the email message.
      * If not set, the file name will be generated based on the current timestamp.
      *
@@ -77,12 +77,13 @@ class FileMailer extends BaseMailer
 
     /**
      * @return string the filename for saving the message.
+     * @throws \Exception
      */
     protected function generateMessageFilename(): string
     {
         $time = microtime(true);
 
-        return date('Ymd-His-', $time) . sprintf('%04d', (int) (($time - (int) $time) * 10000)) . '-' . sprintf('%04d', mt_rand(0, 10000)) . '.eml';
+        return date('Ymd-His-', $time) . sprintf('%04d', (int) (($time - (int) $time) * 10000)) . '-' . sprintf('%04d', random_int(0, 10000)) . '.eml';
     }
 
     protected function sendMessage(MessageInterface $message): void
@@ -94,8 +95,8 @@ class FileMailer extends BaseMailer
         }
         $filename = $this->path . DIRECTORY_SEPARATOR . $filename;
         $filepath = dirname($filename);
-        if (!is_dir($filepath)) {
-            mkdir($filepath, 0777, true);
+        if (!is_dir($filepath) && !mkdir($filepath, 0777, true) && !is_dir($filepath)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $filepath));
         }
         file_put_contents($filename, $message->toString());
     }

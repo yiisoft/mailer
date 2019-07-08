@@ -34,7 +34,7 @@ class TestMessage extends BaseMessage
     {
         return $this->charset;
     }
-    
+
     public function setCharset(string $charset): MessageInterface
     {
         return $this;
@@ -77,7 +77,7 @@ class TestMessage extends BaseMessage
     {
         return $this->bcc;
     }
-    
+
     public function setBcc($bcc): MessageInterface
     {
         $this->bcc = $bcc;
@@ -150,8 +150,7 @@ class TestMessage extends BaseMessage
 
     public function toString(): string
     {
-        $s = json_encode($this);
-        return $s;
+        return json_encode($this);
     }
 
     public function addHeader(string $name, string $value): MessageInterface

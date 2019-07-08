@@ -5,13 +5,14 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Mailer\Composer;
 use Yiisoft\View\{Theme, View};
+use Yiisoft\Mailer\Template;
 
 class ComposerTest extends TestCase
 {
     /**
      * @return Composer $composer instance.
      */
-    private function getComposer()
+    private function getComposer(): Composer
     {
         return $this->get(Composer::class);
     }
@@ -19,7 +20,7 @@ class ComposerTest extends TestCase
     /**
      * @dataProvider setUpData
      */
-    public function testSetup($viewPath, $htmlLayout, $textLayout)
+    public function testSetup(string $viewPath, string $htmlLayout, string $textLayout): void
     {
         $composer = new Composer($this->get(View::class), $viewPath);
         $composer->setHtmlLayout($htmlLayout);
@@ -30,7 +31,7 @@ class ComposerTest extends TestCase
         $this->assertSame($textLayout, $this->getObjectPropertyValue($composer, 'textLayout'));
     }
 
-    public function setUpData()
+    public function setUpData(): array
     {
         return [
             ['/tmp/views', '', ''],
@@ -38,8 +39,8 @@ class ComposerTest extends TestCase
         ];
     }
 
-    public function testSetView()
-    { 
+    public function testSetView(): void
+    {
         $view = new View('/tmp/views', new Theme(), $this->get(EventDispatcherInterface::class), $this->get(LoggerInterface::class));
         $composer = $this->getComposer();
         $composer->setView($view);
@@ -47,7 +48,7 @@ class ComposerTest extends TestCase
         $this->assertEquals($composer->getView(), $view);
     }
 
-    public function testSetViewPath()
+    public function testSetViewPath(): void
     {
         $path = '/tmp/views';
         $composer = $this->getComposer();
@@ -55,12 +56,12 @@ class ComposerTest extends TestCase
         $this->assertEquals($composer->getViewPath(), $path);
     }
 
-    public function testCreateTemplate()
+    public function testCreateTemplate(): void
     {
         $composer = $this->getComposer();
         $method = new \ReflectionMethod(Composer::class, 'createTemplate');
         $method->setAccessible(true);
-        
+
         $viewName = 'test-view';
         /* @var $template Template */
         $template = $method->invoke($composer, $viewName);

@@ -3,7 +3,7 @@ namespace Yiisoft\Mailer\Tests;
 
 class BaseMessageTest extends TestCase
 {
-    public function testSend()
+    public function testSend(): void
     {
         $mailer = $this->getMailer();
         $message = $mailer->compose()->setSubject('foo');
@@ -11,14 +11,14 @@ class BaseMessageTest extends TestCase
         $this->assertEquals($message, $mailer->sentMessages[0], 'Unable to send message!');
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $mailer = $this->getMailer();
         $message = $mailer->compose();
         $this->assertEquals($message->toString(), '' . $message);
     }
 
-    public function testMagicToString()
+    public function testMagicToString(): void
     {
         set_error_handler([$this, 'errorHandler'], E_USER_ERROR);
 

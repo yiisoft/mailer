@@ -3,7 +3,7 @@ namespace Yiisoft\Mailer\Tests;
 
 class FileMailerTest extends TestCase
 {
-    public function testSend()
+    public function testSend(): void
     {
         $mailer = $this->getMailer();
 
@@ -22,7 +22,7 @@ class FileMailerTest extends TestCase
         $this->assertEquals($message->toString(), file_get_contents($file));
     }
 
-    public function testFilenameCallback()
+    public function testFilenameCallback(): void
     {
         $mailer = $this->getMailer();
 

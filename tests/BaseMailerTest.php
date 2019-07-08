@@ -8,14 +8,14 @@ use Yiisoft\Mailer\{MessageInterface, Event\BeforeSend};
 
 class BaseMailerTest extends TestCase
 {
-    public function testCompose()
+    public function testCompose(): void
     {
         $mailer = $this->getMailer();
         $message = $mailer->compose();
         $this->assertInstanceOf(MessageInterface::class, $message);
     }
 
-    public function testComposeWithView()
+    public function testComposeWithView(): void
     {
         $mailer = $this->getMailer();
         $viewPath = $this->getTestFilePath();
@@ -50,22 +50,22 @@ class BaseMailerTest extends TestCase
     /**
      * @dataProvider messagesProvider
      */
-    public function testSendMultiple($messages)
+    public function testSendMultiple(array $messages): void
     {
         $mailer = $this->getMailer();
         $this->assertCount(0, $mailer->sendMultiple($messages));
     }
 
-    public function messagesProvider()
+    public function messagesProvider(): array
     {
         return [
             [[]],
             [[$this->createMessage('foo')]],
             [[$this->createMessage('bar'), $this->createMessage('baz')]],
         ];
-;    }
+    }
 
-    public function testSendMultipleExceptions()
+    public function testSendMultipleExceptions(): void
     {
         $mailer = $this->getMailer();
         $messages = [$this->createMessage(''), $this->createMessage()];
@@ -76,7 +76,7 @@ class BaseMailerTest extends TestCase
         $this->assertEquals(new InvalidArgumentException("Message's subject is required"), $failed[0]->getError());
     }
 
-    public function testBeforeSend()
+    public function testBeforeSend(): void
     {
         $mailer = $this->getMailer();
         $message = $this->createMessage();
@@ -88,6 +88,6 @@ class BaseMailerTest extends TestCase
             $event->stopPropagation();
         });
         $this->assertFalse($mailer->beforeSend($message));
-        $this->assertNull($mailer->send($message));
+        $mailer->send($message);
     }
 }
