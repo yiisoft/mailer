@@ -34,9 +34,9 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @return MailerInterface mailer instance.
+     * @return TestMailer mailer instance.
      */
-    protected function getMailer(): MailerInterface
+    protected function getMailer(): TestMailer
     {
         return $this->get(MailerInterface::class);
     }
