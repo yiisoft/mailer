@@ -15,4 +15,4 @@
 Mailer implementations
 ======================
 
-- [Swift Mailer](https://github.com/yiisoft/yii-swiftmailer)
+- [Swift Mailer](https://github.com/yiisoft/mailer-swiftmailer)
