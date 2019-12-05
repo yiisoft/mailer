@@ -4,7 +4,8 @@ namespace Yiisoft\Mailer\Tests;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Mailer\Composer;
-use Yiisoft\View\{Theme, View};
+use Yiisoft\View\Theme;
+use Yiisoft\View\View;
 use Yiisoft\Mailer\Template;
 
 class ComposerTest extends TestCase

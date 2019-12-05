@@ -70,7 +70,6 @@ class TemplateTest extends TestCase
      */
     public function testRenderLayout(): void
     {
-
         $viewPath = $this->getTestFilePath();
 
         $viewName = 'test_view2';

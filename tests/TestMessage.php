@@ -1,7 +1,8 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
-use Yiisoft\Mailer\{BaseMessage, MessageInterface};
+use Yiisoft\Mailer\BaseMessage;
+use Yiisoft\Mailer\MessageInterface;
 
 /**
  * Test Message class

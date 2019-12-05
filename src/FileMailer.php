@@ -47,8 +47,7 @@ class FileMailer extends BaseMailer
         EventDispatcherInterface $eventDispatcher,
         LoggerInterface $logger,
         string $path
-    )
-    {
+    ) {
         parent::__construct($messageFactory, $composer, $eventDispatcher, $logger);
         $this->path = $path;
     }
@@ -70,7 +69,7 @@ class FileMailer extends BaseMailer
      * Sets filename callback.
      * @param callable $callback
      */
-    public function setFilenameCallback(Callable $callback): void
+    public function setFilenameCallback(callable $callback): void
     {
         $this->filenameCallback = $callback;
     }

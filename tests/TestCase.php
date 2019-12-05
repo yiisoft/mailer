@@ -3,7 +3,8 @@ namespace Yiisoft\Mailer\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Psr\Container\ContainerInterface;
-use Yiisoft\Mailer\{MailerInterface, MessageInterface};
+use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Di\Container;
 
 abstract class TestCase extends BaseTestCase

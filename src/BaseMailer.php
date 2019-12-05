@@ -3,7 +3,8 @@ namespace Yiisoft\Mailer;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
-use Yiisoft\Mailer\Event\{AfterSend, BeforeSend};
+use Yiisoft\Mailer\Event\AfterSend;
+use Yiisoft\Mailer\Event\BeforeSend;
 
 /**
  * BaseMailer serves as a base class that implements the basic functions required by [[MailerInterface]].
@@ -96,7 +97,7 @@ abstract class BaseMailer implements MailerInterface
 
     /**
      * Sends the given email message.
-     * This method will log a message about the email being sent. 
+     * This method will log a message about the email being sent.
      * Child classes should implement [[sendMessage()]] with the actual email sending logic.
      * @param MessageInterface $message email message instance to be sent
      * @throws \Throwable throws an exception on send fails.
