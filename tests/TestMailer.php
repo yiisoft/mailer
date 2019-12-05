@@ -8,6 +8,7 @@ use Yiisoft\Mailer\MessageInterface;
 class TestMailer extends FileMailer
 {
     public $sentMessages = [];
+    public $lastFilename;
 
     protected function sendMessage(MessageInterface $message): void
     {
@@ -23,8 +24,6 @@ class TestMailer extends FileMailer
     {
         return parent::beforeSend($message);
     }
-
-    public $lastFilename;
 
     protected function generateMessageFilename(): string
     {

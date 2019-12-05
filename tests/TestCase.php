@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
      */
     private $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -22,7 +22,7 @@ abstract class TestCase extends BaseTestCase
         $this->container = new Container($config);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->container = null;
 
