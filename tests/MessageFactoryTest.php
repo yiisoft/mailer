@@ -1,7 +1,8 @@
 <?php
 namespace Yiisoft\Mailer\Tests;
 
-use Yiisoft\Mailer\{MessageFactory, MessageInterface};
+use Yiisoft\Mailer\MessageFactory;
+use Yiisoft\Mailer\MessageInterface;
 
 class MessageFactoryTest extends TestCase
 {

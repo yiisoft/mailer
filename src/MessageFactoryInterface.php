@@ -8,9 +8,9 @@ interface MessageFactoryInterface
 {
     /**
      * Creates a new message instance.
-     * 
+     *
      * @param MailerInterface $mailer mailer instance.
-     * 
+     *
      * @return MessageInterface
      */
     public function create(MailerInterface $mailer): MessageInterface;
