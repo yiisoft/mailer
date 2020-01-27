@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer\Tests;
 
 class FileMailerTest extends TestCase

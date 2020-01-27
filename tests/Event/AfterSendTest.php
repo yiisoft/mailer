@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer\Tests\Event;
 
 use Yiisoft\Mailer\Event\AfterSend;

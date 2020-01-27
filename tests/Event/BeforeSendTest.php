@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer\Unit\Event;
 
 use Yiisoft\Mailer\Event\BeforeSend;
