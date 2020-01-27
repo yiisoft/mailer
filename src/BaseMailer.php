@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -113,7 +114,7 @@ abstract class BaseMailer implements MailerInterface
             $address = implode(', ', array_keys($address));
         }
         $this->logger->info('Sending email "' . $message->getSubject() . '" to "' . $address . '"');
-        
+
         $this->sendMessage($message);
         $this->afterSend($message);
     }

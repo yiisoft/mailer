@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer;
 
 /**
@@ -27,7 +28,7 @@ class MessageFactory implements MessageFactoryInterface
     public function create(MailerInterface $mailer): MessageInterface
     {
         /** @var MessageInterface $message */
-        $message = new $this->class;
+        $message = new $this->class();
         return $message->setMailer($mailer);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer;
 
 use Yiisoft\View\View;

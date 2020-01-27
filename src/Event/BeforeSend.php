@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer\Event;
 
 use Psr\EventDispatcher\StoppableEventInterface;

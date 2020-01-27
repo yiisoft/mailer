@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mailer;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
