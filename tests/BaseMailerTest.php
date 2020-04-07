@@ -4,6 +4,7 @@ namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use Psr\EventDispatcher\ListenerProviderInterface;
+use Yiisoft\EventDispatcher\Provider\AbstractProviderConfigurator;
 use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Event\BeforeSend;
@@ -86,10 +87,29 @@ class BaseMailerTest extends TestCase
 
         /** @var Provider $provider */
         $provider = $this->get(ListenerProviderInterface::class);
-        $provider->attach(function (BeforeSend $event) {
+
+        $configurator = $this->getProviderConfigurator($provider);
+        $configurator->attach(static function (BeforeSend $event) {
             $event->stopPropagation();
         });
         $this->assertFalse($mailer->beforeSend($message));
         $mailer->send($message);
+    }
+
+    private function getProviderConfigurator(Provider $provider)
+    {
+        return new class($provider) extends AbstractProviderConfigurator {
+            private Provider $provider;
+
+            public function __construct(Provider $provider)
+            {
+                $this->provider = $provider;
+            }
+
+            public function attach(callable $listener, string $eventClassName = ''): void
+            {
+                $this->provider->attach($listener, $eventClassName);
+            }
+        };
     }
 }
