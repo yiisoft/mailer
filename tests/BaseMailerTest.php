@@ -88,7 +88,7 @@ class BaseMailerTest extends TestCase
         $provider = $this->get(ListenerProviderInterface::class);
         $provider->attach(function (BeforeSend $event) {
             $event->stopPropagation();
-        });
+        }, BeforeSend::class);
         $this->assertFalse($mailer->beforeSend($message));
         $mailer->send($message);
     }

@@ -19,15 +19,23 @@ use Yiisoft\View\View;
 $tempDir = sys_get_temp_dir();
 
 return [
-    ListenerProviderInterface::class => [
-        '__class' => Provider::class,
-    ],
-    EventDispatcherInterface::class => [
-        '__class' => Dispatcher::class,
-        '__construct()' => [
-           'listenerProvider' => Reference::to(ListenerProviderInterface::class)
-        ],
-    ],
+    ListenerProviderInterface::class => function () {
+        return new class () implements ListenerProviderInterface {
+            private $listeners = [];
+
+            public function getListenersForEvent(object $event): iterable
+            {
+                $eventName = get_class($event);
+                return isset($this->listeners[$eventName]) ? $this->listeners[$eventName] : [];
+            }
+
+            public function attach(callable $callback, string $eventName): void
+            {
+                $this->listeners[$eventName][] = $callback;
+            }
+        };
+    },
+    EventDispatcherInterface::class => Dispatcher::class,
     LoggerInterface::class => [
         '__class' => Logger::class,
         '__construct()' => [
@@ -40,8 +48,8 @@ return [
     View::class => [
         '__class' => View::class,
         '__construct()' => [
-            'basePath'=> $tempDir . DIRECTORY_SEPARATOR . 'views',
-            'theme'=> Reference::to(Theme::class),
+            'basePath' => $tempDir . DIRECTORY_SEPARATOR . 'views',
+            'theme' => Reference::to(Theme::class),
             'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
             'logger' => Reference::to(LoggerInterface::class)
         ],
@@ -62,10 +70,10 @@ return [
     MailerInterface::class => [
         '__class' => TestMailer::class,
         '__construct()' => [
-            'messageFactory'=> Reference::to(MessageFactoryInterface::class),
-            'composer'=> Reference::to(Composer::class),
+            'messageFactory' => Reference::to(MessageFactoryInterface::class),
+            'composer' => Reference::to(Composer::class),
             'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
-            'logger'=> Reference::to(LoggerInterface::class),
+            'logger' => Reference::to(LoggerInterface::class),
             'path' => $tempDir . DIRECTORY_SEPARATOR . 'mails',
         ],
     ],
