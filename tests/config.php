@@ -20,7 +20,7 @@ $tempDir = sys_get_temp_dir();
 
 return [
     ListenerProviderInterface::class => function () {
-        return new class () implements ListenerProviderInterface {
+        return new class() implements ListenerProviderInterface {
             private $listeners = [];
 
             public function getListenersForEvent(object $event): iterable
