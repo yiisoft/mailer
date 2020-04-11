@@ -4,8 +4,6 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
-use Yiisoft\EventDispatcher\Provider\Provider;
-use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Log\Logger;
 use Yiisoft\Mailer\Composer;
 use Yiisoft\Mailer\MailerInterface;
@@ -36,12 +34,7 @@ return [
         };
     },
     EventDispatcherInterface::class => Dispatcher::class,
-    LoggerInterface::class => [
-        '__class' => Logger::class,
-        '__construct()' => [
-            'targets' => [],
-        ],
-    ],
+    LoggerInterface::class => Logger::class,
     Theme::class => [
         '__class' => Theme::class,
     ],
@@ -49,9 +42,6 @@ return [
         '__class' => View::class,
         '__construct()' => [
             'basePath' => $tempDir . DIRECTORY_SEPARATOR . 'views',
-            'theme' => Reference::to(Theme::class),
-            'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
-            'logger' => Reference::to(LoggerInterface::class)
         ],
     ],
     MessageFactoryInterface::class => [
@@ -63,17 +53,12 @@ return [
     Composer::class => [
         '__class' => Composer::class,
         '__construct()' => [
-            'view' => Reference::to(View::class),
             'viewPath' => $tempDir . DIRECTORY_SEPARATOR . 'views'
         ],
     ],
     MailerInterface::class => [
         '__class' => TestMailer::class,
         '__construct()' => [
-            'messageFactory' => Reference::to(MessageFactoryInterface::class),
-            'composer' => Reference::to(Composer::class),
-            'eventDispatcher' => Reference::to(EventDispatcherInterface::class),
-            'logger' => Reference::to(LoggerInterface::class),
             'path' => $tempDir . DIRECTORY_SEPARATOR . 'mails',
         ],
     ],
