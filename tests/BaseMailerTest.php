@@ -3,8 +3,10 @@
 namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
-use Psr\EventDispatcher\ListenerProviderInterface;
-use Yiisoft\EventDispatcher\Provider\Provider;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
+use Yiisoft\Mailer\Composer;
+use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Event\BeforeSend;
 
@@ -80,15 +82,17 @@ class BaseMailerTest extends TestCase
 
     public function testBeforeSend(): void
     {
-        $mailer = $this->getMailer();
-        $message = $this->createMessage();
-        $this->assertTrue($mailer->beforeSend($message));
+        $message = $this->createMock(MessageInterface::class);
+        $event = new BeforeSend($message);
+        $messageFactory = $this->createMock(MessageFactoryInterface::class);
+        $composer = $this->createMock(Composer::class);
+        $logger = $this->createMock(LoggerInterface::class);
+        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        $eventDispatcher->method('dispatch')->willReturn($event);
+        $mailer = new TestMailer($messageFactory, $composer, $eventDispatcher, $logger, '');
 
-        /** @var Provider $provider */
-        $provider = $this->get(ListenerProviderInterface::class);
-        $provider->attach(function (BeforeSend $event) {
-            $event->stopPropagation();
-        }, BeforeSend::class);
+        $this->assertTrue($mailer->beforeSend($message));
+        $event->stopPropagation();
         $this->assertFalse($mailer->beforeSend($message));
         $mailer->send($message);
     }
