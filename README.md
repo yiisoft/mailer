@@ -39,7 +39,7 @@ The package tests are checked with [Infection](https://infection.github.io/) mut
 
 ## Static analysis
 
-The code is statically analyzed with [Psalm](https://psalm.dev/docs/). To run static analysis:
+The code is statically analyzed with [Psalm](https://psalm.dev). To run static analysis:
 
 ```php
 ./vendor/bin/psalm
