@@ -46,7 +46,7 @@ class BaseMessageTest extends TestCase
 
     private $errors;
 
-    public function errorHandler(int $errno, string $errstr, string $errfile, int $errline, array $errcontext): bool
+    public function errorHandler(int $errno, string $errstr, string $errfile, int $errline, array $errcontext = []): bool
     {
         $this->errors[] = [
             'errno' => $errno,
