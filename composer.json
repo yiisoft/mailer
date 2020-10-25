@@ -28,8 +28,7 @@
         "vimeo/psalm": "^4.0",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/event-dispatcher": "^3.0@dev",
-        "yiisoft/log": "^3.0@dev",
-        "phan/phan": "^3.0"
+        "yiisoft/log": "^3.0@dev"
     },
     "suggest": {
         "yiisoft/event-dispatcher": "Yii event dispatcher",
