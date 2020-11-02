@@ -23,7 +23,7 @@
         "php": "^7.4|^8.0"
     },
     "require-dev": {
-        "infection/infection": "^0.19",
+        "infection/infection": "^0.19 || ^0.20",
         "phpunit/phpunit": "^9.4",
         "vimeo/psalm": "^4.0",
         "yiisoft/di": "^3.0@dev",
