@@ -1,11 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
+use Throwable;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
+
+use function array_keys;
+use function implode;
+use function is_array;
 
 /**
  * BaseMailer serves as a base class that implements the basic functions required by [[MailerInterface]].
@@ -14,32 +21,11 @@ use Yiisoft\Mailer\Event\BeforeSend;
  */
 abstract class BaseMailer implements MailerInterface
 {
-    /**
-     * @var MessageFactoryInterface $messageFactory
-     */
-    private $messageFactory;
+    private MessageFactoryInterface $messageFactory;
+    private Composer $composer;
+    private EventDispatcherInterface $eventDispatcher;
+    private LoggerInterface $logger;
 
-    /**
-     * @var Composer $composer Message composer instance.
-     */
-    private $composer;
-
-    /**
-     * @var EventDispatcherInterface $eventDispatcher.
-     */
-    private $eventDispatcher;
-
-    /**
-     * @var LoggerInterface $logger.
-     */
-    private $logger;
-
-    /**
-     * @param MessageFactoryInterface $messageFactory
-     * @param Composer $composer
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param LoggerInterface $logger
-     */
     public function __construct(MessageFactoryInterface $messageFactory, Composer $composer, EventDispatcherInterface $eventDispatcher, LoggerInterface $logger)
     {
         $this->messageFactory = $messageFactory;
@@ -72,7 +58,8 @@ abstract class BaseMailer implements MailerInterface
      *
      * - a relative view name (e.g. "contact") located under [[viewPath]].
      *
-     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view
+     * file.
      * @return MessageInterface message instance.
      */
     public function compose($view = null, array $parameters = []): MessageInterface
@@ -101,7 +88,7 @@ abstract class BaseMailer implements MailerInterface
      * This method will log a message about the email being sent.
      * Child classes should implement [[sendMessage()]] with the actual email sending logic.
      * @param MessageInterface $message email message instance to be sent
-     * @throws \Throwable throws an exception on send fails.
+     * @throws Throwable throws an exception on send fails.
      */
     public function send(MessageInterface $message): void
     {
@@ -137,7 +124,7 @@ abstract class BaseMailer implements MailerInterface
         foreach ($messages as $message) {
             try {
                 $this->send($message);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $message->setError($e);
                 $failed[] = $message;
             }
@@ -150,7 +137,7 @@ abstract class BaseMailer implements MailerInterface
      * Sends the specified message.
      * This method should be implemented by child classes with the actual email sending logic.
      * @param MessageInterface $message the message to be sent
-     * @throws \Throwable throws an exception on send fails.
+     * @throws Throwable throws an exception on send fails.
      */
     abstract protected function sendMessage(MessageInterface $message): void;
 

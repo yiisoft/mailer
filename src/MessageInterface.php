@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
+
+use Throwable;
 
 /**
  * MessageInterface is the interface that should be implemented by mail message classes.
@@ -246,7 +250,7 @@ interface MessageInterface
 
     /**
      * Sends this email message.
-     * @throws \Throwable throws an exception on send fails.
+     * @throws Throwable throws an exception on send fails.
      */
     public function send(): void;
 
@@ -258,13 +262,13 @@ interface MessageInterface
 
     /**
      * Returns error represents why send fails.
-     * @return \Throwable
+     * @return Throwable
      */
-    public function getError(): \Throwable;
+    public function getError(): Throwable;
 
     /**
      * Sets send fails error.
-     * @param \Throwable $e
+     * @param Throwable $e
      */
-    public function setError(\Throwable $e): void;
+    public function setError(Throwable $e): void;
 }

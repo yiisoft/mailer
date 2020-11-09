@@ -1,6 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
+
+use Throwable;
+
+use function get_class;
+use function trigger_error;
 
 /**
  * BaseMessage serves as a base class that implements the [[send()]] method required by [[MessageInterface]].
@@ -13,7 +20,7 @@ abstract class BaseMessage implements MessageInterface
      * @var MailerInterface the mailer instance that created this message.
      * For independently created messages this is `null`.
      */
-    private $mailer;
+    private MailerInterface $mailer;
 
     public function setMailer(MailerInterface $mailer): MessageInterface
     {
@@ -23,7 +30,7 @@ abstract class BaseMessage implements MessageInterface
 
     /**
      * Sends this email message.
-     * @throws \Throwable throws an exception on send fails.
+     * @throws Throwable throws an exception on send fails.
      */
     public function send(): void
     {
@@ -31,16 +38,16 @@ abstract class BaseMessage implements MessageInterface
     }
 
     /**
-     * @var \Throwable $error the error represents why send fails.
+     * @var Throwable $error the error represents why send fails.
      */
-    private $error;
+    private Throwable $error;
 
-    public function getError(): \Throwable
+    public function getError(): Throwable
     {
         return $this->error;
     }
 
-    public function setError(\Throwable $e): void
+    public function setError(Throwable $e): void
     {
         $this->error = $e;
     }
@@ -55,7 +62,7 @@ abstract class BaseMessage implements MessageInterface
         // use trigger_error to bypass this limitation
         try {
             return $this->toString();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $message  = "Exception '" . get_class($e) . "' with message '{$e->getMessage()}' \n\nin "
                 . $e->getFile() . ':' . $e->getLine() . "\n\n"
                 . "Stack trace:\n" . $e->getTraceAsString();

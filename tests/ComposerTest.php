@@ -26,7 +26,7 @@ class ComposerTest extends TestCase
     {
         $composer = new Composer($this->get(View::class), $viewPath);
         $composer->setHtmlLayout($htmlLayout);
-        $composer->setTextayout($textLayout);
+        $composer->setTextLayout($textLayout);
         $this->assertEquals($composer->getView(), $this->get(View::class));
         $this->assertSame($viewPath, $composer->getViewPath());
         $this->assertSame($htmlLayout, $this->getObjectPropertyValue($composer, 'htmlLayout'));
