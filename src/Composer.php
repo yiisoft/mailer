@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
 
 use Yiisoft\View\View;
@@ -10,10 +12,30 @@ use Yiisoft\View\View;
 class Composer
 {
     /**
-     * @var string|bool HTML layout view name.
+     * @var View view instance.
+     */
+    private View $view;
+
+    /**
+     * @var string the directory containing view files for composing mail messages.
+     */
+    private string $viewPath;
+
+    /**
+     * @var string HTML layout view name.
      * See [[Template::$htmlLayout]] for detailed documentation.
      */
-    private $htmlLayout = 'layouts/html';
+    private string $htmlLayout = 'layouts/html';
+
+    /**
+     * @param View $view
+     * @param string $viewPath
+     */
+    public function __construct(View $view, string $viewPath)
+    {
+        $this->view = $view;
+        $this->viewPath = $viewPath;
+    }
 
     /**
      * Sets html layout.
@@ -25,28 +47,19 @@ class Composer
     }
 
     /**
-     * @var string|bool text layout view name.
+     * @var string text layout view name.
      * See [[Template::$textLayout]] for detailed documentation.
      */
-    private $textLayout = 'layouts/text';
+    private string $textLayout = 'layouts/text';
 
     /**
      * Sets text layout.
      * @param string $layout
      */
-    public function setTextayout(string $layout): void
+    public function setTextLayout(string $layout): void
     {
         $this->textLayout = $layout;
     }
-    /**
-     * @var View view instance.
-     */
-    private $view;
-
-    /**
-     * @var string the directory containing view files for composing mail messages.
-     */
-    private $viewPath;
 
     /**
      * @return string the directory that contains the view files for composing mail messages.
@@ -79,16 +92,6 @@ class Composer
     public function getView(): View
     {
         return $this->view;
-    }
-
-    /**
-     * @param View $view
-     * @param string $viewPath
-     */
-    public function __construct(View $view, string $viewPath)
-    {
-        $this->view = $view;
-        $this->viewPath = $viewPath;
     }
 
     /**

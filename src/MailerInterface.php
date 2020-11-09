@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
+
+use Throwable;
 
 /**
  * MailerInterface is the interface that should be implemented by mailer classes.
@@ -40,7 +44,7 @@ interface MailerInterface
     /**
      * Sends the given email message.
      * @param MessageInterface $message email message instance to be sent
-     * @throws \Throwable throws an exception on send fails.
+     * @throws Throwable throws an exception on send fails.
      */
     public function send(MessageInterface $message): void;
 

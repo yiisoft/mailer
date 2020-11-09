@@ -1,6 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
+
+use InvalidArgumentException;
+
+use function is_subclass_of;
 
 /**
  * Class MessageFactory that implements MessageFactoryInterface
@@ -10,16 +16,16 @@ class MessageFactory implements MessageFactoryInterface
     /**
      * @var string $class the message class name.
      */
-    private $class;
+    private string $class;
 
     /**
      * @param string $class message class name.
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $class)
     {
         if (!is_subclass_of($class, MessageInterface::class)) {
-            throw new \InvalidArgumentException('Class ' . $class . ' does not implement ' . MessageInterface::class);
+            throw new InvalidArgumentException('Class ' . $class . ' does not implement ' . MessageInterface::class);
         }
 
         $this->class = $class;

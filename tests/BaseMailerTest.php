@@ -27,7 +27,7 @@ class BaseMailerTest extends TestCase
         $composer = $mailer->getComposer();
         $composer->setViewPath($viewPath);
         $composer->setHtmlLayout('');
-        $composer->setTextayout('');
+        $composer->setTextLayout('');
 
         $htmlViewName = 'test_html_view';
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';

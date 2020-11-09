@@ -1,9 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer;
 
+use Throwable;
+use Yiisoft\View\Exception\ViewNotFoundException;
 use Yiisoft\View\ViewContextInterface;
 use Yiisoft\View\View;
+
+use function html_entity_decode;
+use function is_array;
+use function preg_match;
+use function preg_replace;
+use function trim;
 
 /**
  * Template composes the message from view templates, ensuring isolated view rendering. It allows
@@ -20,17 +30,17 @@ class Template implements ViewContextInterface
     /**
      * @var MessageInterface related mail message instance.
      */
-    private $message;
+    private MessageInterface $message;
 
     /**
      * @var View view instance used for rendering.
      */
-    private $view;
+    private View $view;
 
     /**
      * @var string path to the directory containing view files.
      */
-    private $viewPath;
+    private string $viewPath;
 
     /**
      * @var string|array name of the view to use as a template. The value could be:
@@ -42,6 +52,21 @@ class Template implements ViewContextInterface
      *   `['html' => 'contact-html', 'text' => 'contact-text']`.
      */
     private $viewName;
+
+    /**
+     * @var string HTML layout view name. It is the layout used to render HTML mail body.
+     * The property can take the following values:
+     *
+     * - a relative view name: a view file relative to [[viewPath]], e.g., 'layouts/html'.
+     * - an empty string: the layout is disabled.
+     */
+    private string $htmlLayout = '';
+
+    /**
+     * @var string text layout view name. This is the layout used to render TEXT mail body.
+     * Please refer to [[htmlLayout]] for possible values that this property can take.
+     */
+    private string $textLayout = '';
 
     /**
      * @param View $view
@@ -56,15 +81,6 @@ class Template implements ViewContextInterface
     }
 
     /**
-     * @var string HTML layout view name. It is the layout used to render HTML mail body.
-     * The property can take the following values:
-     *
-     * - a relative view name: a view file relative to [[viewPath]], e.g., 'layouts/html'.
-     * - an empty string: the layout is disabled.
-     */
-    private $htmlLayout = '';
-
-    /**
      * Sets html layout.
      * @param string $layout
      */
@@ -72,12 +88,6 @@ class Template implements ViewContextInterface
     {
         $this->htmlLayout = $layout;
     }
-
-    /**
-     * @var string text layout view name. This is the layout used to render TEXT mail body.
-     * Please refer to [[htmlLayout]] for possible values that this property can take.
-     */
-    private $textLayout = '';
 
     /**
      * Sets text layout.
@@ -96,7 +106,9 @@ class Template implements ViewContextInterface
     /**
      * Composes the given mail message according to this template.
      * @param MessageInterface $message the message to be composed.
-     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
+     * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view
+     * file.
+     * @throws Throwable|ViewNotFoundException
      */
     public function compose(MessageInterface $message, $parameters = []): void
     {
@@ -139,6 +151,7 @@ class Template implements ViewContextInterface
      * @param string $view a view name of the view file.
      * @param array $parameters the parameters (name-value pairs) that will be extracted and made available in the view file.
      * @param string $layout layout view name. If the value is empty, no layout will be applied.
+     * @throws Throwable|ViewNotFoundException
      * @return string the rendering result.
      */
     public function render(string $view, array $parameters = [], string $layout = ''): string
