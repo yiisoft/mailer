@@ -52,5 +52,10 @@
     "config": {
         "sort-packages": true
     },
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": [
+            "phpunit --colors --no-interaction"
+        ]
+    }
 }
