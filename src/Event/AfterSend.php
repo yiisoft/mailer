@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Event;
 
 use Yiisoft\Mailer\MessageInterface;

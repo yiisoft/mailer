@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Yiisoft\Mailer\Composer;
+use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
-use Yiisoft\Mailer\Event\BeforeSend;
 
 class BaseMailerTest extends TestCase
 {

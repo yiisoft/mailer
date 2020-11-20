@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
@@ -24,7 +26,7 @@ return [
             public function getListenersForEvent(object $event): iterable
             {
                 $eventName = get_class($event);
-                return isset($this->listeners[$eventName]) ? $this->listeners[$eventName] : [];
+                return $this->listeners[$eventName] ?? [];
             }
 
             public function attach(callable $callback, string $eventName): void
@@ -53,7 +55,7 @@ return [
     Composer::class => [
         '__class' => Composer::class,
         '__construct()' => [
-            'viewPath' => $tempDir . DIRECTORY_SEPARATOR . 'views'
+            'viewPath' => $tempDir . DIRECTORY_SEPARATOR . 'views',
         ],
     ],
     MailerInterface::class => [

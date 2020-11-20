@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Event;
 
 use Psr\EventDispatcher\StoppableEventInterface;
@@ -19,7 +21,7 @@ class BeforeSend extends SendEvent implements StoppableEventInterface
     }
 
     /**
-     * @var bool $stopPropagation
+     * @var bool
      */
     private $stopPropagation = false;
 

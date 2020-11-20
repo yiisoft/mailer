@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer;
 
-use Throwable;
-
 use function get_class;
+
+use Throwable;
 use function trigger_error;
 
 /**
@@ -30,6 +30,7 @@ abstract class BaseMessage implements MessageInterface
 
     /**
      * Sends this email message.
+     *
      * @throws Throwable throws an exception on send fails.
      */
     public function send(): void
@@ -38,7 +39,7 @@ abstract class BaseMessage implements MessageInterface
     }
 
     /**
-     * @var Throwable $error the error represents why send fails.
+     * @var Throwable the error represents why send fails.
      */
     private Throwable $error;
 
@@ -54,6 +55,7 @@ abstract class BaseMessage implements MessageInterface
 
     /**
      * PHP magic method that returns the string representation of this object.
+     *
      * @return string the string representation of this object.
      */
     public function __toString()
@@ -63,7 +65,7 @@ abstract class BaseMessage implements MessageInterface
         try {
             return $this->toString();
         } catch (Throwable $e) {
-            $message  = "Exception '" . get_class($e) . "' with message '{$e->getMessage()}' \n\nin "
+            $message = "Exception '" . get_class($e) . "' with message '{$e->getMessage()}' \n\nin "
                 . $e->getFile() . ':' . $e->getLine() . "\n\n"
                 . "Stack trace:\n" . $e->getTraceAsString();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Tests;
 
 use Yiisoft\Mailer\Template;
@@ -45,9 +47,7 @@ class TemplateTest extends TestCase
      */
     public function createTemplate(string $viewPath, $viewName): Template
     {
-        $template = new Template($this->get(View::class), $viewPath, $viewName);
-
-        return $template;
+        return new Template($this->get(View::class), $viewPath, $viewName);
     }
 
     public function testRender(): void
@@ -60,7 +60,7 @@ class TemplateTest extends TestCase
         $this->saveFile($viewFileName, $viewFileContent);
 
         $parameters = [
-            'testParam' => 'test output'
+            'testParam' => 'test output',
         ];
         $renderResult = $template->render($viewName, $parameters);
         $this->assertEquals($parameters['testParam'], $renderResult);

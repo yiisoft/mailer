@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Event;
 
 use Yiisoft\Mailer\MessageInterface;
@@ -12,7 +14,7 @@ use Yiisoft\Mailer\MessageInterface;
 abstract class SendEvent
 {
     /**
-     * @var MessageInterface $message
+     * @var MessageInterface
      */
     protected $message;
 
