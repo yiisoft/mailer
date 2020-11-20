@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Psr\Container\ContainerInterface;
+use Yiisoft\Di\Container;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageInterface;
-use Yiisoft\Di\Container;
 
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * @var ContainerInterface $container
+     * @var ContainerInterface
      */
     private $container;
 
@@ -45,6 +47,7 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Creates a new message instance.
+     *
      * @return MessageInterface
      */
     protected function createMessage(string $subject = 'foo', string $from = 'from@example.com', string $to = 'to@example.com'): MessageInterface
@@ -57,6 +60,7 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Asserting two strings equality ignoring line endings.
+     *
      * @param string $expected
      * @param string $actual
      * @param string $message
@@ -73,7 +77,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getTestFilePath(): string
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . basename(str_replace('\\', '_', get_class($this))) . '_' . getmypid();
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . basename(str_replace('\\', '_', static::class)) . '_' . getmypid();
     }
 
     protected function saveFile(string $filename, string $data): void

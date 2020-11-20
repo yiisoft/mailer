@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer;
 
-use Exception;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Log\LoggerInterface;
-use RuntimeException;
-
 use function call_user_func;
 use function date;
+use Exception;
 use function file_put_contents;
+
 use function is_dir;
 use function microtime;
 use function mkdir;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 use function random_int;
+use RuntimeException;
 use function sprintf;
 
 /**
@@ -25,12 +25,14 @@ class FileMailer extends BaseMailer
 {
     /**
      * The path where message files located.
-     * @var string $path
+     *
+     * @var string
      */
     private string $path;
 
     /**
      * Returns path.
+     *
      * @return string
      */
     public function getPath(): string
@@ -40,6 +42,7 @@ class FileMailer extends BaseMailer
 
     /**
      * Sets path.
+     *
      * @param string $path
      */
     public function setPath(string $path): void
@@ -80,6 +83,7 @@ class FileMailer extends BaseMailer
 
     /**
      * Sets filename callback.
+     *
      * @param callable $callback
      */
     public function setFilenameCallback(callable $callback): void
@@ -88,8 +92,9 @@ class FileMailer extends BaseMailer
     }
 
     /**
-     * @return string the filename for saving the message.
      * @throws Exception
+     *
+     * @return string the filename for saving the message.
      */
     protected function generateMessageFilename(): string
     {

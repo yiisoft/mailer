@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Tests\Event;
 
 use Yiisoft\Mailer\Event\AfterSend;
-use Yiisoft\Mailer\Tests\TestCase;
 use Yiisoft\Mailer\MessageInterface;
+use Yiisoft\Mailer\Tests\TestCase;
 
 class AfterSendTest extends TestCase
 {

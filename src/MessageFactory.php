@@ -14,12 +14,13 @@ use function is_subclass_of;
 class MessageFactory implements MessageFactoryInterface
 {
     /**
-     * @var string $class the message class name.
+     * @var string the message class name.
      */
     private string $class;
 
     /**
      * @param string $class message class name.
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(string $class)

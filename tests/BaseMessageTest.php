@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mailer\Tests;
 
 class BaseMessageTest extends TestCase
@@ -38,7 +40,7 @@ class BaseMessageTest extends TestCase
                 return '';
             }
         };
-        $this->assertEquals('', strval($message));
+        $this->assertEquals('', (string) $message);
         $this->assertCount(1, $this->errors);
         $this->assertEquals(E_USER_ERROR, $this->errors[0]['errno']);
         $this->assertStringContainsString($errstr, $this->errors[0]['errstr']);
