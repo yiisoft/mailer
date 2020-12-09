@@ -100,7 +100,7 @@ class FileMailer extends BaseMailer
     {
         $time = (int) microtime(true);
 
-        return date('Ymd-His-', $time) . sprintf('%04d', (int) (($time - (int) $time) * 10000)) . '-' . sprintf('%04d', random_int(0, 10000)) . '.eml';
+        return date('Ymd-His-', $time) . sprintf('%04d', $time) . '-' . sprintf('%04d', random_int(0, 10000)) . '.eml';
     }
 
     protected function sendMessage(MessageInterface $message): void
