@@ -66,9 +66,6 @@ class TemplateTest extends TestCase
         $this->assertEquals($parameters['testParam'], $renderResult);
     }
 
-    /**
-     * @depends testRender
-     */
     public function testRenderLayout(): void
     {
         $viewPath = $this->getTestFilePath();
@@ -88,9 +85,6 @@ class TemplateTest extends TestCase
         $this->assertEquals('Begin Layout ' . $viewFileContent . ' End Layout', $renderResult);
     }
 
-    /**
-     * @depends testRenderLayout
-     */
     public function testCompose(): void
     {
         $viewPath = $this->getTestFilePath();
@@ -162,7 +156,6 @@ TEXT
 
     /**
      * @dataProvider htmlAndPlainProvider
-     * @depends testCompose
      *
      * @param string $htmlViewFileContent
      * @param string $expectedTextRendering
