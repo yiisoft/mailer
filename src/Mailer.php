@@ -31,16 +31,6 @@ abstract class Mailer implements MailerInterface
     }
 
     /**
-     * Returns a message body renderer instance.
-     *
-     * @return MessageBodyRenderer The message body renderer instance.
-     */
-    public function getMessageBodyRenderer(): MessageBodyRenderer
-    {
-        return $this->messageBodyRenderer;
-    }
-
-    /**
      * Creates a new message instance and optionally composes its body content via view rendering.
      *
      * @param array<string, string>|string|null $view The view to be used for rendering the message body.
