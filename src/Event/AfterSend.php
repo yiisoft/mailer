@@ -9,15 +9,19 @@ use Yiisoft\Mailer\MessageInterface;
 /**
  * AfterSend event is triggered right after sent the message.
  *
- * @see \Yiisoft\Mailer\BaseMailer::afterSend()
+ * @see \Yiisoft\Mailer\Mailer::afterSend()
  */
-class AfterSend extends SendEvent
+final class AfterSend
 {
-    /**
-     * @param MessageInterface $message
-     */
+    private MessageInterface $message;
+
     public function __construct(MessageInterface $message)
     {
         $this->message = $message;
+    }
+
+    public function getMessage(): MessageInterface
+    {
+        return $this->message;
     }
 }
