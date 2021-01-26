@@ -4,58 +4,70 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use ReflectionClass;
 use Yiisoft\Di\Container;
+use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
+use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Mailer\MessageBodyRenderer;
+use Yiisoft\Mailer\MessageFactory;
+use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
+use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
+use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
+use Yiisoft\View\Theme;
+use Yiisoft\View\View;
 
-abstract class TestCase extends BaseTestCase
+use function basename;
+use function dirname;
+use function file_put_contents;
+use function getmypid;
+use function is_dir;
+use function mkdir;
+use function str_replace;
+use function sys_get_temp_dir;
+
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ?ContainerInterface $container = null;
 
     protected function setUp(): void
     {
-        parent::setUp();
-
-        $config = require __DIR__ . '/config.php';
-        $this->container = new Container($config);
+        $this->getContainer();
     }
 
     protected function tearDown(): void
     {
         $this->container = null;
-
-        parent::tearDown();
     }
 
-    protected function get($id)
+    protected function get(string $id)
     {
-        return $this->container->get($id);
+        return $this->getContainer()->get($id);
     }
 
     /**
-     * @return TestMailer mailer instance.
+     * @return DummyMailer mailer instance.
      */
-    protected function getMailer(): TestMailer
+    protected function getMailer(): DummyMailer
     {
         return $this->get(MailerInterface::class);
     }
 
-    /**
-     * Creates a new message instance.
-     *
-     * @return MessageInterface
-     */
-    protected function createMessage(string $subject = 'foo', string $from = 'from@example.com', string $to = 'to@example.com'): MessageInterface
-    {
-        return (new TestMessage())
-            ->setSubject($subject)
-            ->setFrom($from)
-            ->setTo($to);
+    protected function createMessage(
+        string $subject = 'foo',
+        string $from = 'from@example.com',
+        string $to = 'to@example.com'
+    ): MessageInterface {
+        return (new DummyMessage())
+            ->withSubject($subject)
+            ->withFrom($from)
+            ->withTo($to);
     }
 
     /**
@@ -72,17 +84,20 @@ abstract class TestCase extends BaseTestCase
         $this->assertEquals($expected, $actual, $message);
     }
 
-    /**
-     * @return string test file path.
-     */
     protected function getTestFilePath(): string
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . basename(str_replace('\\', '_', static::class)) . '_' . getmypid();
+        return sys_get_temp_dir()
+            . DIRECTORY_SEPARATOR
+            . basename(str_replace('\\', '_', static::class))
+            . '_'
+            . getmypid()
+        ;
     }
 
     protected function saveFile(string $filename, string $data): void
     {
         $path = dirname($filename);
+
         if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
@@ -90,10 +105,86 @@ abstract class TestCase extends BaseTestCase
         file_put_contents($filename, $data);
     }
 
-    protected function getObjectPropertyValue($obj, string $name)
+    /**
+     * Gets an inaccessible object property.
+     *
+     * @param object $object
+     * @param string $propertyName
+     *
+     * @return mixed
+     */
+    protected function getInaccessibleProperty(object $object, string $propertyName)
     {
-        $property = new \ReflectionProperty(get_class($obj), $name);
+        $class = new ReflectionClass($object);
+
+        while (!$class->hasProperty($propertyName)) {
+            $class = $class->getParentClass();
+        }
+
+        $property = $class->getProperty($propertyName);
         $property->setAccessible(true);
-        return $property->getValue($obj);
+        $result = $property->getValue($object);
+        $property->setAccessible(false);
+
+        return $result;
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        if ($this->container === null) {
+            $tempDir = $this->getTestFilePath();
+
+            $this->container = new Container([
+                ListenerProviderInterface::class => function () {
+                    return new class() implements ListenerProviderInterface {
+                        private array $listeners = [];
+
+                        public function getListenersForEvent(object $event): iterable
+                        {
+                            return $this->listeners[get_class($event)] ?? [];
+                        }
+
+                        public function attach(callable $callback, string $eventName): void
+                        {
+                            $this->listeners[$eventName][] = $callback;
+                        }
+                    };
+                },
+
+                Theme::class => [
+                    '__class' => Theme::class,
+                ],
+
+                View::class => [
+                    '__class' => View::class,
+                    '__construct()' => [
+                        'basePath' => $tempDir,
+                    ],
+                ],
+
+                MessageFactoryInterface::class => [
+                    '__class' => MessageFactory::class,
+                    '__construct()' => [
+                        'class' => DummyMessage::class,
+                    ],
+                ],
+
+                MessageBodyRenderer::class => [
+                    '__class' => MessageBodyRenderer::class,
+                    '__construct()' => [
+                        'view' => Reference::to(View::class),
+                        'viewPath' => $tempDir,
+                        'htmlLayout' => '',
+                        'textLayout' => '',
+                    ],
+                ],
+
+                LoggerInterface::class => NullLogger::class,
+                MailerInterface::class => DummyMailer::class,
+                EventDispatcherInterface::class => Dispatcher::class,
+            ]);
+        }
+
+        return $this->container;
     }
 }

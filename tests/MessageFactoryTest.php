@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use InvalidArgumentException;
 use Yiisoft\Mailer\MessageFactory;
-use Yiisoft\Mailer\MessageInterface;
+use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
 
-class MessageFactoryTest extends TestCase
+final class MessageFactoryTest extends TestCase
 {
-    public function testSetup(): void
+    public function testCreate(): void
     {
-        $factory = new MessageFactory(TestMessage::class);
-        $this->assertInstanceOf(TestMessage::class, $factory->create($this->getMailer()));
+        $factory = new MessageFactory(DummyMessage::class);
+        $this->assertInstanceOf(DummyMessage::class, $factory->create($this->getMailer()));
     }
 
-    public function testInvalidClass(): void
+    public function testConstructorThrowExceptionForInvalidMessageClass(): void
     {
-        $className = self::class;
-        $this->expectExceptionObject(new \Exception('Class ' . $className . ' does not implement ' . MessageInterface::class));
-        new MessageFactory($className);
+        $this->expectException(InvalidArgumentException::class);
+        new MessageFactory(self::class);
     }
 }

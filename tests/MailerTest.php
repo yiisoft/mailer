@@ -6,13 +6,15 @@ namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Log\LoggerInterface;
-use Yiisoft\Mailer\Composer;
 use Yiisoft\Mailer\Event\BeforeSend;
+use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
+use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 
-class BaseMailerTest extends TestCase
+use function strip_tags;
+
+final class MailerTest extends TestCase
 {
     public function testCompose(): void
     {
@@ -26,35 +28,32 @@ class BaseMailerTest extends TestCase
         $mailer = $this->getMailer();
         $viewPath = $this->getTestFilePath();
 
-        $composer = $mailer->getComposer();
-        $composer->setViewPath($viewPath);
-        $composer->setHtmlLayout('');
-        $composer->setTextLayout('');
-
-        $htmlViewName = 'test_html_view';
+        $htmlViewName = 'test-html-view';
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
-        $htmlViewFileContent = 'HTML <b>view file</b> content';
+        $htmlViewFileContent = 'HTML <b>view file</b> content.';
         $this->saveFile($htmlViewFileName, $htmlViewFileContent);
 
-        $textViewName = 'test_text_view';
+        $textViewName = 'test-text-view';
         $textViewFileName = $viewPath . DIRECTORY_SEPARATOR . $textViewName . '.php';
-        $textViewFileContent = 'Plain text view file content';
+        $textViewFileContent = 'Plain text view file content.';
         $this->saveFile($textViewFileName, $textViewFileContent);
 
         $message = $mailer->compose([
             'html' => $htmlViewName,
             'text' => $textViewName,
         ]);
-        $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
-        $this->assertEquals($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
+        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
+        $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
 
         $message = $mailer->compose($htmlViewName);
-        $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
-        $this->assertEquals(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
+        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
+        $this->assertSame(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
     }
 
     /**
      * @dataProvider messagesProvider
+     *
+     * @param array $messages
      */
     public function testSendMultiple(array $messages): void
     {
@@ -66,7 +65,7 @@ class BaseMailerTest extends TestCase
     {
         return [
             [[]],
-            [[$this->createMessage('foo')]],
+            [[$this->createMessage()]],
             [[$this->createMessage('bar'), $this->createMessage('baz')]],
         ];
     }
@@ -75,11 +74,11 @@ class BaseMailerTest extends TestCase
     {
         $mailer = $this->getMailer();
         $messages = [$this->createMessage(''), $this->createMessage()];
-        /** @var MessageInterface[] $failed */
         $failed = $mailer->sendMultiple($messages);
+
         $this->assertCount(1, $failed);
-        $this->assertEquals($messages[0], $failed[0]);
-        $this->assertEquals(new InvalidArgumentException("Message's subject is required"), $failed[0]->getError());
+        $this->assertInstanceOf(InvalidArgumentException::class, $failed[0]->getError());
+        $this->assertSame("Message's subject is required.", $failed[0]->getError()->getMessage());
     }
 
     public function testBeforeSend(): void
@@ -87,11 +86,10 @@ class BaseMailerTest extends TestCase
         $message = $this->createMock(MessageInterface::class);
         $event = new BeforeSend($message);
         $messageFactory = $this->createMock(MessageFactoryInterface::class);
-        $composer = $this->createMock(Composer::class);
-        $logger = $this->createMock(LoggerInterface::class);
+        $messageBodyRenderer = $this->get(MessageBodyRenderer::class);
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $eventDispatcher->method('dispatch')->willReturn($event);
-        $mailer = new TestMailer($messageFactory, $composer, $eventDispatcher, $logger, '');
+        $mailer = new DummyMailer($messageFactory, $messageBodyRenderer, $eventDispatcher);
 
         $this->assertTrue($mailer->beforeSend($message));
         $event->stopPropagation();
