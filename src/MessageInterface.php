@@ -266,9 +266,6 @@ interface MessageInterface
      * - fileName: name, which should be used to attach file.
      * - contentType: attached file MIME type.
      *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST create an instance that has the new attached existing file.
-     *
      * @return string The attachment CID.
      */
     public function embed(string $fileName, array $options = []): string;
@@ -283,9 +280,6 @@ interface MessageInterface
      *
      * - fileName: name, which should be used to attach file.
      * - contentType: attached file MIME type.
-     *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST create an instance that has the new attached content as file.
      *
      * @return string The attachment CID.
      */
