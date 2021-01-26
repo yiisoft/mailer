@@ -16,7 +16,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="Yii Mailer">
+        <testsuite name="Yii Mailer Library">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

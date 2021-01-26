@@ -32,7 +32,7 @@
     },
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
-        "yiisoft/mailer-swiftmailer": "Yii Mailer Library - Swift Mailer Integration"
+        "yiisoft/mailer-swiftmailer": "Yii Mailer Library - Swift Mailer Extension"
     },
     "autoload": {
         "psr-4": {
