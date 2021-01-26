@@ -186,25 +186,6 @@ interface MessageInterface
     public function withSubject(string $subject): self;
 
     /**
-     * Returns the message text body.
-     *
-     * @return string The message text body.
-     */
-    public function getTextBody(): string;
-
-    /**
-     * Returns a new instance with the specified message plain text content.
-     *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new message plain text content.
-     *
-     * @param string $text The message plain text content.
-     *
-     * @return self
-     */
-    public function withTextBody(string $text): self;
-
-    /**
      * Returns the message HTML body.
      *
      * @return string The message HTML body.
@@ -222,6 +203,25 @@ interface MessageInterface
      * @return self
      */
     public function withHtmlBody(string $html): self;
+
+    /**
+     * Returns the message text body.
+     *
+     * @return string The message text body.
+     */
+    public function getTextBody(): string;
+
+    /**
+     * Returns a new instance with the specified message plain text content.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has the new message plain text content.
+     *
+     * @param string $text The message plain text content.
+     *
+     * @return self
+     */
+    public function withTextBody(string $text): self;
 
     /**
      * Returns a new instance with the specified attached existing file.
@@ -341,11 +341,11 @@ interface MessageInterface
     public function withHeaders(array $headers): self;
 
     /**
-     * Returns error represents why send fails.
+     * Returns error represents why send fails, or null on a successful send.
      *
-     * @return Throwable
+     * @return Throwable|null
      */
-    public function getError(): Throwable;
+    public function getError(): ?Throwable;
 
     /**
      * Returns a new instance with the specified send fails error.
