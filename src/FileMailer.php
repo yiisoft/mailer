@@ -52,8 +52,7 @@ final class FileMailer extends Mailer
      * @param callable|null $filenameCallback A PHP callback that return
      * a file name which will be used to save the email message.
      */
-    public function __construct
-    (
+    public function __construct(
         MessageFactoryInterface $messageFactory,
         MessageBodyRenderer $messageBodyRenderer,
         EventDispatcherInterface $eventDispatcher,

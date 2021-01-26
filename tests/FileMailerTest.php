@@ -46,7 +46,7 @@ final class FileMailerTest extends TestCase
             'without-message' => [static fn () => "test-file-{$time}.txt", "test-file-{$time}.txt"],
             'with-message' => [
                 static fn (MessageInterface $message) => "{$message->getFrom()}-{$time}.txt",
-                "from@example.com-{$time}.txt"
+                "from@example.com-{$time}.txt",
             ],
         ];
     }

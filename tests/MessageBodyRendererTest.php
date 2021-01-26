@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use RuntimeException;
+use stdClass;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\View\View;
 
@@ -168,6 +170,35 @@ TEXT
         $message = $renderer->addToMessage($this->createMessage(), $htmlViewName);
         $this->assertEqualsWithoutLE($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
         $this->assertEqualsWithoutLE($expectedTextRendering, $message->getTextBody(), 'Unable to render text!');
+
+        $message = $renderer->addToMessage($this->createMessage(), ['html' => $htmlViewName]);
+        $this->assertEqualsWithoutLE($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
+        $this->assertEqualsWithoutLE($expectedTextRendering, $message->getTextBody(), 'Unable to render text!');
+    }
+
+    public function invalidViewProvider(): array
+    {
+        return [
+            'int' => [1],
+            'float' => [1.1],
+            'bool' => [true],
+            'object' => [new stdClass()],
+            'callable' => [static fn () => 'view'],
+            'array-without-required-keys' => [['json' => 'json-view', 'xml' => 'xml-view']],
+            'empty-array' => [[]],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidViewProvider
+     *
+     * @param mixed $view
+     */
+    public function testAddToMessageThrowExceptionForInvalidView($view): void
+    {
+        $renderer = $this->createRenderer($this->getTestFilePath(), '', '');
+        $this->expectException(RuntimeException::class);
+        $renderer->addToMessage($this->createMessage(), $view);
     }
 
     /**
