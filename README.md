@@ -16,8 +16,29 @@
 [![type-coverage](https://shepherd.dev/github/yiisoft/mailer/coverage.svg)](https://shepherd.dev/github/yiisoft/mailer)
 
 
-Mailer implementations
-======================
+This package provides only the content composition functionality and basic interface.
+Actual mail sending mechanism should be provided by the extension, because different projects may require its different
+implementation, and it usually depends on the external services and libraries.
+
+## General usage
+
+In all implementations, the following code can be used when sending mail:
+
+```php
+/**
+ * @var \Yiisoft\Mailer\MailerInterface $mailer
+ */
+
+$mailer->compose()
+    ->withFrom('from@domain.com')
+    ->withTo('to@domain.com')
+    ->withSubject('Message subject')
+    ->withTextBody('Plain text content')
+    ->withHtmlBody('<b>HTML content</b>')
+    ->send();
+```
+
+### Mailer implementations
 
 - [Swift Mailer](https://github.com/yiisoft/mailer-swiftmailer)
 
