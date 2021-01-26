@@ -17,6 +17,9 @@ use function preg_replace;
 use function strip_tags;
 use function trim;
 
+use const ENT_HTML5;
+use const ENT_QUOTES;
+
 final class MessageBodyRenderer implements ViewContextInterface
 {
     /**
@@ -104,7 +107,7 @@ final class MessageBodyRenderer implements ViewContextInterface
 
         if (!is_array($view) || (!isset($view['html']) && !isset($view['text']))) {
             throw new RuntimeException(
-                'The "$view" parameter must be a string or array with the "text" and "html" keys.',
+                'The "$view" parameter must be a string or array with at least one "txt" or "html" key.',
             );
         }
 
