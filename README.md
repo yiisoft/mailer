@@ -29,14 +29,17 @@ In all implementations, the following code can be used when sending mail:
  * @var \Yiisoft\Mailer\MailerInterface $mailer
  */
 
-$mailer->compose()
+$message = $mailer->compose()
     ->withFrom('from@domain.com')
     ->withTo('to@domain.com')
     ->withSubject('Message subject')
     ->withTextBody('Plain text content')
     ->withHtmlBody('<b>HTML content</b>')
-    ->send();
+;
+$mailer->send($message);
 ```
+
+See [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/runtime/mailing.md) for more info.
 
 ### Mailer implementations
 

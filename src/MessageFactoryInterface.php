@@ -12,9 +12,7 @@ interface MessageFactoryInterface
     /**
      * Creates a new message instance.
      *
-     * @param MailerInterface $mailer The mailer instance.
-     *
      * @return MessageInterface The message instance.
      */
-    public function create(MailerInterface $mailer): MessageInterface;
+    public function create(): MessageInterface;
 }

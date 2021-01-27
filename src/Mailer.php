@@ -125,7 +125,7 @@ abstract class Mailer implements MailerInterface
      */
     protected function createMessage(): MessageInterface
     {
-        return $this->messageFactory->create($this);
+        return $this->messageFactory->create();
     }
 
     /**

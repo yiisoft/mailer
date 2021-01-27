@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests\TestAsset;
 
 use Throwable;
-use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageInterface;
 
 use function json_encode;
 
 final class DummyMessage implements MessageInterface
 {
-    private ?MailerInterface $mailer = null;
     private string $charset = '';
     private string $from = '';
     private string $to = '';
@@ -23,13 +21,6 @@ final class DummyMessage implements MessageInterface
     private string $htmlBody = '';
     private string $textBody = '';
     private ?Throwable $error = null;
-
-    public function withMailer(MailerInterface $mailer): self
-    {
-        $new = clone $this;
-        $new->mailer = $mailer;
-        return $new;
-    }
 
     public function getCharset(): string
     {
@@ -189,11 +180,6 @@ final class DummyMessage implements MessageInterface
         $new = clone $this;
         $new->error = $e;
         return $new;
-    }
-
-    public function send(): void
-    {
-        $this->mailer->send($this);
     }
 
     public function __toString(): string

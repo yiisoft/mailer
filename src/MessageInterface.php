@@ -14,29 +14,18 @@ use Throwable;
  * Messages are sent by a {@see \Yiisoft\Mailer\MailerInterface}, like the following:
  *
  * ```php
- * $mailer->compose()
+ * $message = $mailer->compose()
  *     ->withFrom('from@domain.com')
- *     ->withTo($form->email)
- *     ->withSubject($form->subject)
+ *     ->withTo('to@domain.com')
+ *     ->withSubject('Message subject')
  *     ->withTextBody('Plain text content')
  *     ->withHtmlBody('<b>HTML content</b>')
- *     ->send();
+ * ;
+ * $mailer->send($message);
  * ```
  */
 interface MessageInterface
 {
-    /**
-     * Returns a new instance with the specified mailer instance.
-     *
-     * @param MailerInterface $mailer The mailer instance.
-     *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new mailer instance.
-     *
-     * @return self
-     */
-    public function withMailer(MailerInterface $mailer): self;
-
     /**
      * Returns the charset of this message.
      *
@@ -352,13 +341,6 @@ interface MessageInterface
      * @return self
      */
     public function withError(Throwable $e): self;
-
-    /**
-     * Sends this email message.
-     *
-     * @throws Throwable If the send fails.
-     */
-    public function send(): void;
 
     /**
      * Returns string representation of this message.

@@ -13,7 +13,7 @@ final class MessageFactoryTest extends TestCase
     public function testCreate(): void
     {
         $factory = new MessageFactory(DummyMessage::class);
-        $this->assertInstanceOf(DummyMessage::class, $factory->create($this->getMailer()));
+        $this->assertInstanceOf(DummyMessage::class, $factory->create());
     }
 
     public function testConstructorThrowExceptionForInvalidMessageClass(): void

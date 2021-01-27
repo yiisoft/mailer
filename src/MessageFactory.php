@@ -39,10 +39,8 @@ final class MessageFactory implements MessageFactoryInterface
         $this->class = $class;
     }
 
-    public function create(MailerInterface $mailer): MessageInterface
+    public function create(): MessageInterface
     {
-        /** @var MessageInterface $message */
-        $message = new $this->class();
-        return $message->withMailer($mailer);
+        return new $this->class();
     }
 }

@@ -15,13 +15,14 @@ use Throwable;
  * For example:
  *
  * ```php
- * $mailer->compose()
+ * $message = $mailer->compose()
  *     ->withFrom('from@domain.com')
- *     ->withTo($form->email)
- *     ->withSubject($form->subject)
+ *     ->withTo('to@domain.com')
+ *     ->withSubject('Message subject')
  *     ->withTextBody('Plain text content')
  *     ->withHtmlBody('<b>HTML content</b>')
- *     ->send();
+ * ;
+ * $mailer->send($message);
  * ```
  */
 interface MailerInterface
