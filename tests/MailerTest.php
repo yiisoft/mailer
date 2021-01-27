@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Mailer\Event\BeforeSend;
+use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
@@ -18,14 +19,14 @@ final class MailerTest extends TestCase
 {
     public function testCompose(): void
     {
-        $mailer = $this->getMailer();
+        $mailer = $this->get(MailerInterface::class);
         $message = $mailer->compose();
         $this->assertInstanceOf(MessageInterface::class, $message);
     }
 
     public function testComposeWithView(): void
     {
-        $mailer = $this->getMailer();
+        $mailer = $this->get(MailerInterface::class);
         $viewPath = $this->getTestFilePath();
 
         $htmlViewName = 'test-html-view';
@@ -57,8 +58,9 @@ final class MailerTest extends TestCase
      */
     public function testSendMultiple(array $messages): void
     {
-        $mailer = $this->getMailer();
+        $mailer = $this->get(MailerInterface::class);
         $this->assertCount(0, $mailer->sendMultiple($messages));
+        $this->assertSame($messages, $mailer->sentMessages);
     }
 
     public function messagesProvider(): array
@@ -72,7 +74,7 @@ final class MailerTest extends TestCase
 
     public function testSendMultipleExceptions(): void
     {
-        $mailer = $this->getMailer();
+        $mailer = $this->get(MailerInterface::class);
         $messages = [$this->createMessage(''), $this->createMessage()];
         $failed = $mailer->sendMultiple($messages);
 
@@ -94,6 +96,9 @@ final class MailerTest extends TestCase
         $this->assertTrue($mailer->beforeSend($message));
         $event->stopPropagation();
         $this->assertFalse($mailer->beforeSend($message));
+
+        $this->assertSame([], $mailer->sentMessages);
         $mailer->send($message);
+        $this->assertSame([], $mailer->sentMessages);
     }
 }

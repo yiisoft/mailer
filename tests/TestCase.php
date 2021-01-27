@@ -12,6 +12,7 @@ use Psr\Log\NullLogger;
 use ReflectionClass;
 use Yiisoft\Di\Container;
 use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
+use Yiisoft\EventDispatcher\Provider\Provider;
 use Yiisoft\Factory\Definitions\Reference;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
@@ -49,14 +50,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function get(string $id)
     {
         return $this->getContainer()->get($id);
-    }
-
-    /**
-     * @return DummyMailer mailer instance.
-     */
-    protected function getMailer(): DummyMailer
-    {
-        return $this->get(MailerInterface::class);
     }
 
     protected function createMessage(
@@ -135,22 +128,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $tempDir = $this->getTestFilePath();
 
             $this->container = new Container([
-                ListenerProviderInterface::class => function () {
-                    return new class() implements ListenerProviderInterface {
-                        private array $listeners = [];
-
-                        public function getListenersForEvent(object $event): iterable
-                        {
-                            return $this->listeners[get_class($event)] ?? [];
-                        }
-
-                        public function attach(callable $callback, string $eventName): void
-                        {
-                            $this->listeners[$eventName][] = $callback;
-                        }
-                    };
-                },
-
                 Theme::class => [
                     '__class' => Theme::class,
                 ],
@@ -182,6 +159,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 LoggerInterface::class => NullLogger::class,
                 MailerInterface::class => DummyMailer::class,
                 EventDispatcherInterface::class => Dispatcher::class,
+                ListenerProviderInterface::class => Provider::class,
             ]);
         }
 
