@@ -16,13 +16,16 @@
 [![type-coverage](https://shepherd.dev/github/yiisoft/mailer/coverage.svg)](https://shepherd.dev/github/yiisoft/mailer)
 
 
-This package provides only the content composition functionality and basic interface.
-Actual mail sending mechanism should be provided by the extension, because different projects may require its different
-implementation, and it usually depends on the external services and libraries.
+The package provides the content composition functionality, and a basic interface for sending emails.
+Actual mail sending is provided by separate interchangeable packages.
+
+Out of the box the package profiles a file mailer that, instead of actually sending an email,
+writes its contents into a file. There is also [SwiftMailer-based official driver available](https://github.com/yiisoft/mailer-swiftmailer)
+as a separate package that actually can send emails.
 
 ## General usage
 
-In all implementations, the following code can be used when sending mail:
+The following code can be used to send an email:
 
 ```php
 /**

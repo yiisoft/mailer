@@ -7,10 +7,10 @@ namespace Yiisoft\Mailer;
 use Throwable;
 
 /**
- * MailerInterface is the interface that should be implemented by mailer classes.
+ * MailerInterface is the interface that should be implemented by mailers.
  *
- * A mailer should mainly support creating and sending {@see \Yiisoft\Mailer\MessageInterface}.
- * It should also support composition of the message body through the view rendering mechanism.
+ * A mailer should support composition of a {@see \Yiisoft\Mailer\MessageInterface} body through the view
+ * rendering mechanism and sending one or multiple {@see \Yiisoft\Mailer\MessageInterface}.
  *
  * For example:
  *
@@ -47,7 +47,7 @@ interface MailerInterface
     /**
      * Sends the given email message.
      *
-     * @param MessageInterface $message The email message instance to be sent
+     * @param MessageInterface $message The email message instance to be sent.
      *
      * @throws Throwable If sending failed.
      */

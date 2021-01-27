@@ -20,6 +20,9 @@ use function trim;
 use const ENT_HTML5;
 use const ENT_QUOTES;
 
+/**
+ * View renderer used to compose message body.
+ */
 final class MessageBodyRenderer implements ViewContextInterface
 {
     /**

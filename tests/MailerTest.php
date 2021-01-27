@@ -43,11 +43,11 @@ final class MailerTest extends TestCase
             'html' => $htmlViewName,
             'text' => $textViewName,
         ]);
-        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
+        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render HTML!');
         $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
 
         $message = $mailer->compose($htmlViewName);
-        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
+        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render HTML by direct view!');
         $this->assertSame(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
     }
 
