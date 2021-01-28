@@ -7,8 +7,6 @@ namespace Yiisoft\Mailer\Tests;
 use RuntimeException;
 use Yiisoft\Mailer\File;
 
-use function dirname;
-
 class FileTest extends TestCase
 {
     public function testFromContent(): void
@@ -63,6 +61,6 @@ class FileTest extends TestCase
     public function testFromPathThrowExceptionIfFileIsDirectory(): void
     {
         $this->expectException(RuntimeException::class);
-        File::fromPath(dirname(__FILE__));
+        File::fromPath(__DIR__);
     }
 }

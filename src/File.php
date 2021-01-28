@@ -92,9 +92,9 @@ final class File
     /**
      * Returns the file ID.
      *
-     * @return string The file ID.
-     *
      * @throws Exception {@see https://www.php.net/manual/en/function.random-bytes.php}
+     *
+     * @return string The file ID.
      */
     public function id(): string
     {
@@ -108,9 +108,9 @@ final class File
     /**
      * Returns the file CID source.
      *
-     * @return string The file CID source.
-     *
      * @throws Exception {@see https://www.php.net/manual/en/function.random-bytes.php}
+     *
+     * @return string The file CID source.
      */
     public function cid(): string
     {
