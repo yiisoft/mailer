@@ -213,66 +213,30 @@ interface MessageInterface
     public function withTextBody(string $text): self;
 
     /**
-     * Returns a new instance with the specified attached existing file.
-     *
-     * @param string $fileName The full file name.
-     * @param array $options The options for attached file. Valid options are:
-     *
-     * - fileName: name, which should be used to attach file.
-     * - contentType: attached file MIME type.
+     * Returns a new instance with the specified attached file.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new attached existing file.
+     * and MUST return an instance that has the new attached file.
+     *
+     * @param File $file The file instance.
      *
      * @return self
      */
-    public function withAttached(string $fileName, array $options = []): self;
+    public function withAttached(File $file): self;
 
     /**
-     * Returns a new instance with the specified attached content as file.
+     * Returns a new instance with the specified embedded file.
      *
-     * @param string $content The content of the attached file.
-     * @param array $options The options for attached file. Valid options are:
-     *
-     * - fileName: name, which should be used to attach file.
-     * - contentType: attached file MIME type.
+     * This method should be used when embedding images or other data in a message.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new attached content as file.
+     * and MUST return an instance that has the new embedded file.
+     *
+     * @param File $file The file instance.
      *
      * @return self
      */
-    public function withAttachedContent(string $content, array $options = []): self;
-
-    /**
-     * Attach a file and return it's CID source.
-     *
-     * This method should be used when embedding images or other data in a message.
-     *
-     * @param string $fileName The full file name.
-     * @param array $options The options for embed file. Valid options are:
-     *
-     * - fileName: name, which should be used to attach file.
-     * - contentType: attached file MIME type.
-     *
-     * @return string The attachment CID.
-     */
-    public function embed(string $fileName, array $options = []): string;
-
-    /**
-     * Attach a content as file and return it's CID source.
-     *
-     * This method should be used when embedding images or other data in a message.
-     *
-     * @param string $content The attachment file content.
-     * @param array $options The options for embed file. Valid options are:
-     *
-     * - fileName: name, which should be used to attach file.
-     * - contentType: attached file MIME type.
-     *
-     * @return string The attachment CID.
-     */
-    public function embedContent(string $content, array $options = []): string;
+    public function withEmbedded(File $file): self;
 
     /**
      * Returns all values for the specified header.

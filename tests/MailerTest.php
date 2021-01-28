@@ -7,12 +7,14 @@ namespace Yiisoft\Mailer\Tests;
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Mailer\Event\BeforeSend;
+use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 
+use function basename;
 use function strip_tags;
 
 final class MailerTest extends TestCase
@@ -49,6 +51,22 @@ final class MailerTest extends TestCase
         $message = $mailer->compose($htmlViewName);
         $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render HTML by direct view!');
         $this->assertSame(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
+    }
+
+    public function testComposeWithViewAndWithEmbedFile(): void
+    {
+        $mailer = $this->get(MailerInterface::class);
+        $viewPath = $this->getTestFilePath();
+
+        $textViewName = 'test-text-view';
+        $textViewFileName = $viewPath . DIRECTORY_SEPARATOR . $textViewName . '.php';
+        $file = File::fromPath(__FILE__, basename($textViewFileName), 'application/x-php');
+        $textViewFileContent = "Embed image: {$file->cid()}";
+        $this->saveFile($textViewFileName, $textViewFileContent);
+
+        $message = $mailer->compose(['text' => $textViewName])->withEmbedded($file);
+
+        $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
     }
 
     /**

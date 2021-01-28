@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests\TestAsset;
 
 use Throwable;
+use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MessageInterface;
 
 use function json_encode;
@@ -130,24 +131,14 @@ final class DummyMessage implements MessageInterface
         return $new;
     }
 
-    public function withAttached(string $fileName, array $options = []): self
+    public function withAttached(File $file): self
     {
-        return $this;
+        return clone $this;
     }
 
-    public function withAttachedContent(string $content, array $options = []): self
+    public function withEmbedded(File $file): self
     {
-        return $this;
-    }
-
-    public function embed(string $fileName, array $options = []): string
-    {
-        return '';
-    }
-
-    public function embedContent(string $content, array $options = []): string
-    {
-        return '';
+        return clone $this;
     }
 
     public function getHeader(string $name): array
