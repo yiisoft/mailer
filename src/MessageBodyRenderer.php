@@ -93,7 +93,10 @@ final class MessageBodyRenderer implements ViewContextInterface
      * - an array with 'html' and/or 'text' elements. The 'html' element refers to the view name
      *   for rendering the HTML body, while 'text' element is for rendering the text body.
      *   For example, `['html' => 'contact-html', 'text' => 'contact-text']`.
-     * @param array $parameters The parameters (name-value pairs) that will be extracted and available in the view file.
+     * @param array $viewParameters The parameters (name-value pairs)
+     * that will be extracted and available in the view file.
+     * @param array $layoutParameters The parameters (name-value pairs)
+     * that will be extracted and available in the layout file.
      *
      * @throws Throwable If an error occurred during rendering.
      *
@@ -101,10 +104,14 @@ final class MessageBodyRenderer implements ViewContextInterface
      *
      * @psalm-suppress MixedArgument
      */
-    public function addToMessage(MessageInterface $message, $view, array $parameters = []): MessageInterface
-    {
+    public function addToMessage(
+        MessageInterface $message,
+        $view,
+        array $viewParameters = [],
+        array $layoutParameters = []
+    ): MessageInterface {
         if (is_string($view)) {
-            $html = $this->renderHtml($view, $parameters);
+            $html = $this->renderHtml($view, $viewParameters, $layoutParameters);
             return $message->withHtmlBody($html)->withTextBody($this->generateTextBodyFromHtml($html));
         }
 
@@ -115,12 +122,12 @@ final class MessageBodyRenderer implements ViewContextInterface
         }
 
         if (isset($view['html'])) {
-            $html = $this->renderHtml($view['html'], $parameters);
+            $html = $this->renderHtml($view['html'], $viewParameters, $layoutParameters);
             $message = $message->withHtmlBody($html);
         }
 
         if (isset($view['text'])) {
-            $text = $this->renderText($view['text'], $parameters);
+            $text = $this->renderText($view['text'], $viewParameters, $layoutParameters);
             $message = $message->withTextBody($text);
         }
 
@@ -135,7 +142,10 @@ final class MessageBodyRenderer implements ViewContextInterface
      * Renders the HTML view specified with optional parameters and layout.
      *
      * @param string $view The view name of the view file.
-     * @param array $parameters The parameters (name-value pairs) that will be extracted and available in the view file.
+     * @param array $viewParameters The parameters (name-value pairs)
+     * that will be extracted and available in the view file.
+     * @param array $layoutParameters The parameters (name-value pairs)
+     * that will be extracted and available in the layout file.
      *
      * @throws Throwable If an error occurred during rendering.
      *
@@ -143,22 +153,26 @@ final class MessageBodyRenderer implements ViewContextInterface
      *
      * @return string The rendering HTML result.
      */
-    public function renderHtml(string $view, array $parameters = []): string
+    public function renderHtml(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
-        $content = $this->view->render($view, $parameters, $this);
+        $content = $this->view->render($view, $viewParameters, $this);
 
         if ($this->htmlLayout === '') {
             return $content;
         }
 
-        return $this->view->render($this->htmlLayout, ['content' => $content], $this);
+        $layoutParameters['content'] = $content;
+        return $this->view->render($this->htmlLayout, $layoutParameters, $this);
     }
 
     /**
      * Renders the TEXT view specified with optional parameters and layout.
      *
      * @param string $view The view name of the view file.
-     * @param array $parameters The parameters (name-value pairs) that will be extracted and available in the view file.
+     * @param array $viewParameters The parameters (name-value pairs)
+     * that will be extracted and available in the view file.
+     * @param array $layoutParameters The parameters (name-value pairs)
+     * that will be extracted and available in the layout file.
      *
      * @throws Throwable If an error occurred during rendering.
      *
@@ -166,15 +180,16 @@ final class MessageBodyRenderer implements ViewContextInterface
      *
      * @return string The rendering TEXT result.
      */
-    public function renderText(string $view, array $parameters = []): string
+    public function renderText(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
-        $content = $this->view->render($view, $parameters, $this);
+        $content = $this->view->render($view, $viewParameters, $this);
 
         if ($this->textLayout === '') {
             return $content;
         }
 
-        return $this->view->render($this->textLayout, ['content' => $content], $this);
+        $layoutParameters['content'] = $content;
+        return $this->view->render($this->textLayout, $layoutParameters, $this);
     }
 
     /**

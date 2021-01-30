@@ -38,11 +38,14 @@ interface MailerInterface
      *   for rendering the HTML body, while 'text' element is for rendering the text body. For example,
      *   `['html' => 'contact-html', 'text' => 'contact-text']`.
      * - null, meaning the message instance will be returned without body content.
-     * @param array $parameters The parameters (name-value pairs) that will be extracted and available in the view file.
+     * @param array $viewParameters The parameters (name-value pairs)
+     * that will be extracted and available in the view file.
+     * @param array $layoutParameters The parameters (name-value pairs)
+     * that will be extracted and available in the layout file.
      *
      * @return MessageInterface The message instance.
      */
-    public function compose($view = null, array $parameters = []): MessageInterface;
+    public function compose($view = null, array $viewParameters = [], array $layoutParameters = []): MessageInterface;
 
     /**
      * Sends the given email message.
