@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer;
 
 /**
- * MessageFactoryInterface defines interfaces how to create a message instance.
+ * A factory that creates a mail message instance.
  */
 interface MessageFactoryInterface
 {
     /**
      * Creates a new message instance.
      *
-     * @param MailerInterface $mailer mailer instance.
-     *
-     * @return MessageInterface
+     * @return MessageInterface The message instance.
      */
-    public function create(MailerInterface $mailer): MessageInterface;
+    public function create(): MessageInterface;
 }

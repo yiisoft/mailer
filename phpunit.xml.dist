@@ -10,14 +10,13 @@
          convertWarningsToExceptions="true"
          stopOnFailure="false"
          executionOrder="random"
-         resolveDependencies="true">
-
+>
     <php>
         <ini name="error_reporting" value="-1"/>
     </php>
 
     <testsuites>
-        <testsuite name="Mailer">
+        <testsuite name="Yii Mailer Library">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

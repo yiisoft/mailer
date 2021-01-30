@@ -1,7 +1,7 @@
 {
     "name": "yiisoft/mailer",
     "type": "library",
-    "description": "Yii Mailer",
+    "description": "Yii Mailer Library",
     "keywords": [
         "yii",
         "mailer"
@@ -19,21 +19,19 @@
     "require": {
         "php": "^7.4|^8.0",
         "psr/event-dispatcher": "^1.0",
-        "psr/log": "^1.1",
         "yiisoft/view": "^3.0@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4",
         "roave/infection-static-analysis-plugin": "^1.5",
         "spatie/phpunit-watcher": "^1.23",
-        "vimeo/psalm": "^4.2",
+        "vimeo/psalm": "^4.4",
         "yiisoft/di": "^3.0@dev",
-        "yiisoft/event-dispatcher": "^3.0@dev",
-        "yiisoft/log": "^3.0@dev"
+        "yiisoft/event-dispatcher": "^3.0@dev"
     },
     "suggest": {
-        "yiisoft/event-dispatcher": "Yii event dispatcher",
-        "yiisoft/log": "Yii logging library"
+        "yiisoft/event-dispatcher": "Yii Event Dispatcher",
+        "yiisoft/mailer-swiftmailer": "Yii Mailer Library - Swift Mailer Extension"
     },
     "autoload": {
         "psr-4": {

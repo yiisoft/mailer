@@ -7,35 +7,40 @@ namespace Yiisoft\Mailer;
 use InvalidArgumentException;
 
 use function is_subclass_of;
+use function sprintf;
 
 /**
- * Class MessageFactory that implements MessageFactoryInterface
+ * MessageFactory creates an instance of the mail message.
  */
-class MessageFactory implements MessageFactoryInterface
+final class MessageFactory implements MessageFactoryInterface
 {
     /**
-     * @var string the message class name.
+     * @var string The message class name.
+     *
+     * @psalm-var class-string<MessageInterface>
      */
     private string $class;
 
     /**
-     * @param string $class message class name.
+     * @param string $class The message class name.
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException If the class does not implement `MessageInterface`.
      */
     public function __construct(string $class)
     {
         if (!is_subclass_of($class, MessageInterface::class)) {
-            throw new InvalidArgumentException('Class ' . $class . ' does not implement ' . MessageInterface::class);
+            throw new InvalidArgumentException(sprintf(
+                'Class "%s" does not implement "%s".',
+                $class,
+                MessageInterface::class,
+            ));
         }
 
         $this->class = $class;
     }
 
-    public function create(MailerInterface $mailer): MessageInterface
+    public function create(): MessageInterface
     {
-        /** @var MessageInterface $message */
-        $message = new $this->class();
-        return $message->setMailer($mailer);
+        return new $this->class();
     }
 }
