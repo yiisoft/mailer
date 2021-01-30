@@ -44,13 +44,16 @@ abstract class Mailer implements MailerInterface
      *
      * The view to be rendered can be specified in one of the following formats:
      * - a relative view name (e.g. "contact") located under {@see MessageBodyRenderer::$viewPath}.
-     * @param array $parameters The parameters (name-value pairs) that will be extracted and available in the view file.
+     * @param array $viewParameters The parameters (name-value pairs)
+     * that will be extracted and available in the view file.
+     * @param array $layoutParameters The parameters (name-value pairs)
+     * that will be extracted and available in the layout file.
      *
      * @throws Throwable If an error occurred during rendering.
      *
      * @return MessageInterface The message instance.
      */
-    public function compose($view = null, array $parameters = []): MessageInterface
+    public function compose($view = null, array $viewParameters = [], array $layoutParameters = []): MessageInterface
     {
         $message = $this->createMessage();
 
@@ -58,7 +61,7 @@ abstract class Mailer implements MailerInterface
             return $message;
         }
 
-        return $this->messageBodyRenderer->addToMessage($message, $view, $parameters);
+        return $this->messageBodyRenderer->addToMessage($message, $view, $viewParameters, $layoutParameters);
     }
 
     /**

@@ -77,20 +77,24 @@ final class MessageBodyRendererTest extends TestCase
 
         $viewName = 'test-view';
         $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
-        $viewFileContent = '<?php echo $testParam; ?>';
+        $viewFileContent = '<?php echo $viewParam; ?>';
         $this->saveFile($viewFileName, $viewFileContent);
 
         $layoutFileName = $viewPath . DIRECTORY_SEPARATOR . $layoutName . '.php';
-        $layoutFileContent = 'Begin Layout <?php echo $content; ?> End Layout';
+        $layoutFileContent = 'Begin Layout <?php echo $content; ?> End <?php echo $layoutParam; ?>';
         $this->saveFile($layoutFileName, $layoutFileContent);
 
-        $this->assertSame('Begin Layout <p>Test HTML.</p> End Layout', $renderer->renderHtml($viewName, [
-            'testParam' => '<p>Test HTML.</p>',
-        ]));
+        $this->assertSame('Begin Layout <p>Test HTML.</p> End Layout', $renderer->renderHtml(
+            $viewName,
+            ['viewParam' => '<p>Test HTML.</p>'],
+            ['layoutParam' => 'Layout', 'content' => 'Replaced'],
+        ));
 
-        $this->assertSame('Begin Layout Test TEXT. End Layout', $renderer->renderText($viewName, [
-            'testParam' => 'Test TEXT.',
-        ]));
+        $this->assertSame('Begin Layout Test TEXT. End Layout', $renderer->renderText(
+            $viewName,
+            ['viewParam' => 'Test TEXT.'],
+            ['layoutParam' => 'Layout', 'content' => 'Replaced'],
+        ));
     }
 
     public function testAddToMessage(): void
