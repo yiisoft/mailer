@@ -31,6 +31,34 @@ abstract class Mailer implements MailerInterface
     }
 
     /**
+     * Returns a new instance with the specified message factory instance.
+     *
+     * @param MessageFactoryInterface $messageFactory
+     *
+     * @return self
+     */
+    public function withMessageFactory(MessageFactoryInterface $messageFactory): self
+    {
+        $new = clone $this;
+        $new->messageFactory = $messageFactory;
+        return $new;
+    }
+
+    /**
+     * Returns a new instance with the specified message body renderer instance.
+     *
+     * @param MessageBodyRenderer $messageBodyRenderer
+     *
+     * @return self
+     */
+    public function withMessageBodyRenderer(MessageBodyRenderer $messageBodyRenderer): self
+    {
+        $new = clone $this;
+        $new->messageBodyRenderer = $messageBodyRenderer;
+        return $new;
+    }
+
+    /**
      * Creates a new message instance and optionally composes its body content via view rendering.
      *
      * @param array<string, string>|string|null $view The view to be used for rendering the message body.

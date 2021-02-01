@@ -117,7 +117,7 @@ final class MessageBodyRenderer implements ViewContextInterface
 
         if (!is_array($view) || (!isset($view['html']) && !isset($view['text']))) {
             throw new RuntimeException(
-                'The "$view" parameter must be a string or array with at least one "txt" or "html" key.',
+                'The "$view" parameter must be a string or array with at least one "text" or "html" key.',
             );
         }
 

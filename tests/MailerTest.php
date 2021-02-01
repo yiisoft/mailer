@@ -10,15 +10,38 @@ use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
+use Yiisoft\Mailer\MessageFactory;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
+use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
+use Yiisoft\View\View;
 
 use function basename;
 use function strip_tags;
 
 final class MailerTest extends TestCase
 {
+    public function testWithMessageFactory(): void
+    {
+        $mailer = $this->get(MailerInterface::class);
+        $messageFactory = new MessageFactory(DummyMessage::class);
+        $newMailer = $mailer->withMessageFactory($messageFactory);
+
+        $this->assertNotSame($mailer, $newMailer);
+        $this->assertSame($messageFactory, $this->getInaccessibleProperty($newMailer, 'messageFactory'));
+    }
+
+    public function testWithMessageBodyRenderer(): void
+    {
+        $mailer = $this->get(MailerInterface::class);
+        $messageBodyRenderer = new MessageBodyRenderer($this->get(View::class), '/path/to/views');
+        $newMailer = $mailer->withMessageBodyRenderer($messageBodyRenderer);
+
+        $this->assertNotSame($mailer, $newMailer);
+        $this->assertSame($messageBodyRenderer, $this->getInaccessibleProperty($newMailer, 'messageBodyRenderer'));
+    }
+
     public function testCompose(): void
     {
         $mailer = $this->get(MailerInterface::class);
