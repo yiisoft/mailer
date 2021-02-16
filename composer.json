@@ -27,7 +27,7 @@
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.4",
         "yiisoft/di": "^3.0@dev",
-        "yiisoft/event-dispatcher": "^3.0@dev"
+        "yiisoft/event-dispatcher": "^1.0"
     },
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
