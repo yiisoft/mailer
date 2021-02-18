@@ -6,7 +6,7 @@ namespace Yiisoft\Mailer\Tests;
 
 use Yiisoft\Mailer\MessageBodyTemplate;
 
-final class MessageBodyTemplateTest  extends TestCase
+final class MessageBodyTemplateTest extends TestCase
 {
     public function setupProvider(): array
     {
