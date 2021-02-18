@@ -68,4 +68,16 @@ interface MailerInterface
      * @return MessageInterface[] List of fails messages.
      */
     public function sendMultiple(array $messages): array;
+
+    /**
+     * Returns a new instance with the specified message body template instance.
+     *
+     * @param MessageBodyTemplate $template The message body template instance.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the mailer,
+     * and MUST return an instance that has the new message body template instance.
+     *
+     * @return self The new instance.
+     */
+    public function withTemplate(MessageBodyTemplate $template): self;
 }
