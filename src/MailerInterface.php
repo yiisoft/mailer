@@ -70,7 +70,7 @@ interface MailerInterface
     public function sendMultiple(array $messages): array;
 
     /**
-     * Returns a new instance with the specified message body template instance.
+     * Returns a new instance with the specified message body template.
      *
      * @param MessageBodyTemplate $template The message body template instance.
      *

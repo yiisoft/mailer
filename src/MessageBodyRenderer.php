@@ -155,7 +155,7 @@ final class MessageBodyRenderer
     }
 
     /**
-     * Returns a new instance with the specified view instance.
+     * Returns a new instance with the specified view.
      *
      * @param View $view The view instance.
      *
@@ -169,9 +169,9 @@ final class MessageBodyRenderer
     }
 
     /**
-     * Returns a new instance with the specified message body template instance.
+     * Returns a new instance with the specified message body template.
      *
-     * @param MessageBodyTemplate $template The message body template instance.
+     * @param MessageBodyTemplate $template The message body template.
      *
      * @return self The new instance.
      */

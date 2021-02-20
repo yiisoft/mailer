@@ -31,7 +31,7 @@ abstract class Mailer implements MailerInterface
     }
 
     /**
-     * Returns a new instance with a new message body renderer instance with the specified template.
+     * Returns a new instance with the specified message body template.
      *
      * @param MessageBodyTemplate $template The message body template instance.
      *
