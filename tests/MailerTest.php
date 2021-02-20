@@ -10,36 +10,30 @@ use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
-use Yiisoft\Mailer\MessageFactory;
+use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
-use Yiisoft\View\View;
 
 use function basename;
 use function strip_tags;
 
 final class MailerTest extends TestCase
 {
-    public function testWithMessageFactory(): void
+    public function testWithTemplate(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $messageFactory = new MessageFactory(DummyMessage::class);
-        $newMailer = $mailer->withMessageFactory($messageFactory);
+        $template = new MessageBodyTemplate($this->getTestFilePath(), '', '');
+
+        $oldMessageBodyRenderer = $this->getInaccessibleProperty($mailer, 'messageBodyRenderer');
+        $newMailer = $mailer->withTemplate($template);
+        $newMessageBodyRenderer = $this->getInaccessibleProperty($newMailer, 'messageBodyRenderer');
 
         $this->assertNotSame($mailer, $newMailer);
-        $this->assertSame($messageFactory, $this->getInaccessibleProperty($newMailer, 'messageFactory'));
-    }
+        $this->assertNotSame($oldMessageBodyRenderer, $newMessageBodyRenderer);
 
-    public function testWithMessageBodyRenderer(): void
-    {
-        $mailer = $this->get(MailerInterface::class);
-        $messageBodyRenderer = new MessageBodyRenderer($this->get(View::class), '/path/to/views');
-        $newMailer = $mailer->withMessageBodyRenderer($messageBodyRenderer);
-
-        $this->assertNotSame($mailer, $newMailer);
-        $this->assertSame($messageBodyRenderer, $this->getInaccessibleProperty($newMailer, 'messageBodyRenderer'));
+        $this->assertNotSame($template, $this->getInaccessibleProperty($oldMessageBodyRenderer, 'template'));
+        $this->assertSame($template, $this->getInaccessibleProperty($newMessageBodyRenderer, 'template'));
     }
 
     public function testCompose(): void

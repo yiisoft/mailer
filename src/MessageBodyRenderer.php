@@ -7,7 +7,6 @@ namespace Yiisoft\Mailer;
 use RuntimeException;
 use Throwable;
 use Yiisoft\View\View;
-use Yiisoft\View\ViewContextInterface;
 
 use function html_entity_decode;
 use function is_array;
@@ -23,7 +22,7 @@ use const ENT_QUOTES;
 /**
  * View renderer used to compose message body.
  */
-final class MessageBodyRenderer implements ViewContextInterface
+final class MessageBodyRenderer
 {
     /**
      * @var View The view instance.
@@ -31,55 +30,18 @@ final class MessageBodyRenderer implements ViewContextInterface
     private View $view;
 
     /**
-     * @var string The directory containing view files for composing mail messages.
+     * @var MessageBodyTemplate The message body template instance.
      */
-    private string $viewPath;
-
-    /**
-     * @var string The HTML layout view name.
-     *
-     * It is the layout used to render HTML mail body. If the value is empty string, no layout will be applied.
-     *
-     * The property can take the following values:
-     *
-     * - a relative view name: a view file relative to {@see MessageBodyRenderer::$viewPath}, e.g., 'layouts/html'.
-     * - an empty string: the layout is disabled.
-     */
-    private string $htmlLayout;
-
-    /**
-     * @var string The TEXT layout view name.
-     *
-     * This is the layout used to render TEXT mail body. If the value is empty string, no layout will be applied.
-     *
-     * The property can take the following values:
-     *
-     * - a relative view name: a view file relative to {@see MessageBodyRenderer::$viewPath}, e.g., 'layouts/text'.
-     * - an empty string: the layout is disabled.
-     */
-    private string $textLayout;
+    private MessageBodyTemplate $template;
 
     /**
      * @param View $view The view instance.
-     * @param string $viewPath The directory containing view files for composing mail messages.
-     * @param string $htmlLayout The HTML layout view name. It is the layout used to render HTML mail body.
-     * @param string $textLayout The TEXT layout view name. This is the layout used to render TEXT mail body.
+     * @param MessageBodyTemplate $template The message body template instance.
      */
-    public function __construct(
-        View $view,
-        string $viewPath,
-        string $htmlLayout = 'layouts/html',
-        string $textLayout = 'layouts/text'
-    ) {
-        $this->view = $view;
-        $this->viewPath = $viewPath;
-        $this->htmlLayout = $htmlLayout;
-        $this->textLayout = $textLayout;
-    }
-
-    public function getViewPath(): string
+    public function __construct(View $view, MessageBodyTemplate $template)
     {
-        return $this->viewPath;
+        $this->view = $view;
+        $this->template = $template;
     }
 
     /**
@@ -155,14 +117,14 @@ final class MessageBodyRenderer implements ViewContextInterface
      */
     public function renderHtml(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
-        $content = $this->view->render($view, $viewParameters, $this);
+        $content = $this->view->render($view, $viewParameters, $this->template);
 
-        if ($this->htmlLayout === '') {
+        if ($this->template->getHtmlLayout() === '') {
             return $content;
         }
 
         $layoutParameters['content'] = $content;
-        return $this->view->render($this->htmlLayout, $layoutParameters, $this);
+        return $this->view->render($this->template->getHtmlLayout(), $layoutParameters, $this->template);
     }
 
     /**
@@ -182,14 +144,42 @@ final class MessageBodyRenderer implements ViewContextInterface
      */
     public function renderText(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
-        $content = $this->view->render($view, $viewParameters, $this);
+        $content = $this->view->render($view, $viewParameters, $this->template);
 
-        if ($this->textLayout === '') {
+        if ($this->template->getTextLayout() === '') {
             return $content;
         }
 
         $layoutParameters['content'] = $content;
-        return $this->view->render($this->textLayout, $layoutParameters, $this);
+        return $this->view->render($this->template->getTextLayout(), $layoutParameters, $this->template);
+    }
+
+    /**
+     * Returns a new instance with the specified view.
+     *
+     * @param View $view The view instance.
+     *
+     * @return self The new instance.
+     */
+    public function withView(View $view): self
+    {
+        $new = clone $this;
+        $new->view = $view;
+        return $new;
+    }
+
+    /**
+     * Returns a new instance with the specified message body template.
+     *
+     * @param MessageBodyTemplate $template The message body template.
+     *
+     * @return self The new instance.
+     */
+    public function withTemplate(MessageBodyTemplate $template): self
+    {
+        $new = clone $this;
+        $new->template = $template;
+        return $new;
     }
 
     /**

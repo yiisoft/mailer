@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use RuntimeException;
 use stdClass;
 use Yiisoft\Mailer\MessageBodyRenderer;
+use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\View\View;
 
 final class MessageBodyRendererTest extends TestCase
@@ -22,32 +23,24 @@ final class MessageBodyRendererTest extends TestCase
         }
     }
 
-    public function setupProvider(): array
+    public function testWithView(): void
     {
-        $tempDir = $this->getTestFilePath() . DIRECTORY_SEPARATOR;
+        $renderer = $this->createRenderer($this->getTestFilePath(), 'test-html', 'test-text');
+        $view = clone $this->get(View::class);
+        $newRenderer = $renderer->withView($view);
 
-        return [
-            ["{$tempDir}foo", 'foo', '', ''],
-            ["{$tempDir}bar", 'baz', 'layouts/html', 'layouts/text'],
-            ["{$tempDir}baz", 'baz', 'layouts/html.php', 'layouts/text.php'],
-        ];
+        $this->assertNotSame($renderer, $newRenderer);
+        $this->assertSame($view, $this->getInaccessibleProperty($newRenderer, 'view'));
     }
 
-    /**
-     * @dataProvider setupProvider
-     *
-     * @param string $viewPath
-     * @param string $htmlLayout
-     * @param string $textLayout
-     */
-    public function testSetup(string $viewPath, string $htmlLayout, string $textLayout): void
+    public function testWithTemplate(): void
     {
-        $renderer = $this->createRenderer($viewPath, $htmlLayout, $textLayout);
+        $renderer = $this->createRenderer($this->getTestFilePath(), 'test-html', 'test-text');
+        $template = new MessageBodyTemplate($this->getTestFilePath(), '', '');
+        $newRenderer = $renderer->withTemplate($template);
 
-        $this->assertSame($viewPath, $renderer->getViewPath());
-        $this->assertSame($viewPath, $this->getInaccessibleProperty($renderer, 'viewPath'));
-        $this->assertSame($htmlLayout, $this->getInaccessibleProperty($renderer, 'htmlLayout'));
-        $this->assertSame($textLayout, $this->getInaccessibleProperty($renderer, 'textLayout'));
+        $this->assertNotSame($renderer, $newRenderer);
+        $this->assertSame($template, $this->getInaccessibleProperty($newRenderer, 'template'));
     }
 
     public function testRenderHtmlAndRenderTextWithoutLayouts(): void
@@ -214,6 +207,9 @@ TEXT
      */
     public function createRenderer(string $viewPath, string $htmlLayout, string $textLayout): MessageBodyRenderer
     {
-        return new MessageBodyRenderer($this->get(View::class), $viewPath, $htmlLayout, $textLayout);
+        return new MessageBodyRenderer(
+            $this->get(View::class),
+            new MessageBodyTemplate($viewPath, $htmlLayout, $textLayout)
+        );
     }
 }
