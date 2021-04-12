@@ -130,25 +130,25 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
             $this->container = new Container([
                 Theme::class => [
-                    '__class' => Theme::class,
+                    'class' => Theme::class,
                 ],
 
                 View::class => [
-                    '__class' => View::class,
+                    'class' => View::class,
                     '__construct()' => [
                         'basePath' => $tempDir,
                     ],
                 ],
 
                 MessageFactoryInterface::class => [
-                    '__class' => MessageFactory::class,
+                    'class' => MessageFactory::class,
                     '__construct()' => [
                         'class' => DummyMessage::class,
                     ],
                 ],
 
                 MessageBodyRenderer::class => [
-                    '__class' => MessageBodyRenderer::class,
+                    'class' => MessageBodyRenderer::class,
                     '__construct()' => [
                         'view' => Reference::to(View::class),
                         'template' => Reference::to(MessageBodyTemplate::class),
@@ -156,7 +156,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 ],
 
                 MessageBodyTemplate::class => [
-                    '__class' => MessageBodyTemplate::class,
+                    'class' => MessageBodyTemplate::class,
                     '__construct()' => [
                         'viewPath' => $tempDir,
                         'htmlLayout' => '',
