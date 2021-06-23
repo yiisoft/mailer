@@ -6,14 +6,7 @@ namespace Yiisoft\Mailer\Tests;
 
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\EventDispatcher\ListenerProviderInterface;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use ReflectionClass;
-use Yiisoft\Di\Container;
-use Yiisoft\EventDispatcher\Dispatcher\Dispatcher;
-use Yiisoft\EventDispatcher\Provider\Provider;
-use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageBodyTemplate;
@@ -22,7 +15,8 @@ use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
-use Yiisoft\View\Theme;
+use Yiisoft\Test\Support\Container\SimpleContainer;
+use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\View;
 
 use function basename;
@@ -127,47 +121,19 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         if ($this->container === null) {
             $tempDir = $this->getTestFilePath();
+            $eventDispatcher = new SimpleEventDispatcher();
+            $view = new View($tempDir, $eventDispatcher);
+            $messageBodyTemplate = new MessageBodyTemplate($tempDir, '', '');
+            $messageBodyRenderer = new MessageBodyRenderer($view, $messageBodyTemplate);
+            $messageFactory = new MessageFactory(DummyMessage::class);
 
-            $this->container = new Container([
-                Theme::class => [
-                    'class' => Theme::class,
-                ],
-
-                View::class => [
-                    'class' => View::class,
-                    '__construct()' => [
-                        'basePath' => $tempDir,
-                    ],
-                ],
-
-                MessageFactoryInterface::class => [
-                    'class' => MessageFactory::class,
-                    '__construct()' => [
-                        'class' => DummyMessage::class,
-                    ],
-                ],
-
-                MessageBodyRenderer::class => [
-                    'class' => MessageBodyRenderer::class,
-                    '__construct()' => [
-                        'view' => Reference::to(View::class),
-                        'template' => Reference::to(MessageBodyTemplate::class),
-                    ],
-                ],
-
-                MessageBodyTemplate::class => [
-                    'class' => MessageBodyTemplate::class,
-                    '__construct()' => [
-                        'viewPath' => $tempDir,
-                        'htmlLayout' => '',
-                        'textLayout' => '',
-                    ],
-                ],
-
-                LoggerInterface::class => NullLogger::class,
-                MailerInterface::class => DummyMailer::class,
-                EventDispatcherInterface::class => Dispatcher::class,
-                ListenerProviderInterface::class => Provider::class,
+            $this->container = new SimpleContainer([
+                EventDispatcherInterface::class => $eventDispatcher,
+                MailerInterface::class => new DummyMailer($messageFactory, $messageBodyRenderer, $eventDispatcher),
+                MessageBodyRenderer::class => new MessageBodyRenderer($view, $messageBodyTemplate),
+                MessageBodyTemplate::class => $messageBodyTemplate,
+                MessageFactoryInterface::class => $messageFactory,
+                View::class => $view,
             ]);
         }
 
