@@ -22,10 +22,10 @@
         "yiisoft/view": "^3.0@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4",
-        "roave/infection-static-analysis-plugin": "^1.5",
+        "phpunit/phpunit": "^9.5",
+        "roave/infection-static-analysis-plugin": "^1.8",
         "spatie/phpunit-watcher": "^1.23",
-        "vimeo/psalm": "^4.4",
+        "vimeo/psalm": "^4.8",
         "yiisoft/di": "^3.0@dev",
         "yiisoft/event-dispatcher": "^1.0"
     },
