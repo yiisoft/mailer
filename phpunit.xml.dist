@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit bootstrap="vendor/autoload.php"
-         colors="true"
-         verbose="true"
-         failOnRisky="true"
-         failOnWarning="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         stopOnFailure="false"
-         executionOrder="random"
+<phpunit
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    verbose="true"
+    failOnRisky="true"
+    failOnWarning="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    executionOrder="random"
 >
     <php>
         <ini name="error_reporting" value="-1"/>
