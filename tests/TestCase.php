@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use ReflectionClass;
+use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageBodyTemplate;
@@ -22,7 +23,6 @@ use Yiisoft\View\View;
 use function basename;
 use function dirname;
 use function file_put_contents;
-use function getmypid;
 use function is_dir;
 use function mkdir;
 use function str_replace;
@@ -34,12 +34,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
+        FileHelper::ensureDirectory($this->getTestFilePath());
         $this->getContainer();
     }
 
     protected function tearDown(): void
     {
         $this->container = null;
+        FileHelper::removeDirectory($this->getTestFilePath());
     }
 
     protected function get(string $id)
@@ -77,8 +79,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return sys_get_temp_dir()
             . DIRECTORY_SEPARATOR
             . basename(str_replace('\\', '_', static::class))
-            . '_'
-            . getmypid()
         ;
     }
 

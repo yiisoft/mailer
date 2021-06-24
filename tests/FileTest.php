@@ -7,12 +7,17 @@ namespace Yiisoft\Mailer\Tests;
 use RuntimeException;
 use Yiisoft\Mailer\File;
 
-class FileTest extends TestCase
+use function strlen;
+use function strpos;
+
+final class FileTest extends TestCase
 {
     public function testFromContent(): void
     {
         $file1 = File::fromContent('');
 
+        $this->assertSame(36, strlen($file1->id()));
+        $this->assertSame(32, strpos($file1->id(), '@app'));
         $this->assertSame($file1->cid(), "cid:{$file1->id()}");
         $this->assertSame('', $file1->content());
         $this->assertNull($file1->contentType());
@@ -23,6 +28,8 @@ class FileTest extends TestCase
 
         $this->assertNotSame($file1, $file2);
 
+        $this->assertSame(36, strlen($file2->id()));
+        $this->assertSame(32, strpos($file2->id(), '@app'));
         $this->assertSame($file2->cid(), "cid:{$file2->id()}");
         $this->assertSame('Content', $file2->content());
         $this->assertSame('plain/text', $file2->contentType());
@@ -34,6 +41,8 @@ class FileTest extends TestCase
     {
         $file1 = File::fromPath(__FILE__);
 
+        $this->assertSame(36, strlen($file1->id()));
+        $this->assertSame(32, strpos($file1->id(), '@app'));
         $this->assertSame($file1->cid(), "cid:{$file1->id()}");
         $this->assertSame(__FILE__, $file1->path());
         $this->assertNull($file1->contentType());
@@ -45,6 +54,8 @@ class FileTest extends TestCase
         $this->assertSame($file1->path(), $file2->path());
         $this->assertNotSame($file1, $file2);
 
+        $this->assertSame(36, strlen($file2->id()));
+        $this->assertSame(32, strpos($file2->id(), '@app'));
         $this->assertSame($file2->cid(), "cid:{$file2->id()}");
         $this->assertSame(__FILE__, $file2->path());
         $this->assertSame('plain/text', $file2->contentType());

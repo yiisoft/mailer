@@ -6,6 +6,7 @@ namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
@@ -15,6 +16,7 @@ use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 
+use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
 use function basename;
 use function strip_tags;
 
@@ -110,19 +112,21 @@ final class MailerTest extends TestCase
     public function testSendMultipleExceptions(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $messages = [$this->createMessage(''), $this->createMessage()];
+        $messages = [$this->createMessage(''), $this->createMessage(), $this->createMessage('')];
         $failed = $mailer->sendMultiple($messages);
 
-        $this->assertCount(1, $failed);
+        $this->assertCount(2, $failed);
         $this->assertInstanceOf(InvalidArgumentException::class, $failed[0]->getError());
+        $this->assertInstanceOf(InvalidArgumentException::class, $failed[1]->getError());
         $this->assertSame("Message's subject is required.", $failed[0]->getError()->getMessage());
+        $this->assertSame("Message's subject is required.", $failed[1]->getError()->getMessage());
     }
 
     public function testBeforeSend(): void
     {
-        $message = $this->createMock(MessageInterface::class);
+        $message = new DummyMessage();
         $event = new BeforeSend($message);
-        $messageFactory = $this->createMock(MessageFactoryInterface::class);
+        $messageFactory = $this->get(MessageFactoryInterface::class);
         $messageBodyRenderer = $this->get(MessageBodyRenderer::class);
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $eventDispatcher->method('dispatch')->willReturn($event);
@@ -135,5 +139,14 @@ final class MailerTest extends TestCase
         $this->assertSame([], $mailer->sentMessages);
         $mailer->send($message);
         $this->assertSame([], $mailer->sentMessages);
+    }
+
+    public function testAfterSend(): void
+    {
+        $mailer = $this->get(MailerInterface::class);
+        $message = $mailer->createMessage();
+        $mailer->afterSend($message);
+
+        $this->assertSame([AfterSend::class], $this->get(EventDispatcherInterface::class)->getEventClasses());
     }
 }
