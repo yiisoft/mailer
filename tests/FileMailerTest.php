@@ -30,7 +30,7 @@ final class FileMailerTest extends TestCase
             ->withTo('to@example.com')
             ->withFrom('from@example.com')
             ->withSubject('test subject')
-            ->withTextBody('text body' . \microtime(true));
+            ->withTextBody('text body' . microtime(true));
 
         $mailer->send($message);
         $files = glob($this->getTestFilePath() . DIRECTORY_SEPARATOR . '*.eml');
