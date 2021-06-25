@@ -48,14 +48,14 @@ interface MessageInterface
     /**
      * Returns the message sender email address.
      *
-     * @return array|string The sender email address.
+     * @return string|string[] The sender email address.
      */
     public function getFrom();
 
     /**
      * Returns a new instance with the specified sender email address.
      *
-     * @param array|string $from The sender email address.
+     * @param string|string[] $from The sender email address.
      *
      * You may pass an array of addresses if this message is from multiple people.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
@@ -70,14 +70,14 @@ interface MessageInterface
     /**
      * Returns the message recipient(s) email address.
      *
-     * @return array|string The message recipients email address.
+     * @return string|string[] The message recipients email address.
      */
     public function getTo();
 
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
-     * @param array|string $to receiver email address.
+     * @param string|string[] $to receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -92,14 +92,14 @@ interface MessageInterface
     /**
      * Returns the reply-to address of this message.
      *
-     * @return array|string The reply-to address of this message.
+     * @return string|string[] The reply-to address of this message.
      */
     public function getReplyTo();
 
     /**
      * Returns a new instance with the specified reply-to address.
      *
-     * @param array|string $replyTo The reply-to address.
+     * @param string|string[] $replyTo The reply-to address.
      *
      * You may pass an array of addresses if this message should be replied to multiple people.
      * You may also specify reply-to name in addition to email address using format: `[email => name]`.
@@ -114,14 +114,14 @@ interface MessageInterface
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
      *
-     * @return array|string The Cc (additional copy receiver) addresses of this message.
+     * @return string|string[] The Cc (additional copy receiver) addresses of this message.
      */
     public function getCc();
 
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
      *
-     * @param array|string $cc The copy receiver email address.
+     * @param string|string[] $cc The copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -136,14 +136,14 @@ interface MessageInterface
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
      *
-     * @return array|string the Bcc (hidden copy receiver) addresses of this message.
+     * @return string|string[] The Bcc (hidden copy receiver) addresses of this message.
      */
     public function getBcc();
 
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
      *
-     * @param array|string $bcc The hidden copy receiver email address.
+     * @param string|string[] $bcc The hidden copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -243,7 +243,7 @@ interface MessageInterface
      *
      * @param string $name The header name.
      *
-     * @return array The header values list.
+     * @return string[] The header values list.
      */
     public function getHeader(string $name): array;
 
@@ -266,7 +266,7 @@ interface MessageInterface
      * Returns a new instance with the specified custom header value.
      *
      * @param string $name The header name.
-     * @param array|string $value The header value or values.
+     * @param string|string[] $value The header value or values.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header value.
@@ -278,7 +278,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified custom header values.
      *
-     * @param array $headers The headers in format: `[name => value]`.
+     * @param array<string, string|string[]> $headers The headers in format: `[name => value]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header values.
