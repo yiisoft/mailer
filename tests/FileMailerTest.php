@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use Closure;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
 use stdClass;
+use Yiisoft\Mailer\Event\AfterSend;
+use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageFactoryInterface;
@@ -30,9 +33,15 @@ final class FileMailerTest extends TestCase
             ->withTextBody('text body' . microtime(true));
 
         $mailer->send($message);
-        $pattern = $this->getTestFilePath() . DIRECTORY_SEPARATOR . '*.eml';
+        $files = glob($this->getTestFilePath() . DIRECTORY_SEPARATOR . '*.eml');
 
-        foreach (glob($pattern) as $file) {
+        $this->assertNotEmpty($files);
+        $this->assertSame(
+            [BeforeSend::class, AfterSend::class],
+            $this->get(EventDispatcherInterface::class)->getEventClasses(),
+        );
+
+        foreach ($files as $file) {
             $this->assertTrue(is_file($file));
             $this->assertSame((string) $message, file_get_contents($file));
         }
@@ -68,9 +77,15 @@ final class FileMailerTest extends TestCase
             ->withTextBody('text body' . microtime(true));
 
         $mailer->send($message);
-        $pattern = $this->getTestFilePath() . DIRECTORY_SEPARATOR . $filenameExpected;
+        $files = glob($this->getTestFilePath() . DIRECTORY_SEPARATOR . $filenameExpected);
 
-        foreach (glob($pattern) as $file) {
+        $this->assertNotEmpty($files);
+        $this->assertSame(
+            [BeforeSend::class, AfterSend::class],
+            $this->get(EventDispatcherInterface::class)->getEventClasses(),
+        );
+
+        foreach ($files as $file) {
             $this->assertTrue(is_file($file));
             $this->assertEquals((string) $message, file_get_contents($file));
         }
@@ -79,12 +94,12 @@ final class FileMailerTest extends TestCase
     public function invalidFilenameCallbackProvider(): array
     {
         return [
-            'int' => [static fn () => 1],
-            'float' => [static fn () => 1,1],
-            'bool' => [static fn () => true],
-            'array' => [static fn () => []],
-            'object' => [static fn () => new stdClass()],
-            'callable' => [static fn () => static fn () => 'string'],
+            'int' => [static fn (): int => 1],
+            'float' => [static fn (): float => 1,1],
+            'bool' => [static fn (): bool => true],
+            'array' => [static fn (): array => []],
+            'object' => [static fn (): stdClass => new stdClass()],
+            'callable' => [static fn (): Closure => static fn () => 'string'],
         ];
     }
 
