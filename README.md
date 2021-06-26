@@ -50,7 +50,7 @@ $message = $mailer->compose()
 $mailer->send($message);
 ```
 
-See [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/runtime/mailing.md) for more info.
+See [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md) for more info.
 
 ### Mailer implementations
 
