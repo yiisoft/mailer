@@ -6,13 +6,13 @@
         "yii",
         "mailer"
     ],
-    "homepage": "http://www.yiiframework.com/",
+    "homepage": "https://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
         "source": "https://github.com/yiisoft/mailer",
         "issues": "https://github.com/yiisoft/mailer/issues",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
+        "forum": "https://www.yiiframework.com/forum/",
+        "wiki": "https://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii"
     },
     "require": {
@@ -41,11 +41,6 @@
     "autoload-dev": {
         "psr-4": {
             "Yiisoft\\Mailer\\Tests\\": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0.x-dev"
         }
     },
     "config": {
