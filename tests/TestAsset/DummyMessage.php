@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests\TestAsset;
 
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Throwable;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MessageInterface;
@@ -19,6 +22,10 @@ final class DummyMessage implements MessageInterface
     private string $cc = '';
     private string $bcc = '';
     private string $subject = '';
+    private ?DateTimeImmutable $date = null;
+    private int $priority = 3;
+    private string $returnPath = '';
+    private string $sender = '';
     private string $htmlBody = '';
     private string $textBody = '';
     private ?Throwable $error = null;
@@ -107,6 +114,59 @@ final class DummyMessage implements MessageInterface
         return $new;
     }
 
+    public function getDate(): ?DateTimeImmutable
+    {
+        return $this->date;
+    }
+
+    public function withDate(DateTimeInterface $date): self
+    {
+        if ($date instanceof DateTime) {
+            $immutable = new DateTimeImmutable('@' . $date->getTimestamp());
+            $date = $immutable->setTimezone($date->getTimezone());
+        }
+
+        $new = clone $this;
+        $new->date = $date;
+        return $new;
+    }
+
+    public function getPriority(): int
+    {
+        return $this->priority;
+    }
+
+    public function withPriority(int $priority): self
+    {
+        $new = clone $this;
+        $new->priority = $priority;
+        return $new;
+    }
+
+    public function getReturnPath(): string
+    {
+        return $this->returnPath;
+    }
+
+    public function withReturnPath(string $address): self
+    {
+        $new = clone $this;
+        $new->returnPath = $address;
+        return $new;
+    }
+
+    public function getSender(): string
+    {
+        return $this->sender;
+    }
+
+    public function withSender(string $address): self
+    {
+        $new = clone $this;
+        $new->sender = $address;
+        return $new;
+    }
+
     public function getTextBody(): string
     {
         return $this->textBody;
@@ -176,12 +236,17 @@ final class DummyMessage implements MessageInterface
     public function __toString(): string
     {
         return json_encode([
+            'charset' => $this->charset,
             'from' => $this->from,
             'to' => $this->to,
             'replyTo' => $this->replyTo,
             'cc' => $this->cc,
             'bcc' => $this->bcc,
             'subject' => $this->subject,
+            'date' => (array) $this->date,
+            'priority' => $this->priority,
+            'returnPath' => $this->returnPath,
+            'sender' => $this->sender,
             'htmlBody' => $this->htmlBody,
             'textBody' => $this->textBody,
             'error' => (string) $this->error,

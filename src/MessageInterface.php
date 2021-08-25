@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Throwable;
 
 /**
@@ -48,14 +50,16 @@ interface MessageInterface
     /**
      * Returns the message sender email address.
      *
-     * @return string|string[] The sender email address.
+     * @return array<string, string>|string The sender email address.
+     *
+     * @see withFrom()
      */
     public function getFrom();
 
     /**
      * Returns a new instance with the specified sender email address.
      *
-     * @param string|string[] $from The sender email address.
+     * @param array<string, string>|string|string[] $from The sender email address.
      *
      * You may pass an array of addresses if this message is from multiple people.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
@@ -70,14 +74,16 @@ interface MessageInterface
     /**
      * Returns the message recipient(s) email address.
      *
-     * @return string|string[] The message recipients email address.
+     * @return array<string, string>|string The message recipients email address.
+     *
+     * @see withTo()
      */
     public function getTo();
 
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
-     * @param string|string[] $to receiver email address.
+     * @param array<string, string>|string|string[] $to The receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -92,14 +98,16 @@ interface MessageInterface
     /**
      * Returns the reply-to address of this message.
      *
-     * @return string|string[] The reply-to address of this message.
+     * @return array<string, string>|string The reply-to address of this message.
+     *
+     * @see withReplyTo()
      */
     public function getReplyTo();
 
     /**
      * Returns a new instance with the specified reply-to address.
      *
-     * @param string|string[] $replyTo The reply-to address.
+     * @param array<string, string>|string|string[] $replyTo The reply-to address.
      *
      * You may pass an array of addresses if this message should be replied to multiple people.
      * You may also specify reply-to name in addition to email address using format: `[email => name]`.
@@ -114,14 +122,16 @@ interface MessageInterface
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
      *
-     * @return string|string[] The Cc (additional copy receiver) addresses of this message.
+     * @return array<string, string>|string The Cc (additional copy receiver) addresses of this message.
+     *
+     * @see withCc()
      */
     public function getCc();
 
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
      *
-     * @param string|string[] $cc The copy receiver email address.
+     * @param array<string, string>|string|string[] $cc The copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -136,14 +146,16 @@ interface MessageInterface
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
      *
-     * @return string|string[] The Bcc (hidden copy receiver) addresses of this message.
+     * @return array<string, string>|string The Bcc (hidden copy receiver) addresses of this message.
+     *
+     * @see withBcc()
      */
     public function getBcc();
 
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
      *
-     * @param string|string[] $bcc The hidden copy receiver email address.
+     * @param array<string, string>|string|string[] $bcc The hidden copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -173,6 +185,84 @@ interface MessageInterface
      * @return self
      */
     public function withSubject(string $subject): self;
+
+    /**
+     * Returns the date when the message was sent, or null if it was not set.
+     *
+     * @return DateTimeImmutable|null The date when the message was sent.
+     */
+    public function getDate(): ?DateTimeImmutable;
+
+    /**
+     * Returns a new instance with the specified date when the message was sent.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has the new date when the message was sent.
+     *
+     * @param DateTimeInterface $date The date when the message was sent.
+     *
+     * @return self
+     */
+    public function withDate(DateTimeInterface $date): self;
+
+    /**
+     * Returns the priority of this message.
+     *
+     * @return int The priority value as integer in range: `1..5`,
+     * where 1 is the highest priority and 5 is the lowest.
+     */
+    public function getPriority(): int;
+
+    /**
+     * Returns a new instance with the specified priority of this message.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has the new message priority.
+     *
+     * @param int $priority The priority value, should be an integer in range: `1..5`,
+     * where 1 is the highest priority and 5 is the lowest.
+     *
+     * @return self
+     */
+    public function withPriority(int $priority): self;
+
+    /**
+     * Returns the return-path (the bounce address) of this message.
+     *
+     * @return string The bounce email address.
+     */
+    public function getReturnPath(): string;
+
+    /**
+     * Returns a new instance with the specified return-path (the bounce address) of this message.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has the new return-path (the bounce address).
+     *
+     * @param string $address The bounce email address.
+     *
+     * @return self
+     */
+    public function withReturnPath(string $address): self;
+
+    /**
+     * Returns the message actual sender email address.
+     *
+     * @return string The actual sender email address.
+     */
+    public function getSender(): string;
+
+    /**
+     * Returns a new instance with the specified actual sender email address.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has the new actual sender email address.
+     *
+     * @param string $address The actual sender email address.
+     *
+     * @return self
+     */
+    public function withSender(string $address): self;
 
     /**
      * Returns the message HTML body.
