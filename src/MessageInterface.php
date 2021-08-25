@@ -50,7 +50,7 @@ interface MessageInterface
     /**
      * Returns the message sender email address.
      *
-     * @return string|array<string, string> The sender email address.
+     * @return array<string, string>|string The sender email address.
      *
      * @see withFrom()
      */
@@ -59,7 +59,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified sender email address.
      *
-     * @param string|string[]|array<string, string> $from The sender email address.
+     * @param array<string, string>|string|string[] $from The sender email address.
      *
      * You may pass an array of addresses if this message is from multiple people.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
@@ -74,7 +74,7 @@ interface MessageInterface
     /**
      * Returns the message recipient(s) email address.
      *
-     * @return string|array<string, string> The message recipients email address.
+     * @return array<string, string>|string The message recipients email address.
      *
      * @see withTo()
      */
@@ -83,7 +83,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
-     * @param string|string[]|array<string, string> $to The receiver email address.
+     * @param array<string, string>|string|string[] $to The receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -98,7 +98,7 @@ interface MessageInterface
     /**
      * Returns the reply-to address of this message.
      *
-     * @return string|array<string, string> The reply-to address of this message.
+     * @return array<string, string>|string The reply-to address of this message.
      *
      * @see withReplyTo()
      */
@@ -107,7 +107,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified reply-to address.
      *
-     * @param string|string[]|array<string, string> $replyTo The reply-to address.
+     * @param array<string, string>|string|string[] $replyTo The reply-to address.
      *
      * You may pass an array of addresses if this message should be replied to multiple people.
      * You may also specify reply-to name in addition to email address using format: `[email => name]`.
@@ -122,7 +122,7 @@ interface MessageInterface
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
      *
-     * @return string|array<string, string> The Cc (additional copy receiver) addresses of this message.
+     * @return array<string, string>|string The Cc (additional copy receiver) addresses of this message.
      *
      * @see withCc()
      */
@@ -131,7 +131,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
      *
-     * @param string|string[]|array<string, string> $cc The copy receiver email address.
+     * @param array<string, string>|string|string[] $cc The copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -146,7 +146,7 @@ interface MessageInterface
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
      *
-     * @return string|array<string, string> The Bcc (hidden copy receiver) addresses of this message.
+     * @return array<string, string>|string The Bcc (hidden copy receiver) addresses of this message.
      *
      * @see withBcc()
      */
@@ -155,7 +155,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
      *
-     * @param string|string[]|array<string, string> $bcc The hidden copy receiver email address.
+     * @param array<string, string>|string|string[] $bcc The hidden copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.

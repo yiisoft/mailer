@@ -122,7 +122,7 @@ final class DummyMessage implements MessageInterface
     public function withDate(DateTimeInterface $date): self
     {
         if ($date instanceof DateTime) {
-            $immutable = new DateTimeImmutable('@'.$date->getTimestamp());
+            $immutable = new DateTimeImmutable('@' . $date->getTimestamp());
             $date = $immutable->setTimezone($date->getTimezone());
         }
 
