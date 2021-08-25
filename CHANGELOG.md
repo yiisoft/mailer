@@ -1,6 +1,6 @@
 # Yii Mailer Library
 
-## 2.1.0 under development
+## 3.0.0 under development
 
 - New #39: Add methods to `Yiisoft\Mailer\MessageInterface`: `getDate()`, `withDate()`, `getPriority()`,
   `withPriority()`, `getReturnPath()`, `withReturnPath()`, `getSender()`, `withSender()` (devanych)
