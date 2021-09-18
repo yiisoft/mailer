@@ -3,7 +3,7 @@
 
 ## 3.0.1 under development
 
-- no changes in this release.
+- Chg: Update yiisoft/view dependency to ^3.0 (samdark)
 
 ## 3.0.0 August 25, 2021
 
