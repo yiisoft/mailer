@@ -55,7 +55,8 @@ final class MessageBodyTemplate implements ViewContextInterface
         $this->textLayout = $textLayout;
     }
 
-    /** Returns the directory containing view files for composing mail messages.
+    /**
+     * Returns the directory containing view files for composing mail messages.
      *
      * @return string The directory containing view files for composing mail messages.
      */

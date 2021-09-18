@@ -137,7 +137,8 @@ final class File
         return $this->path;
     }
 
-    /** Returns the content that should be used to attach the file.
+    /**
+     * Returns the content that should be used to attach the file.
      *
      * @return string|null The content that should be used to attach the file.
      */
@@ -146,7 +147,8 @@ final class File
         return $this->content;
     }
 
-    /** Returns the MIME type that should be used to attach the file.
+    /**
+     * Returns the MIME type that should be used to attach the file.
      *
      * @return string|null MIME type that should be used to attach the file.
      */
