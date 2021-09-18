@@ -1,6 +1,11 @@
 # Yii Mailer Library
 
 
+## 3.0.2 under development
+
+- no changes in this release.
+
+
 ## 3.0.1 September 18, 2021
 
 - Chg: Update yiisoft/view dependency to ^3.0 (samdark)
