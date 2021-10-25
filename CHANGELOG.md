@@ -1,10 +1,8 @@
 # Yii Mailer Library
 
-
 ## 3.0.2 under development
 
-- no changes in this release.
-
+- Chg #40: Update the `yiisoft/view` dependency to `^4.0` (vjik)
 
 ## 3.0.1 September 18, 2021
 
