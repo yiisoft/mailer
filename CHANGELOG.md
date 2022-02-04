@@ -1,7 +1,7 @@
 # Yii Mailer Library
 
 
-## 3.0.3 under development
+## 3.0.3 February 04, 2022
 
 Chg #43: Update the `yiisoft/view` dependency, added `^5.0` (thenotsoft)
 
