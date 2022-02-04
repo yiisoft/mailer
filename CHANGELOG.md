@@ -3,7 +3,7 @@
 
 ## 3.0.3 under development
 
-Chg #43: Update the yiisoft/view dependency, added ^5.0 (thenotsoft)
+Chg #43: Update the `yiisoft/view` dependency, added `^5.0` (thenotsoft)
 
 ## 3.0.2 October 26, 2021
 
