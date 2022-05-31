@@ -41,7 +41,8 @@ The following code can be used to send an email:
  * @var \Yiisoft\Mailer\MailerInterface $mailer
  */
 
-$message = $mailer->compose()
+$message = $mailer
+    ->compose()
     ->withFrom('from@domain.com')
     ->withTo('to@domain.com')
     ->withSubject('Message subject')

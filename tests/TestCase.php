@@ -46,7 +46,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function get(string $id)
     {
-        return $this->getContainer()->get($id);
+        return $this
+            ->getContainer()
+            ->get($id);
     }
 
     protected function createMessage(
@@ -79,7 +81,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return sys_get_temp_dir()
             . DIRECTORY_SEPARATOR
             . basename(str_replace('\\', '_', static::class))
-        ;
+            ;
     }
 
     protected function saveFile(string $filename, string $data): void
