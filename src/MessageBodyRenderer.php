@@ -68,13 +68,15 @@ final class MessageBodyRenderer
      */
     public function addToMessage(
         MessageInterface $message,
-        $view,
+                         $view,
         array $viewParameters = [],
         array $layoutParameters = []
     ): MessageInterface {
         if (is_string($view)) {
             $html = $this->renderHtml($view, $viewParameters, $layoutParameters);
-            return $message->withHtmlBody($html)->withTextBody($this->generateTextBodyFromHtml($html));
+            return $message
+                ->withHtmlBody($html)
+                ->withTextBody($this->generateTextBodyFromHtml($html));
         }
 
         if (!is_array($view) || (!isset($view['html']) && !isset($view['text']))) {
@@ -117,14 +119,18 @@ final class MessageBodyRenderer
      */
     public function renderHtml(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
-        $content = $this->view->withContext($this->template)->render($view, $viewParameters);
+        $content = $this->view
+            ->withContext($this->template)
+            ->render($view, $viewParameters);
 
         if ($this->template->getHtmlLayout() === '') {
             return $content;
         }
 
         $layoutParameters['content'] = $content;
-        return $this->view->withContext($this->template)->render($this->template->getHtmlLayout(), $layoutParameters);
+        return $this->view
+            ->withContext($this->template)
+            ->render($this->template->getHtmlLayout(), $layoutParameters);
     }
 
     /**
@@ -144,14 +150,18 @@ final class MessageBodyRenderer
      */
     public function renderText(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
-        $content = $this->view->withContext($this->template)->render($view, $viewParameters);
+        $content = $this->view
+            ->withContext($this->template)
+            ->render($view, $viewParameters);
 
         if ($this->template->getTextLayout() === '') {
             return $content;
         }
 
         $layoutParameters['content'] = $content;
-        return $this->view->withContext($this->template)->render($this->template->getTextLayout(), $layoutParameters);
+        return $this->view
+            ->withContext($this->template)
+            ->render($this->template->getTextLayout(), $layoutParameters);
     }
 
     /**

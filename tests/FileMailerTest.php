@@ -26,7 +26,8 @@ final class FileMailerTest extends TestCase
     {
         $mailer = $this->createFileMailer();
 
-        $message = $mailer->compose()
+        $message = $mailer
+            ->compose()
             ->withTo('to@example.com')
             ->withFrom('from@example.com')
             ->withSubject('test subject')
@@ -38,7 +39,9 @@ final class FileMailerTest extends TestCase
         $this->assertNotEmpty($files);
         $this->assertSame(
             [BeforeSend::class, AfterSend::class],
-            $this->get(EventDispatcherInterface::class)->getEventClasses(),
+            $this
+                ->get(EventDispatcherInterface::class)
+                ->getEventClasses(),
         );
 
         foreach ($files as $file) {
@@ -70,7 +73,8 @@ final class FileMailerTest extends TestCase
     {
         $mailer = $this->createFileMailer($filenameCallback);
 
-        $message = $mailer->compose()
+        $message = $mailer
+            ->compose()
             ->withTo('to@example.com')
             ->withFrom('from@example.com')
             ->withSubject('test subject')
@@ -82,7 +86,9 @@ final class FileMailerTest extends TestCase
         $this->assertNotEmpty($files);
         $this->assertSame(
             [BeforeSend::class, AfterSend::class],
-            $this->get(EventDispatcherInterface::class)->getEventClasses(),
+            $this
+                ->get(EventDispatcherInterface::class)
+                ->getEventClasses(),
         );
 
         foreach ($files as $file) {

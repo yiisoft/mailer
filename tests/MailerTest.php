@@ -83,7 +83,9 @@ final class MailerTest extends TestCase
         $textViewFileContent = "Embed image: {$file->cid()}";
         $this->saveFile($textViewFileName, $textViewFileContent);
 
-        $message = $mailer->compose(['text' => $textViewName])->withEmbedded($file);
+        $message = $mailer
+            ->compose(['text' => $textViewName])
+            ->withEmbedded($file);
 
         $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
     }
@@ -129,7 +131,9 @@ final class MailerTest extends TestCase
         $messageFactory = $this->get(MessageFactoryInterface::class);
         $messageBodyRenderer = $this->get(MessageBodyRenderer::class);
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $eventDispatcher->method('dispatch')->willReturn($event);
+        $eventDispatcher
+            ->method('dispatch')
+            ->willReturn($event);
         $mailer = new DummyMailer($messageFactory, $messageBodyRenderer, $eventDispatcher);
 
         $this->assertTrue($mailer->beforeSend($message));
@@ -147,6 +151,8 @@ final class MailerTest extends TestCase
         $message = $mailer->createMessage();
         $mailer->afterSend($message);
 
-        $this->assertSame([AfterSend::class], $this->get(EventDispatcherInterface::class)->getEventClasses());
+        $this->assertSame([AfterSend::class], $this
+            ->get(EventDispatcherInterface::class)
+            ->getEventClasses());
     }
 }
