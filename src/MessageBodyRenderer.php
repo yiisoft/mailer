@@ -68,7 +68,7 @@ final class MessageBodyRenderer
      */
     public function addToMessage(
         MessageInterface $message,
-                         $view,
+        $view,
         array $viewParameters = [],
         array $layoutParameters = []
     ): MessageInterface {
