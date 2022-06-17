@@ -38,7 +38,7 @@
         "vimeo/psalm": "^4.18",
         "yiisoft/files": "^1.0",
         "yiisoft/psr-dummy-provider": "^1.0",
-        "yiisoft/test-support": "^1.3"
+        "yiisoft/test-support": "^2.0"
     },
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
