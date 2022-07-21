@@ -216,7 +216,7 @@ TEXT
             'float' => [1.1],
             'bool' => [true],
             'object' => [new stdClass()],
-            'callable' => [static fn() => 'view'],
+            'callable' => [static fn () => 'view'],
             'array-without-required-keys' => [['json' => 'json-view', 'xml' => 'xml-view']],
             'empty-array' => [[]],
         ];

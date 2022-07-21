@@ -200,9 +200,11 @@ final class MailerTest extends TestCase
         $message = $mailer->createMessage();
         $mailer->afterSend($message);
 
-        $this->assertSame([AfterSend::class],
+        $this->assertSame(
+            [AfterSend::class],
             $this
                 ->get(EventDispatcherInterface::class)
-                ->getEventClasses());
+                ->getEventClasses()
+        );
     }
 }
