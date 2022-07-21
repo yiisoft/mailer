@@ -15,8 +15,8 @@ use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
-
 use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
+
 use function basename;
 use function strip_tags;
 
@@ -69,7 +69,56 @@ final class MailerTest extends TestCase
 
         $message = $mailer->compose($htmlViewName);
         $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render HTML by direct view!');
-        $this->assertSame(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
+        $this->assertSame(
+            strip_tags($htmlViewFileContent),
+            $message->getTextBody(),
+            'Unable to render text by direct view!'
+        );
+    }
+
+    public function testComposeWithLocale(): void
+    {
+        $mailer = $this->get(MailerInterface::class);
+        $viewPath = $this->getTestFilePath();
+
+        $htmlViewName = 'test-html-view';
+        $this->saveFile(
+            $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php',
+            'HTML <b>view file</b> content.'
+        );
+
+        $textViewName = 'test-text-view';
+        $this->saveFile(
+            $viewPath . DIRECTORY_SEPARATOR . $textViewName . '.php',
+            'Plain text view file content.'
+        );
+
+        $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . 'de_DE' . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
+        $htmlViewFileContent = 'de_DE HTML <b>view file</b> content.';
+        $this->saveFile($htmlViewFileName, $htmlViewFileContent);
+
+        $textViewFileName = $viewPath . DIRECTORY_SEPARATOR . 'de_DE' . DIRECTORY_SEPARATOR . $textViewName . '.php';
+        $textViewFileContent = 'de_DE plain text view file content.';
+        $this->saveFile($textViewFileName, $textViewFileContent);
+
+        $message = $mailer
+            ->withLocale('de_DE')
+            ->compose([
+                'html' => $htmlViewName,
+                'text' => $textViewName,
+            ]);
+        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render HTML!');
+        $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
+
+        $message = $mailer
+            ->withLocale('de_DE')
+            ->compose($htmlViewName);
+        $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render HTML by direct view!');
+        $this->assertSame(
+            strip_tags($htmlViewFileContent),
+            $message->getTextBody(),
+            'Unable to render text by direct view!'
+        );
     }
 
     public function testComposeWithViewAndWithEmbedFile(): void
@@ -151,8 +200,9 @@ final class MailerTest extends TestCase
         $message = $mailer->createMessage();
         $mailer->afterSend($message);
 
-        $this->assertSame([AfterSend::class], $this
-            ->get(EventDispatcherInterface::class)
-            ->getEventClasses());
+        $this->assertSame([AfterSend::class],
+            $this
+                ->get(EventDispatcherInterface::class)
+                ->getEventClasses());
     }
 }

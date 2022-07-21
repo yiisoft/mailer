@@ -80,4 +80,16 @@ interface MailerInterface
      * @return self The new instance.
      */
     public function withTemplate(MessageBodyTemplate $template): self;
+
+    /**
+     * Returns a new instance with the specified locale.
+     *
+     * @param string $locale The locale code.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the mailer,
+     * and MUST return an instance that has the new message body renderer instance.
+     *
+     * @return self The new instance.
+     */
+    public function withLocale(string $locale): self;
 }

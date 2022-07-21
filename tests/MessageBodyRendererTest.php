@@ -43,6 +43,25 @@ final class MessageBodyRendererTest extends TestCase
         $this->assertSame($template, $this->getInaccessibleProperty($newRenderer, 'template'));
     }
 
+    public function testRenderHtmlAndRenderTextWithLocale(): void
+    {
+        $viewPath = $this->getTestFilePath();
+        $renderer = $this->createRenderer($viewPath, '', '');
+
+        $newRenderer = $renderer->withLocale('de_De');
+
+        $viewName = 'test-view-locale';
+        $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
+        $this->saveFile($viewFileName, 'no localized');
+
+        $viewFileName = $viewPath . DIRECTORY_SEPARATOR . 'de_DE' . DIRECTORY_SEPARATOR . $viewName . '.php';
+        $this->saveFile($viewFileName, 'de_DE locale');
+
+        $this->assertNotSame($renderer, $newRenderer);
+        $this->assertSame('de_DE locale', $newRenderer->renderHtml('test-view-locale'));
+        $this->assertSame('de_DE locale', $newRenderer->renderText('test-view-locale'));
+    }
+
     public function testRenderHtmlAndRenderTextWithoutLayouts(): void
     {
         $viewPath = $this->getTestFilePath();
@@ -53,13 +72,19 @@ final class MessageBodyRendererTest extends TestCase
         $viewFileContent = '<?php echo $testParam; ?>';
         $this->saveFile($viewFileName, $viewFileContent);
 
-        $this->assertSame('<p>Test HTML output.</p>', $renderer->renderHtml($viewName, [
-            'testParam' => '<p>Test HTML output.</p>',
-        ]));
+        $this->assertSame(
+            '<p>Test HTML output.</p>',
+            $renderer->renderHtml($viewName, [
+                'testParam' => '<p>Test HTML output.</p>',
+            ])
+        );
 
-        $this->assertSame('Test TEXT output.', $renderer->renderText($viewName, [
-            'testParam' => 'Test TEXT output.',
-        ]));
+        $this->assertSame(
+            'Test TEXT output.',
+            $renderer->renderText($viewName, [
+                'testParam' => 'Test TEXT output.',
+            ])
+        );
     }
 
     public function testRenderHtmlAndRenderTextWithLayouts(): void
@@ -77,17 +102,23 @@ final class MessageBodyRendererTest extends TestCase
         $layoutFileContent = 'Begin Layout <?php echo $content; ?> End <?php echo $layoutParam; ?>';
         $this->saveFile($layoutFileName, $layoutFileContent);
 
-        $this->assertSame('Begin Layout <p>Test HTML.</p> End Layout', $renderer->renderHtml(
-            $viewName,
-            ['viewParam' => '<p>Test HTML.</p>'],
-            ['layoutParam' => 'Layout', 'content' => 'Replaced'],
-        ));
+        $this->assertSame(
+            'Begin Layout <p>Test HTML.</p> End Layout',
+            $renderer->renderHtml(
+                $viewName,
+                ['viewParam' => '<p>Test HTML.</p>'],
+                ['layoutParam' => 'Layout', 'content' => 'Replaced'],
+            )
+        );
 
-        $this->assertSame('Begin Layout Test TEXT. End Layout', $renderer->renderText(
-            $viewName,
-            ['viewParam' => 'Test TEXT.'],
-            ['layoutParam' => 'Layout', 'content' => 'Replaced'],
-        ));
+        $this->assertSame(
+            'Begin Layout Test TEXT. End Layout',
+            $renderer->renderText(
+                $viewName,
+                ['viewParam' => 'Test TEXT.'],
+                ['layoutParam' => 'Layout', 'content' => 'Replaced'],
+            )
+        );
     }
 
     public function testAddToMessage(): void
@@ -111,7 +142,11 @@ final class MessageBodyRendererTest extends TestCase
 
         $message = $renderer->addToMessage($this->createMessage(), $htmlViewName);
         $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
-        $this->assertEquals(strip_tags($htmlViewFileContent), $message->getTextBody(), 'Unable to render text by direct view!');
+        $this->assertEquals(
+            strip_tags($htmlViewFileContent),
+            $message->getTextBody(),
+            'Unable to render text by direct view!'
+        );
     }
 
     public function htmlAndPlainProvider(): array
@@ -137,7 +172,8 @@ final class MessageBodyRendererTest extends TestCase
 </body>
 </html>
 HTML
-                ,<<<TEXT
+                ,
+                <<<TEXT
 First paragraph
 second line
 
@@ -180,7 +216,7 @@ TEXT
             'float' => [1.1],
             'bool' => [true],
             'object' => [new stdClass()],
-            'callable' => [static fn () => 'view'],
+            'callable' => [static fn() => 'view'],
             'array-without-required-keys' => [['json' => 'json-view', 'xml' => 'xml-view']],
             'empty-array' => [[]],
         ];

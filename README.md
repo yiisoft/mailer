@@ -47,12 +47,31 @@ $message = $mailer
     ->withTo('to@domain.com')
     ->withSubject('Message subject')
     ->withTextBody('Plain text content')
-    ->withHtmlBody('<b>HTML content</b>')
-;
+    ->withHtmlBody('<b>HTML content</b>');
+    
 $mailer->send($message);
 ```
 
 See [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md) for more info.
+
+### Localize view file
+
+You can set a specific locale that will be used to localize view files with `withLocale()` method:
+
+```php
+/**
+ * @var \Yiisoft\Mailer\MailerInterface $mailer
+ */
+
+$message = $mailer
+    ->withLocale('de_DE')
+    ->compose('html-view')
+    ->withFrom('from@domain.com')
+    ->withTo('to@domain.com')
+    ->withSubject('Message subject');
+    
+$mailer->send($message);
+```
 
 ### Mailer implementations
 
