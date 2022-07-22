@@ -48,7 +48,7 @@ final class MessageBodyRendererTest extends TestCase
         $viewPath = $this->getTestFilePath();
         $renderer = $this->createRenderer($viewPath, '', '');
 
-        $newRenderer = $renderer->withLocale('de_De');
+        $newRenderer = $renderer->withLocale('de_DE');
 
         $viewName = 'test-view-locale';
         $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
