@@ -1,5 +1,9 @@
 # Yii Mailer Library
 
+## 4.0.1 under development
+
+- no changes in this release.
+
 ## 4.0.0 July 23, 2022
 
 - New #44: Add immutable method `MailerInterface::withLocale()` that set locale (@thenotsoft)
