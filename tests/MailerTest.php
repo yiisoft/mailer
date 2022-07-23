@@ -207,4 +207,11 @@ final class MailerTest extends TestCase
                 ->getEventClasses()
         );
     }
+
+    public function testImmutability(): void
+    {
+        $mailer = $this->get(MailerInterface::class);
+
+        $this->assertNotSame($mailer, $mailer->withLocale('de_DE'));
+    }
 }
