@@ -193,6 +193,20 @@ final class MessageBodyRenderer
     }
 
     /**
+     * Returns a new instance with specified locale code.
+     *
+     * @param string $locale The locale code.
+     *
+     * @return self
+     */
+    public function withLocale(string $locale): self
+    {
+        $new = clone $this;
+        $new->view = $this->view->withLocale($locale);
+        return $new;
+    }
+
+    /**
      * Generates a TEXT body from an HTML body.
      *
      * @param string $html The HTML body.

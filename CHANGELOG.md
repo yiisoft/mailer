@@ -2,7 +2,7 @@
 
 ## 3.0.4 under development
 
-- no changes in this release.
+- New #44: Add immutable method `MailerInterface::withLocale()` that set locale (@thenotsoft)
 
 
 ## 3.0.3 February 04, 2022

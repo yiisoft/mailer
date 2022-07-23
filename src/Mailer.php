@@ -45,6 +45,20 @@ abstract class Mailer implements MailerInterface
     }
 
     /**
+     * Returns a new instance with specified locale code.
+     *
+     * @param string $locale The locale code.
+     *
+     * @return self
+     */
+    public function withLocale(string $locale): self
+    {
+        $new = clone $this;
+        $new->messageBodyRenderer = $new->messageBodyRenderer->withLocale($locale);
+        return $new;
+    }
+
+    /**
      * Creates a new message instance and optionally composes its body content via view rendering.
      *
      * @param array<string, string>|string|null $view The view to be used for rendering the message body.
