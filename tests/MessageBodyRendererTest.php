@@ -46,9 +46,9 @@ final class MessageBodyRendererTest extends TestCase
     public function testRenderHtmlAndRenderTextWithLocale(): void
     {
         $viewPath = $this->getTestFilePath();
-        $renderer = $this->createRenderer($viewPath, '', '');
-
-        $newRenderer = $renderer->withLocale('de_DE');
+        $renderer = $this
+            ->createRenderer($viewPath, '', '')
+            ->withLocale('de_DE');
 
         $viewName = 'test-view-locale';
         $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
@@ -57,9 +57,8 @@ final class MessageBodyRendererTest extends TestCase
         $viewFileName = $viewPath . DIRECTORY_SEPARATOR . 'de_DE' . DIRECTORY_SEPARATOR . $viewName . '.php';
         $this->saveFile($viewFileName, 'de_DE locale');
 
-        $this->assertNotSame($renderer, $newRenderer);
-        $this->assertSame('de_DE locale', $newRenderer->renderHtml('test-view-locale'));
-        $this->assertSame('de_DE locale', $newRenderer->renderText('test-view-locale'));
+        $this->assertSame('de_DE locale', $renderer->renderHtml('test-view-locale'));
+        $this->assertSame('de_DE locale', $renderer->renderText('test-view-locale'));
     }
 
     public function testRenderHtmlAndRenderTextWithoutLayouts(): void
