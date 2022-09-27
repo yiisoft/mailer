@@ -42,8 +42,6 @@ interface MessageInterface
      * and MUST return an instance that has the new charset.
      *
      * @param string $charset The charset name.
-     *
-     * @return self
      */
     public function withCharset(string $charset): self;
 
@@ -54,7 +52,7 @@ interface MessageInterface
      *
      * @see withFrom()
      */
-    public function getFrom();
+    public function getFrom(): array|string;
 
     /**
      * Returns a new instance with the specified sender email address.
@@ -66,10 +64,8 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
-     *
-     * @return self
      */
-    public function withFrom($from): self;
+    public function withFrom(array|string $from): self;
 
     /**
      * Returns the message recipient(s) email address.
@@ -78,7 +74,7 @@ interface MessageInterface
      *
      * @see withTo()
      */
-    public function getTo();
+    public function getTo(): array|string;
 
     /**
      * Returns a new instance with the specified recipient(s) email address.
@@ -90,10 +86,8 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new recipients email address.
-     *
-     * @return self
      */
-    public function withTo($to): self;
+    public function withTo(array|string $to): self;
 
     /**
      * Returns the reply-to address of this message.
@@ -102,7 +96,7 @@ interface MessageInterface
      *
      * @see withReplyTo()
      */
-    public function getReplyTo();
+    public function getReplyTo(): array|string;
 
     /**
      * Returns a new instance with the specified reply-to address.
@@ -114,10 +108,8 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new reply-to address.
-     *
-     * @return self
      */
-    public function withReplyTo($replyTo): self;
+    public function withReplyTo(array|string $replyTo): self;
 
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
@@ -126,7 +118,7 @@ interface MessageInterface
      *
      * @see withCc()
      */
-    public function getCc();
+    public function getCc(): array|string;
 
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
@@ -138,10 +130,8 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Cc (additional copy receiver) addresses.
-     *
-     * @return self
      */
-    public function withCc($cc): self;
+    public function withCc(array|string $cc): self;
 
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
@@ -150,7 +140,7 @@ interface MessageInterface
      *
      * @see withBcc()
      */
-    public function getBcc();
+    public function getBcc(): array|string;
 
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
@@ -162,10 +152,8 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Bcc (hidden copy receiver) addresses.
-     *
-     * @return self
      */
-    public function withBcc($bcc): self;
+    public function withBcc(array|string $bcc): self;
 
     /**
      * Returns the message subject.
@@ -181,8 +169,6 @@ interface MessageInterface
      * and MUST return an instance that has the new message subject.
      *
      * @param string $subject The message subject.
-     *
-     * @return self
      */
     public function withSubject(string $subject): self;
 
@@ -200,8 +186,6 @@ interface MessageInterface
      * and MUST return an instance that has the new date when the message was sent.
      *
      * @param DateTimeInterface $date The date when the message was sent.
-     *
-     * @return self
      */
     public function withDate(DateTimeInterface $date): self;
 
@@ -221,8 +205,6 @@ interface MessageInterface
      *
      * @param int $priority The priority value, should be an integer in range: `1..5`,
      * where 1 is the highest priority and 5 is the lowest.
-     *
-     * @return self
      */
     public function withPriority(int $priority): self;
 
@@ -240,8 +222,6 @@ interface MessageInterface
      * and MUST return an instance that has the new return-path (the bounce address).
      *
      * @param string $address The bounce email address.
-     *
-     * @return self
      */
     public function withReturnPath(string $address): self;
 
@@ -259,8 +239,6 @@ interface MessageInterface
      * and MUST return an instance that has the new actual sender email address.
      *
      * @param string $address The actual sender email address.
-     *
-     * @return self
      */
     public function withSender(string $address): self;
 
@@ -278,8 +256,6 @@ interface MessageInterface
      * and MUST return an instance that has the new message HTML content.
      *
      * @param string $html message HTML content.
-     *
-     * @return self
      */
     public function withHtmlBody(string $html): self;
 
@@ -297,8 +273,6 @@ interface MessageInterface
      * and MUST return an instance that has the new message plain text content.
      *
      * @param string $text The message plain text content.
-     *
-     * @return self
      */
     public function withTextBody(string $text): self;
 
@@ -309,8 +283,6 @@ interface MessageInterface
      * and MUST return an instance that has the new attached file.
      *
      * @param File $file The file instance.
-     *
-     * @return self
      */
     public function withAttached(File $file): self;
 
@@ -323,8 +295,6 @@ interface MessageInterface
      * and MUST return an instance that has the new embedded file.
      *
      * @param File $file The file instance.
-     *
-     * @return self
      */
     public function withEmbedded(File $file): self;
 
@@ -347,8 +317,6 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new added custom header value.
-     *
-     * @return self
      */
     public function withAddedHeader(string $name, string $value): self;
 
@@ -360,10 +328,8 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header value.
-     *
-     * @return self
      */
-    public function withHeader(string $name, $value): self;
+    public function withHeader(string $name, string|array $value): self;
 
     /**
      * Returns a new instance with the specified custom header values.
@@ -372,15 +338,11 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header values.
-     *
-     * @return self
      */
     public function withHeaders(array $headers): self;
 
     /**
      * Returns error represents why send fails, or null on a successful send.
-     *
-     * @return Throwable|null
      */
     public function getError(): ?Throwable;
 
@@ -391,8 +353,6 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new send fails error.
-     *
-     * @return self
      */
     public function withError(Throwable $e): self;
 

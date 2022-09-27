@@ -14,12 +14,10 @@ use Yiisoft\Mailer\MessageInterface;
  */
 final class BeforeSend implements StoppableEventInterface
 {
-    private MessageInterface $message;
     private bool $stopPropagation = false;
 
-    public function __construct(MessageInterface $message)
+    public function __construct(private MessageInterface $message)
     {
-        $this->message = $message;
     }
 
     public function getMessage(): MessageInterface

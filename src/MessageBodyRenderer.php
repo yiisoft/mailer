@@ -25,23 +25,11 @@ use const ENT_QUOTES;
 final class MessageBodyRenderer
 {
     /**
-     * @var View The view instance.
-     */
-    private View $view;
-
-    /**
-     * @var MessageBodyTemplate The message body template instance.
-     */
-    private MessageBodyTemplate $template;
-
-    /**
      * @param View $view The view instance.
      * @param MessageBodyTemplate $template The message body template instance.
      */
-    public function __construct(View $view, MessageBodyTemplate $template)
+    public function __construct(private View $view, private MessageBodyTemplate $template)
     {
-        $this->view = $view;
-        $this->template = $template;
     }
 
     /**
@@ -68,7 +56,7 @@ final class MessageBodyRenderer
      */
     public function addToMessage(
         MessageInterface $message,
-        $view,
+        mixed $view,
         array $viewParameters = [],
         array $layoutParameters = []
     ): MessageInterface {
@@ -196,8 +184,6 @@ final class MessageBodyRenderer
      * Returns a new instance with specified locale code.
      *
      * @param string $locale The locale code.
-     *
-     * @return self
      */
     public function withLocale(string $locale): self
     {
