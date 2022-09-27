@@ -186,9 +186,6 @@ TEXT
 
     /**
      * @dataProvider htmlAndPlainProvider
-     *
-     * @param string $htmlViewFileContent
-     * @param string $expectedTextRendering
      */
     public function testAddToMessagePlainTextFallback(string $htmlViewFileContent, string $expectedTextRendering): void
     {
@@ -223,23 +220,14 @@ TEXT
 
     /**
      * @dataProvider invalidViewProvider
-     *
-     * @param mixed $view
      */
-    public function testAddToMessageThrowExceptionForInvalidView($view): void
+    public function testAddToMessageThrowExceptionForInvalidView(mixed $view): void
     {
         $renderer = $this->createRenderer($this->getTestFilePath(), '', '');
         $this->expectException(RuntimeException::class);
         $renderer->addToMessage($this->createMessage(), $view);
     }
 
-    /**
-     * @param string $viewPath
-     * @param string $htmlLayout
-     * @param string $textLayout
-     *
-     * @return MessageBodyRenderer
-     */
     public function createRenderer(string $viewPath, string $htmlLayout, string $textLayout): MessageBodyRenderer
     {
         return new MessageBodyRenderer(

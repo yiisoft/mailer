@@ -13,7 +13,7 @@ use Yiisoft\Mailer\MessageInterface;
 
 use function json_encode;
 
-final class DummyMessage implements MessageInterface
+final class DummyMessage implements MessageInterface, \Stringable
 {
     private string $charset = '';
     private string $from = '';
@@ -250,6 +250,6 @@ final class DummyMessage implements MessageInterface
             'htmlBody' => $this->htmlBody,
             'textBody' => $this->textBody,
             'error' => (string) $this->error,
-        ]);
+        ], JSON_THROW_ON_ERROR);
     }
 }

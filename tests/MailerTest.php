@@ -141,8 +141,6 @@ final class MailerTest extends TestCase
 
     /**
      * @dataProvider messagesProvider
-     *
-     * @param array $messages
      */
     public function testSendMultiple(array $messages): void
     {

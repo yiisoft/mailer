@@ -65,9 +65,6 @@ final class FileMailerTest extends TestCase
 
     /**
      * @dataProvider filenameCallbackProvider
-     *
-     * @param callable $filenameCallback
-     * @param string $filenameExpected
      */
     public function testSendWithFilenameCallback(callable $filenameCallback, string $filenameExpected): void
     {
@@ -111,8 +108,6 @@ final class FileMailerTest extends TestCase
 
     /**
      * @dataProvider invalidFilenameCallbackProvider
-     *
-     * @param callable $filenameCallback
      */
     public function testSendThrowExceptionForFilenameCallbackReturnNotString(callable $filenameCallback): void
     {
