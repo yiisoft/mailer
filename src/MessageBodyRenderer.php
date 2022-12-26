@@ -28,8 +28,10 @@ final class MessageBodyRenderer
      * @param View $view The view instance.
      * @param MessageBodyTemplate $template The message body template instance.
      */
-    public function __construct(private View $view, private MessageBodyTemplate $template)
-    {
+    public function __construct(
+        private View $view,
+        private MessageBodyTemplate $template
+    ) {
     }
 
     /**

@@ -27,8 +27,12 @@ final class File
      * @param string|null $content The content that should be used to attach the file.
      * @param string|null $contentType MIME type that should be used to attach the file.
      */
-    private function __construct(private ?string $name, private ?string $path, private ?string $content, private ?string $contentType)
-    {
+    private function __construct(
+        private ?string $name,
+        private ?string $path,
+        private ?string $content,
+        private ?string $contentType
+    ) {
     }
 
     /**

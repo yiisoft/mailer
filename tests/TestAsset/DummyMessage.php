@@ -7,13 +7,14 @@ namespace Yiisoft\Mailer\Tests\TestAsset;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Stringable;
 use Throwable;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MessageInterface;
 
 use function json_encode;
 
-final class DummyMessage implements MessageInterface, \Stringable
+final class DummyMessage implements MessageInterface, Stringable
 {
     private string $charset = '';
     private string $from = '';
@@ -42,7 +43,7 @@ final class DummyMessage implements MessageInterface, \Stringable
         return $new;
     }
 
-    public function getFrom()
+    public function getFrom(): string
     {
         return $this->from;
     }
@@ -54,7 +55,7 @@ final class DummyMessage implements MessageInterface, \Stringable
         return $new;
     }
 
-    public function getTo()
+    public function getTo(): string
     {
         return $this->to;
     }
@@ -66,7 +67,7 @@ final class DummyMessage implements MessageInterface, \Stringable
         return $new;
     }
 
-    public function getReplyTo()
+    public function getReplyTo(): string
     {
         return $this->replyTo;
     }
@@ -78,7 +79,7 @@ final class DummyMessage implements MessageInterface, \Stringable
         return $new;
     }
 
-    public function getCc()
+    public function getCc(): string
     {
         return $this->cc;
     }
@@ -90,7 +91,7 @@ final class DummyMessage implements MessageInterface, \Stringable
         return $new;
     }
 
-    public function getBcc()
+    public function getBcc(): string
     {
         return $this->bcc;
     }

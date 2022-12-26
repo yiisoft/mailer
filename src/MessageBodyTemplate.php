@@ -13,11 +13,26 @@ final class MessageBodyTemplate implements ViewContextInterface
 {
     /**
      * @param string $viewPath The directory containing view files for composing mail messages.
-     * @param string $htmlLayout The HTML layout view name. It is the layout used to render HTML mail body.
-     * @param string $textLayout The TEXT layout view name. This is the layout used to render TEXT mail body.
+     * @param string $htmlLayout The HTML layout view name. It is the layout used to render HTML mail body. If the value
+     * is empty string, no layout will be applied.
+     *
+     * The property can take the following values:
+     *
+     * - a relative view name: a view file relative to {@see MessageBodyRenderer::$viewPath}, e.g., 'layouts/html'.
+     * - an empty string: the layout is disabled.
+     * @param string $textLayout The TEXT layout view name. This is the layout used to render TEXT mail body. If the
+     * value is empty string, no layout will be applied.
+     *
+     * The property can take the following values:
+     *
+     * - a relative view name: a view file relative to {@see MessageBodyRenderer::$viewPath}, e.g., 'layouts/text'.
+     * - an empty string: the layout is disabled.
      */
-    public function __construct(private string $viewPath, private string $htmlLayout = 'layouts/html', private string $textLayout = 'layouts/text')
-    {
+    public function __construct(
+        private string $viewPath,
+        private string $htmlLayout = 'layouts/html',
+        private string $textLayout = 'layouts/text'
+    ) {
     }
 
     /**
