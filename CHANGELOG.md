@@ -1,8 +1,10 @@
 # Yii Mailer Library
 
-## 4.0.1 under development
+## 4.1.0 under development
 
 - Enh: Add composer require checker into CI
+- Chg #60: Raise minimal PHP version to `^8.0` (@vjik)
+- Enh #56: Add support of `yiisoft/view` of version `^7.0` (@vjik) 
 
 ## 4.0.0 July 23, 2022
 
@@ -10,7 +12,7 @@
 
 ## 3.0.3 February 04, 2022
 
-Chg #43: Update the `yiisoft/view` dependency, added `^5.0` (@thenotsoft)
+- Chg #43: Update the `yiisoft/view` dependency, added `^5.0` (@thenotsoft)
 
 ## 3.0.2 October 26, 2021
 
