@@ -3,7 +3,8 @@
 ## 4.1.0 under development
 
 - Chg #60: Raise minimal PHP version to `^8.0` (@vjik)
-- Enh #56: Add support of `yiisoft/view` of version `^7.0` (@vjik) 
+- Enh #56: Add support of `yiisoft/view` of version `^7.0` (@vjik)
+- Chg #52: In `MessageInterface` methods move a type hints from annotation to signature (@vjik)
 
 ## 4.0.0 July 23, 2022
 
