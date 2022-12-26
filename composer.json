@@ -29,7 +29,7 @@
     "require": {
         "php": "^8.0",
         "psr/event-dispatcher": "^1.0",
-        "yiisoft/view": "^6.0"
+        "yiisoft/view": "^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
