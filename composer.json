@@ -27,18 +27,18 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "psr/event-dispatcher": "^1.0",
         "yiisoft/view": "^6.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "roave/infection-static-analysis-plugin": "^1.16",
+        "roave/infection-static-analysis-plugin": "^1.25",
         "spatie/phpunit-watcher": "^1.23",
-        "vimeo/psalm": "^4.18",
-        "yiisoft/files": "^1.0",
+        "vimeo/psalm": "^4.30|^5.4",
+        "yiisoft/files": "^2.0",
         "yiisoft/psr-dummy-provider": "^1.0",
-        "yiisoft/test-support": "^1.3"
+        "yiisoft/test-support": "^3.0"
     },
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
