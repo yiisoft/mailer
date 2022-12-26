@@ -2,7 +2,7 @@
 
 ## 4.1.0 under development
 
-- Raise minimal PHP version to `^8.0` (@vjik)
+- Chg #60: Raise minimal PHP version to `^8.0` (@vjik)
 
 ## 4.0.0 July 23, 2022
 
