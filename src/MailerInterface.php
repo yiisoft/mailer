@@ -7,7 +7,7 @@ namespace Yiisoft\Mailer;
 use Throwable;
 
 /**
- * MailerInterface is the interface that should be implemented by mailers.
+ * `MailerInterface` is the interface that should be implemented by mailers.
  *
  * A mailer should support composition of a {@see \Yiisoft\Mailer\MessageInterface} body through the view
  * rendering mechanism and sending one or multiple {@see \Yiisoft\Mailer\MessageInterface}.

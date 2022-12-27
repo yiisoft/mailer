@@ -20,7 +20,7 @@ use function random_int;
 use function sprintf;
 
 /**
- * FileMailer is a mock mailer that save email messages in files instead of sending them.
+ * `FileMailer` is a mock mailer that save email messages in files instead of sending them.
  */
 final class FileMailer extends Mailer
 {
@@ -43,8 +43,8 @@ final class FileMailer extends Mailer
      * @param MessageBodyRenderer $messageBodyRenderer The message body renderer instance.
      * @param EventDispatcherInterface $eventDispatcher The event dispatcher instance.
      * @param string $path The path where message files located.
-     * @param callable|null $filenameCallback A PHP callback that return
-     * a file name which will be used to save the email message.
+     * @param callable|null $filenameCallback A PHP callback that return a file name which will be used to save
+     * the email message.
      */
     public function __construct(
         MessageFactoryInterface $messageFactory,

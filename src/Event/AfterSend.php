@@ -7,7 +7,7 @@ namespace Yiisoft\Mailer\Event;
 use Yiisoft\Mailer\MessageInterface;
 
 /**
- * AfterSend event is triggered right after sent the message.
+ * `AfterSend` event is triggered right after sent the message.
  *
  * @see \Yiisoft\Mailer\Mailer::afterSend()
  */
