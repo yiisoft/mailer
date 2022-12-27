@@ -25,13 +25,6 @@ use function sprintf;
 final class FileMailer extends Mailer
 {
     /**
-     * The path where message files located.
-     *
-     * @var string
-     */
-    private string $path;
-
-    /**
      * @var callable|null A PHP callback that return a file name which will be used to save the email message.
      *
      * If not set, the file name will be generated based on the current
@@ -57,11 +50,10 @@ final class FileMailer extends Mailer
         MessageFactoryInterface $messageFactory,
         MessageBodyRenderer $messageBodyRenderer,
         EventDispatcherInterface $eventDispatcher,
-        string $path,
+        private string $path,
         callable $filenameCallback = null
     ) {
         parent::__construct($messageFactory, $messageBodyRenderer, $eventDispatcher);
-        $this->path = $path;
         $this->filenameCallback = $filenameCallback;
     }
 

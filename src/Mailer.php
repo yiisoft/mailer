@@ -16,18 +16,11 @@ use Yiisoft\Mailer\Event\BeforeSend;
  */
 abstract class Mailer implements MailerInterface
 {
-    private MessageFactoryInterface $messageFactory;
-    private MessageBodyRenderer $messageBodyRenderer;
-    private EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
-        MessageFactoryInterface $messageFactory,
-        MessageBodyRenderer $messageBodyRenderer,
-        EventDispatcherInterface $eventDispatcher
+        private MessageFactoryInterface $messageFactory,
+        private MessageBodyRenderer $messageBodyRenderer,
+        private EventDispatcherInterface $eventDispatcher
     ) {
-        $this->messageFactory = $messageFactory;
-        $this->messageBodyRenderer = $messageBodyRenderer;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**

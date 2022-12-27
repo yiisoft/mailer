@@ -22,37 +22,17 @@ final class File
     private ?string $id = null;
 
     /**
-     * @var string|null The name that should be used to attach the file.
-     */
-    private ?string $name;
-
-    /**
-     * @var string|null The full path to the file.
-     */
-    private ?string $path;
-
-    /**
-     * @var string|null The content that should be used to attach the file.
-     */
-    private ?string $content;
-
-    /**
-     * @var string|null MIME type that should be used to attach the file.
-     */
-    private ?string $contentType;
-
-    /**
      * @param string|null $name The name that should be used to attach the file.
      * @param string|null $path The full path to the file.
      * @param string|null $content The content that should be used to attach the file.
      * @param string|null $contentType MIME type that should be used to attach the file.
      */
-    private function __construct(?string $name, ?string $path, ?string $content, ?string $contentType)
-    {
-        $this->name = $name;
-        $this->path = $path;
-        $this->content = $content;
-        $this->contentType = $contentType;
+    private function __construct(
+        private ?string $name,
+        private ?string $path,
+        private ?string $content,
+        private ?string $contentType
+    ) {
     }
 
     /**
@@ -61,8 +41,6 @@ final class File
      * @param string $content The content that should be used to attach the file.
      * @param string|null $name The name that should be used to attach the file.
      * @param string|null $contentType MIME type that should be used to attach the file.
-     *
-     * @return self
      */
     public static function fromContent(string $content, string $name = null, string $contentType = null): self
     {
@@ -77,8 +55,6 @@ final class File
      * @param string|null $contentType MIME type that should be used to attach the file.
      *
      * @throws RuntimeException If the specified file does not exist.
-     *
-     * @return self
      */
     public static function fromPath(string $path, string $name = null, string $contentType = null): self
     {

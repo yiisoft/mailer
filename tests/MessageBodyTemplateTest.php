@@ -21,10 +21,6 @@ final class MessageBodyTemplateTest extends TestCase
 
     /**
      * @dataProvider setupProvider
-     *
-     * @param string $viewPath
-     * @param string $htmlLayout
-     * @param string $textLayout
      */
     public function testSetup(string $viewPath, string $htmlLayout, string $textLayout): void
     {

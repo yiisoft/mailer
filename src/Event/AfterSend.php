@@ -13,11 +13,8 @@ use Yiisoft\Mailer\MessageInterface;
  */
 final class AfterSend
 {
-    private MessageInterface $message;
-
-    public function __construct(MessageInterface $message)
+    public function __construct(private MessageInterface $message)
     {
-        $this->message = $message;
     }
 
     public function getMessage(): MessageInterface
