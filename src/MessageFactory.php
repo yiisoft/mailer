@@ -10,7 +10,7 @@ use function is_subclass_of;
 use function sprintf;
 
 /**
- * MessageFactory creates an instance of the mail message.
+ * `MessageFactory` creates an instance of the mail message.
  */
 final class MessageFactory implements MessageFactoryInterface
 {

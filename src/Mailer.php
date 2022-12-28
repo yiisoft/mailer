@@ -10,7 +10,7 @@ use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 
 /**
- * Mailer serves as a base class that implements the basic functions required by {@see MailerInterface}.
+ * `Mailer` serves as a base class that implements the basic functions required by {@see MailerInterface}.
  *
  * Concrete child classes may focus on implementing the {@see Mailer::sendMessage()} method.
  */
@@ -108,8 +108,7 @@ abstract class Mailer implements MailerInterface
      * Sends multiple messages at once.
      *
      * The default implementation simply calls {@see Mailer::send()} multiple times.
-     * Child classes may override this method to implement more efficient way of
-     * sending multiple messages.
+     * Child classes may override this method to implement more efficient way of sending multiple messages.
      *
      * @param MessageInterface[] $messages List of email messages, which should be sent.
      *

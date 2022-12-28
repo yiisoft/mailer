@@ -8,7 +8,7 @@ use Psr\EventDispatcher\StoppableEventInterface;
 use Yiisoft\Mailer\MessageInterface;
 
 /**
- * BeforeSend event is triggered right before sending the message.
+ * `BeforeSend` event is triggered right before sending the message.
  *
  * @see \Yiisoft\Mailer\Mailer::beforeSend()
  */
