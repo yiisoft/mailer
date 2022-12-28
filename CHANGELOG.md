@@ -1,5 +1,9 @@
 # Yii Mailer Library
 
+## 5.0.1 under development
+
+- no changes in this release.
+
 ## 5.0.0 December 28, 2022
 
 - Chg #52: In `MessageInterface` methods move a type hints from annotation to signature (@vjik)
