@@ -2,7 +2,7 @@
 
 ## 5.0.1 under development
 
-- no changes in this release.
+- Enh #63: Add support of `yiisoft/view` of version `^8.0` (@vjik)
 
 ## 5.0.0 December 28, 2022
 
