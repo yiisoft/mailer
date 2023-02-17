@@ -1,6 +1,6 @@
 # Yii Mailer Library
 
-## 5.0.1 under development
+## 5.0.1 February 17, 2023
 
 - Enh #63: Add support of `yiisoft/view` of version `^8.0` (@vjik)
 
