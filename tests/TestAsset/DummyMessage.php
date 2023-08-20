@@ -17,8 +17,8 @@ use function json_encode;
 final class DummyMessage implements MessageInterface, Stringable
 {
     private string $charset = '';
-    private string $from = '';
-    private string $to = '';
+    private string|array $from = '';
+    private string|array $to = '';
     private string $replyTo = '';
     private string $cc = '';
     private string $bcc = '';
@@ -43,7 +43,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $new;
     }
 
-    public function getFrom(): string
+    public function getFrom(): string|array
     {
         return $this->from;
     }
@@ -55,7 +55,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $new;
     }
 
-    public function getTo(): string
+    public function getTo(): string|array
     {
         return $this->to;
     }
