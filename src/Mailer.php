@@ -173,8 +173,6 @@ abstract class Mailer implements MailerInterface
      *
      * You may override this method to do some postprocessing or logging based on mail send status.
      * If you override this method, please make sure you call the parent implementation first.
-     *
-     * @param MessageInterface $message
      */
     protected function afterSend(MessageInterface $message): void
     {
