@@ -28,6 +28,9 @@ final class MailerCollector implements SummaryCollectorInterface
 
     public function getCollected(): array
     {
+        if (!$this->isActive()) {
+            return [];
+        }
         return [
             'messages' => array_map(fn(MessageInterface $message) => [
                 'from' => (array) $message->getFrom(),
@@ -49,6 +52,9 @@ final class MailerCollector implements SummaryCollectorInterface
 
     public function getSummary(): array
     {
+        if (!$this->isActive()) {
+            return [];
+        }
         return [
             'mailer' => [
                 'total' => count($this->messages),
