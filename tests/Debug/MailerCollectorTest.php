@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests\Debug;
 
 use Yiisoft\Mailer\Debug\MailerCollector;
+use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
 use Yiisoft\Yii\Debug\Collector\CollectorInterface;
 use Yiisoft\Yii\Debug\Tests\Shared\AbstractCollectorTestCase;
@@ -16,8 +17,9 @@ final class MailerCollectorTest extends AbstractCollectorTestCase
      */
     protected function collectTestData(CollectorInterface|MailerCollector $collector): void
     {
-        $messages = $this->createMessages();
-        $collector->collectMessages($messages);
+        $message = $this->createMessage();
+        $collector->collectMessage($message);
+        $collector->collectMessages([$message]);
     }
 
     protected function getCollector(): CollectorInterface
@@ -28,13 +30,14 @@ final class MailerCollectorTest extends AbstractCollectorTestCase
     protected function checkSummaryData(array $data): void
     {
         parent::checkSummaryData($data);
-        $this->assertSame(['total' => 1], $data['mailer']);
+        $this->assertSame(['total' => 2], $data['mailer']);
     }
 
     protected function checkCollectedData(array $data): void
     {
         parent::checkCollectedData($data);
-        $this->assertCount(1, $data['messages']);
+        $this->assertCount(2, $data['messages']);
+        $this->assertSame($data['messages'][0], $data['messages'][1]);
         $message = $data['messages'][0];
         $this->assertSame(['me@mail.com' => 'Its me'], $message['from']);
         $this->assertSame(['you@yiisoft.com' => 'Its you'], $message['to']);
@@ -43,15 +46,13 @@ final class MailerCollectorTest extends AbstractCollectorTestCase
         $this->assertSame('<b>Test html body</b>', $message['htmlBody']);
     }
 
-    private function createMessages(): array
+    private function createMessage(): MessageInterface
     {
-        return [
-            (new DummyMessage())
+        return (new DummyMessage())
                 ->withFrom(['me@mail.com' => 'Its me'])
                 ->withTo(['you@yiisoft.com' => 'Its you'])
                 ->withSubject('Test subject')
                 ->withTextBody('Test text body')
-                ->withHtmlBody('<b>Test html body</b>'),
-        ];
+                ->withHtmlBody('<b>Test html body</b>');
     }
 }
