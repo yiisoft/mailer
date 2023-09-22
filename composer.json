@@ -26,7 +26,6 @@
             "url": "https://github.com/sponsors/yiisoft"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": "^8.0",
         "psr/event-dispatcher": "^1.0",
