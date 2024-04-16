@@ -152,7 +152,7 @@ final class MessageBodyRendererTest extends TestCase
     {
         return [
             [
-                'HTML <b>view file</b> content <a href="http://yiifresh.com/index.php?r=site%2Freset-password&amp;token=abcdef">http://yiifresh.com/index.php?r=site%2Freset-password&amp;token=abcdef</a>',
+                'HTML <b>view file</b> content <a href="https://yiifresh.com/index.php?r=site%2Freset-password&amp;token=abcdef">http://yiifresh.com/index.php?r=site%2Freset-password&amp;token=abcdef</a>',
                 'HTML view file content http://yiifresh.com/index.php?r=site%2Freset-password&token=abcdef',
             ],
             [
@@ -170,8 +170,7 @@ final class MessageBodyRendererTest extends TestCase
 <p>Test Lorem ipsum...</p>
 </body>
 </html>
-HTML
-                ,
+HTML,
                 <<<TEXT
 First paragraph
 second line
