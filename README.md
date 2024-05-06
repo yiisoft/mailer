@@ -24,9 +24,13 @@ contents into a file. There are also [Swift Mailer](https://github.com/yiisoft/m
 [Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers available as a
 separate packages that actually can send emails.
 
+## Requirements
+
+- PHP 8.0 or higher.
+
 ## Installation
 
-The package could be installed with composer:
+The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
 composer require yiisoft/mailer
@@ -52,8 +56,6 @@ $message = $mailer
 $mailer->send($message);
 ```
 
-See [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md) for more info.
-
 ### Localize view file
 
 You can set a specific locale that will be used to localize view files with `withLocale()` method:
@@ -73,12 +75,10 @@ $message = $mailer
 $mailer->send($message);
 ```
 
-### Mailer implementations
-
-- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
-
 ## Documentation
 
+- Guide: [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md)
+- [Symfony Mailer implementations](https://github.com/yiisoft/mailer-symfony)
 - [Internals](docs/internals.md)
 
 ## License
