@@ -75,10 +75,13 @@ $message = $mailer
 $mailer->send($message);
 ```
 
+### Mailer implementations
+
+- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
+
 ## Documentation
 
-- Guide: [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md)
-- [Symfony Mailer implementations](https://github.com/yiisoft/mailer-symfony)
+- [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md)
 - [Internals](docs/internals.md)
 
 ## License
