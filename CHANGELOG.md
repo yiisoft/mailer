@@ -2,7 +2,7 @@
 
 ## 5.0.2 under development
 
-- no changes in this release.
+- New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
 
 ## 5.0.1 February 17, 2023
 
