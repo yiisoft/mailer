@@ -34,8 +34,7 @@ final class MessageFactory implements MessageFactoryInterface
     public function __construct(
         string $class,
         private array|string|null $from = null,
-    )
-    {
+    ) {
         if (!is_subclass_of($class, MessageInterface::class)) {
             throw new InvalidArgumentException(sprintf(
                 'Class "%s" does not implement "%s".',
