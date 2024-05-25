@@ -11,11 +11,11 @@ use Throwable;
 final class Message implements MessageInterface
 {
     /**
-     * @param string[]|string $from
-     * @param string[]|string $to
-     * @param string[]|string $replyTo
-     * @param string[]|string $cc
-     * @param string[]|string $bcc
+     * @param string|string[] $from
+     * @param string|string[] $to
+     * @param string|string[] $replyTo
+     * @param string|string[] $cc
+     * @param string|string[] $bcc
      * @param File[] $attachments
      * @param File[] $embeddedFiles
      * @param array[] $headers
