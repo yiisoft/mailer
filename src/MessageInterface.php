@@ -49,110 +49,130 @@ interface MessageInterface extends Stringable
     /**
      * Returns the message sender email address.
      *
-     * @return array<string, string>|string The sender email address.
+     * @return string|string[] The sender email address.
      *
      * @see withFrom()
+     *
+     * @psalm-return array<string, string>|string
      */
     public function getFrom(): array|string;
 
     /**
      * Returns a new instance with the specified sender email address.
      *
-     * @param array<string, string>|string|string[] $from The sender email address.
+     * @param string|string[] $from The sender email address.
      *
      * You may pass an array of addresses if this message is from multiple people.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
+     *
+     * @psalm-param array<string, string>|string $from
      */
     public function withFrom(array|string $from): self;
 
     /**
      * Returns the message recipient(s) email address.
      *
-     * @return array<string, string>|string The message recipients email address.
+     * @return string|string[] The message recipients email address.
      *
      * @see withTo()
+     *
+     * @psalm-return array<string, string>|string
      */
     public function getTo(): array|string;
 
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
-     * @param array<string, string>|string|string[] $to The receiver email address.
+     * @param string|string[] $to The receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new recipients email address.
+     *
+     * @psalm-param array<string, string>|string $to
      */
     public function withTo(array|string $to): self;
 
     /**
      * Returns the reply-to address of this message.
      *
-     * @return array<string, string>|string The reply-to address of this message.
+     * @return string|string[] The reply-to address of this message.
      *
      * @see withReplyTo()
+     *
+     * @psalm-return array<string, string>|string
      */
     public function getReplyTo(): array|string;
 
     /**
      * Returns a new instance with the specified reply-to address.
      *
-     * @param array<string, string>|string|string[] $replyTo The reply-to address.
+     * @param string|string[] $replyTo The reply-to address.
      *
      * You may pass an array of addresses if this message should be replied to multiple people.
      * You may also specify reply-to name in addition to email address using format: `[email => name]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new reply-to address.
+     *
+     * @psalm-param array<string, string>|string $replyTo
      */
     public function withReplyTo(array|string $replyTo): self;
 
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
      *
-     * @return array<string, string>|string The Cc (additional copy receiver) addresses of this message.
+     * @return string|string[] The Cc (additional copy receiver) addresses of this message.
      *
      * @see withCc()
+     *
+     * @psalm-return array<string, string>|string
      */
     public function getCc(): array|string;
 
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
      *
-     * @param array<string, string>|string|string[] $cc The copy receiver email address.
+     * @param string|string[] $cc The copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Cc (additional copy receiver) addresses.
+     *
+     * @psalm-param array<string, string>|string $cc
      */
     public function withCc(array|string $cc): self;
 
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
      *
-     * @return array<string, string>|string The Bcc (hidden copy receiver) addresses of this message.
+     * @return string|string[] The Bcc (hidden copy receiver) addresses of this message.
      *
      * @see withBcc()
+     *
+     * @psalm-return array<string, string>|string
      */
     public function getBcc(): array|string;
 
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
      *
-     * @param array<string, string>|string|string[] $bcc The hidden copy receiver email address.
+     * @param string|string[] $bcc The hidden copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Bcc (hidden copy receiver) addresses.
+     *
+     * @psalm-param array<string, string>|string $bcc
      */
     public function withBcc(array|string $bcc): self;
 
@@ -346,16 +366,20 @@ interface MessageInterface extends Stringable
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header value.
+     *
+     * @psalm-param string|list<string> $value
      */
     public function withHeader(string $name, string|array $value): self;
 
     /**
      * Returns a new instance with the specified custom header values.
      *
-     * @param array<string, string|string[]> $headers The headers in format: `[name => value]`.
+     * @param array $headers The headers in format: `[name => value]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header values.
+     *
+     * @psalm-param array<string, string|list<string>> $headers
      */
     public function withHeaders(array $headers): self;
 

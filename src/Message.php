@@ -256,7 +256,10 @@ final class Message implements MessageInterface
     public function withHeaders(array $headers): MessageInterface
     {
         $new = clone $this;
-        $new->headers = $headers;
+        $new->headers = array_map(
+            static fn(string|array $value): array => (array) $value,
+            $headers,
+        );
         return $new;
     }
 
