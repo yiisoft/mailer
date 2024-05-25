@@ -9,13 +9,13 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use ReflectionClass;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Mailer\MessageFactory;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\View;
@@ -56,10 +56,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         string $from = 'from@example.com',
         string $to = 'to@example.com'
     ): MessageInterface {
-        return (new DummyMessage())
-            ->withSubject($subject)
-            ->withFrom($from)
-            ->withTo($to);
+        return new Message(from: $from, to: $to, subject: $subject);
     }
 
     /**
@@ -120,7 +117,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $view = new View($tempDir, $eventDispatcher);
             $messageBodyTemplate = new MessageBodyTemplate($tempDir, '', '');
             $messageBodyRenderer = new MessageBodyRenderer($view, $messageBodyTemplate);
-            $messageFactory = new MessageFactory(DummyMessage::class);
+            $messageFactory = new MessageFactory(Message::class);
 
             $this->container = new SimpleContainer([
                 EventDispatcherInterface::class => $eventDispatcher,

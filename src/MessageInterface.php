@@ -6,6 +6,7 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Stringable;
 use Throwable;
 
 /**
@@ -26,7 +27,7 @@ use Throwable;
  * $mailer->send($message);
  * ```
  */
-interface MessageInterface
+interface MessageInterface extends Stringable
 {
     /**
      * Returns the charset of this message.
@@ -277,6 +278,12 @@ interface MessageInterface
     public function withTextBody(string $text): self;
 
     /**
+     * @return File[]
+     * @psalm-return list<File>
+     */
+    public function getAttachments(): array;
+
+    /**
      * Returns a new instance with the specified attached file.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
@@ -285,6 +292,12 @@ interface MessageInterface
      * @param File $file The file instance.
      */
     public function withAttached(File $file): self;
+
+    /**
+     * @return File[]
+     * @psalm-return list<File>
+     */
+    public function getEmbeddedFiles(): array;
 
     /**
      * Returns a new instance with the specified embedded file.
@@ -306,6 +319,11 @@ interface MessageInterface
      * @return string[] The header values list.
      */
     public function getHeader(string $name): array;
+
+    /**
+     * @psalm-return array<string,list<string>>
+     */
+    public function getHeaders(): array;
 
     /**
      * Returns a new instance with the specified added custom header value.
