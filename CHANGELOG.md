@@ -1,8 +1,9 @@
 # Yii Mailer Library Change Log
 
-## 5.0.2 under development
+## 6.0.0 under development
 
-- no changes in this release.
+- New #84: Add `MessageInterface` getters: `getAttachments()`,  `getEmbeddings`, `getHeaders()` (@vjik)
+- New #84: Add class `Message` that implements `MessageInterface` (@vjik)
 
 ## 5.0.1 February 17, 2023
 
