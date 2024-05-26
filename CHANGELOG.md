@@ -2,7 +2,7 @@
 
 ## 5.0.2 under development
 
-- no changes in this release.
+- Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
 
 ## 5.0.1 February 17, 2023
 
