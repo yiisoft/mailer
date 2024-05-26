@@ -397,11 +397,4 @@ interface MessageInterface extends Stringable
      * and MUST return an instance that has the new send fails error.
      */
     public function withError(Throwable $e): self;
-
-    /**
-     * Returns string representation of this message.
-     *
-     * @return string The string representation of this message.
-     */
-    public function __toString(): string;
 }
