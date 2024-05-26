@@ -317,7 +317,7 @@ interface MessageInterface extends Stringable
      * @return File[]
      * @psalm-return list<File>
      */
-    public function getEmbeddedFiles(): array;
+    public function getEmbeddings(): array;
 
     /**
      * Returns a new instance with the specified embedded file.

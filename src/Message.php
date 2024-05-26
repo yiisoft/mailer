@@ -17,7 +17,7 @@ final class Message implements MessageInterface
      * @param string|string[] $cc
      * @param string|string[] $bcc
      * @param File[] $attachments
-     * @param File[] $embeddedFiles
+     * @param File[] $embeddings
      * @param array[] $headers
      * @psalm-param array<string, string>|string $from
      * @psalm-param array<string, string>|string $to
@@ -25,7 +25,7 @@ final class Message implements MessageInterface
      * @psalm-param array<string, string>|string $cc
      * @psalm-param array<string, string>|string $bcc
      * @psalm-param list<File> $attachments
-     * @psalm-param list<File> $embeddedFiles
+     * @psalm-param list<File> $embeddings
      * @psalm-param array<string,list<string>> $headers
      */
     public function __construct(
@@ -43,7 +43,7 @@ final class Message implements MessageInterface
         private string $textBody = '',
         private string $htmlBody = '',
         private array $attachments = [],
-        private array $embeddedFiles = [],
+        private array $embeddings = [],
         private array $headers = [],
         private ?Throwable $error = null,
     ) {
@@ -217,15 +217,15 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function getEmbeddedFiles(): array
+    public function getEmbeddings(): array
     {
-        return $this->embeddedFiles;
+        return $this->embeddings;
     }
 
     public function withEmbedded(File $file): MessageInterface
     {
         $new = clone $this;
-        $new->embeddedFiles[] = $file;
+        $new->embeddings[] = $file;
         return $new;
     }
 
