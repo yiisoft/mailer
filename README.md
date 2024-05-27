@@ -26,7 +26,7 @@ separate packages that actually can send emails.
 
 ## Requirements
 
-- PHP 8.0 or higher.
+- PHP 8.1 or higher.
 
 ## Installation
 
