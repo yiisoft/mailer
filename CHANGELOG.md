@@ -1,7 +1,8 @@
-# Yii Mailer Library
+# Yii Mailer Library Change Log
 
 ## 5.0.2 under development
 
+- Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
 - New #72: Add debug collector (@xepozz)
 
 ## 5.0.1 February 17, 2023

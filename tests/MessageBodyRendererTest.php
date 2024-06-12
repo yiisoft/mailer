@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 use stdClass;
 use Yiisoft\Mailer\MessageBodyRenderer;
@@ -16,7 +17,7 @@ final class MessageBodyRendererTest extends TestCase
     {
         parent::setUp();
 
-        $filePath = $this->getTestFilePath();
+        $filePath = self::getTestFilePath();
 
         if (!file_exists($filePath)) {
             mkdir($filePath, 0777, true);
@@ -25,7 +26,7 @@ final class MessageBodyRendererTest extends TestCase
 
     public function testWithView(): void
     {
-        $renderer = $this->createRenderer($this->getTestFilePath(), 'test-html', 'test-text');
+        $renderer = $this->createRenderer(self::getTestFilePath(), 'test-html', 'test-text');
         $view = clone $this->get(View::class);
         $newRenderer = $renderer->withView($view);
 
@@ -35,8 +36,8 @@ final class MessageBodyRendererTest extends TestCase
 
     public function testWithTemplate(): void
     {
-        $renderer = $this->createRenderer($this->getTestFilePath(), 'test-html', 'test-text');
-        $template = new MessageBodyTemplate($this->getTestFilePath(), '', '');
+        $renderer = $this->createRenderer(self::getTestFilePath(), 'test-html', 'test-text');
+        $template = new MessageBodyTemplate(self::getTestFilePath(), '', '');
         $newRenderer = $renderer->withTemplate($template);
 
         $this->assertNotSame($renderer, $newRenderer);
@@ -45,7 +46,7 @@ final class MessageBodyRendererTest extends TestCase
 
     public function testRenderHtmlAndRenderTextWithLocale(): void
     {
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
         $renderer = $this
             ->createRenderer($viewPath, '', '')
             ->withLocale('de_DE');
@@ -63,7 +64,7 @@ final class MessageBodyRendererTest extends TestCase
 
     public function testRenderHtmlAndRenderTextWithoutLayouts(): void
     {
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
         $renderer = $this->createRenderer($viewPath, '', '');
 
         $viewName = 'test-view';
@@ -88,7 +89,7 @@ final class MessageBodyRendererTest extends TestCase
 
     public function testRenderHtmlAndRenderTextWithLayouts(): void
     {
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
         $layoutName = 'test-layout';
         $renderer = $this->createRenderer($viewPath, $layoutName, $layoutName);
 
@@ -122,7 +123,7 @@ final class MessageBodyRendererTest extends TestCase
 
     public function testAddToMessage(): void
     {
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
         $renderer = $this->createRenderer($viewPath, '', '');
         $htmlViewName = 'test-html-view';
         $textViewName = 'test-text-view';
@@ -135,11 +136,11 @@ final class MessageBodyRendererTest extends TestCase
         $textViewFileContent = 'Plain text view file content.';
         $this->saveFile($textViewFileName, $textViewFileContent);
 
-        $message = $renderer->addToMessage($this->createMessage(), ['html' => $htmlViewName, 'text' => $textViewName]);
+        $message = $renderer->addToMessage(self::createMessage(), ['html' => $htmlViewName, 'text' => $textViewName]);
         $this->assertSame($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
         $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
 
-        $message = $renderer->addToMessage($this->createMessage(), $htmlViewName);
+        $message = $renderer->addToMessage(self::createMessage(), $htmlViewName);
         $this->assertEquals($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html by direct view!');
         $this->assertEquals(
             strip_tags($htmlViewFileContent),
@@ -148,7 +149,7 @@ final class MessageBodyRendererTest extends TestCase
         );
     }
 
-    public function htmlAndPlainProvider(): array
+    public static function htmlAndPlainProvider(): array
     {
         return [
             [
@@ -170,8 +171,7 @@ final class MessageBodyRendererTest extends TestCase
 <p>Test Lorem ipsum...</p>
 </body>
 </html>
-HTML
-                ,
+HTML,
                 <<<TEXT
 First paragraph
 second line
@@ -184,28 +184,26 @@ TEXT
         ];
     }
 
-    /**
-     * @dataProvider htmlAndPlainProvider
-     */
+    #[DataProvider('htmlAndPlainProvider')]
     public function testAddToMessagePlainTextFallback(string $htmlViewFileContent, string $expectedTextRendering): void
     {
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
         $renderer = $this->createRenderer($viewPath, '', '');
         $htmlViewName = 'test-html-view';
 
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
         $this->saveFile($htmlViewFileName, $htmlViewFileContent);
 
-        $message = $renderer->addToMessage($this->createMessage(), $htmlViewName);
+        $message = $renderer->addToMessage(self::createMessage(), $htmlViewName);
         $this->assertEqualsWithoutLE($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
         $this->assertEqualsWithoutLE($expectedTextRendering, $message->getTextBody(), 'Unable to render text!');
 
-        $message = $renderer->addToMessage($this->createMessage(), ['html' => $htmlViewName]);
+        $message = $renderer->addToMessage(self::createMessage(), ['html' => $htmlViewName]);
         $this->assertEqualsWithoutLE($htmlViewFileContent, $message->getHtmlBody(), 'Unable to render html!');
         $this->assertEqualsWithoutLE($expectedTextRendering, $message->getTextBody(), 'Unable to render text!');
     }
 
-    public function invalidViewProvider(): array
+    public static function invalidViewProvider(): array
     {
         return [
             'int' => [1],
@@ -218,14 +216,12 @@ TEXT
         ];
     }
 
-    /**
-     * @dataProvider invalidViewProvider
-     */
+    #[DataProvider('invalidViewProvider')]
     public function testAddToMessageThrowExceptionForInvalidView(mixed $view): void
     {
-        $renderer = $this->createRenderer($this->getTestFilePath(), '', '');
+        $renderer = $this->createRenderer(self::getTestFilePath(), '', '');
         $this->expectException(RuntimeException::class);
-        $renderer->addToMessage($this->createMessage(), $view);
+        $renderer->addToMessage(self::createMessage(), $view);
     }
 
     public function createRenderer(string $viewPath, string $htmlLayout, string $textLayout): MessageBodyRenderer

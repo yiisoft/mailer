@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px">
+        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
     <h1 align="center">Yii Mailer Library</h1>
     <br>
@@ -16,7 +16,6 @@
 [![psalm-level](https://shepherd.dev/github/yiisoft/mailer/level.svg)](https://shepherd.dev/github/yiisoft/mailer)
 [![type-coverage](https://shepherd.dev/github/yiisoft/mailer/coverage.svg)](https://shepherd.dev/github/yiisoft/mailer)
 
-
 The package provides the content composition functionality, and a basic interface for sending emails.
 Actual mail sending is provided by separate interchangeable packages.
 
@@ -25,9 +24,13 @@ contents into a file. There are also [Swift Mailer](https://github.com/yiisoft/m
 [Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers available as a
 separate packages that actually can send emails.
 
+## Requirements
+
+- PHP 8.1 or higher.
+
 ## Installation
 
-The package could be installed with composer:
+The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
 composer require yiisoft/mailer
@@ -53,8 +56,6 @@ $message = $mailer
 $mailer->send($message);
 ```
 
-See [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md) for more info.
-
 ### Localize view file
 
 You can set a specific locale that will be used to localize view files with `withLocale()` method:
@@ -78,32 +79,13 @@ $mailer->send($message);
 
 - [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
 
-## Testing
+## Documentation
 
-### Unit testing
+- [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md)
+- [Internals](docs/internals.md)
 
-The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
-
-```shell
-./vendor/bin/phpunit
-```
-
-### Mutation testing
-
-The package tests are checked with [Infection](https://infection.github.io/) mutation framework with
-[Infection Static Analysis Plugin](https://github.com/Roave/infection-static-analysis-plugin). To run it:
-
-```shell
-./vendor/bin/roave-infection-static-analysis-plugin
-```
-
-### Static analysis
-
-The code is statically analyzed with [Psalm](https://psalm.dev/). To run static analysis:
-
-```shell
-./vendor/bin/psalm
-```
+If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for that.
+You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
 
 ## License
 
