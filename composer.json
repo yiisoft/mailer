@@ -45,7 +45,7 @@
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
         "yiisoft/mailer-swiftmailer": "Yii Mailer Library - Swift Mailer Extension",
-        "yiisoft/mailer-symfony": "Yii Mailer Library - Symfony Mailer Extension"
+        "rossaddison/mailer-symfony": "Yii Mailer Library - Symfony Mailer Extension"
     },
     "autoload": {
         "psr-4": {
