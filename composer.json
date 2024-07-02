@@ -40,7 +40,8 @@
         "vimeo/psalm": "^5.24",
         "yiisoft/files": "^2.0",
         "yiisoft/psr-dummy-provider": "^1.0",
-        "yiisoft/test-support": "^3.0"
+        "yiisoft/test-support": "^3.0",
+        "yiisoft/yii-debug": "^3.0@dev"
     },
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
@@ -57,11 +58,20 @@
             "Yiisoft\\Mailer\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "params": "params.php"
+        }
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "infection/extension-installer": true,
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "yiisoft/config": false
         }
     },
     "scripts": {
