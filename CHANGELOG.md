@@ -3,6 +3,7 @@
 ## 5.0.2 under development
 
 - New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
+- Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
 
 ## 5.0.1 February 17, 2023
 

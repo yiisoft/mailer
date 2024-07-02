@@ -11,7 +11,7 @@ final class BeforeSendTest extends TestCase
 {
     public function testSetup(): void
     {
-        $message = $this->createMessage();
+        $message = self::createMessage();
         $event = new BeforeSend($message);
         $this->assertSame($message, $event->getMessage());
         $this->assertFalse($event->isPropagationStopped());
@@ -19,7 +19,7 @@ final class BeforeSendTest extends TestCase
 
     public function testStopPropagation(): void
     {
-        $event = new BeforeSend($this->createMessage());
+        $event = new BeforeSend(self::createMessage());
         $event->stopPropagation();
         $this->assertTrue($event->isPropagationStopped());
     }

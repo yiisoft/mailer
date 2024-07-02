@@ -34,14 +34,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        FileHelper::ensureDirectory($this->getTestFilePath());
+        FileHelper::ensureDirectory(self::getTestFilePath());
         $this->getContainer();
     }
 
     protected function tearDown(): void
     {
         $this->container = null;
-        FileHelper::removeDirectory($this->getTestFilePath());
+        FileHelper::removeDirectory(self::getTestFilePath());
     }
 
     protected function get(string $id)
@@ -51,7 +51,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             ->get($id);
     }
 
-    protected function createMessage(
+    protected static function createMessage(
         string $subject = 'foo',
         string $from = 'from@example.com',
         string $to = 'to@example.com'
@@ -72,7 +72,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual, $message);
     }
 
-    protected function getTestFilePath(): string
+    protected static function getTestFilePath(): string
     {
         return sys_get_temp_dir()
             . DIRECTORY_SEPARATOR
@@ -115,7 +115,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     private function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
-            $tempDir = $this->getTestFilePath();
+            $tempDir = self::getTestFilePath();
             $eventDispatcher = new SimpleEventDispatcher();
             $view = new View($tempDir, $eventDispatcher);
             $messageBodyTemplate = new MessageBodyTemplate($tempDir, '', '');
