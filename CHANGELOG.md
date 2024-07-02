@@ -1,8 +1,9 @@
 # Yii Mailer Library Change Log
 
-## 5.0.2 under development
+## 5.1.0 under development
 
 - Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
+- Chg #89: Raise required `yiisoft/view` version to `^10.0` (@vjik)
 
 ## 5.0.1 February 17, 2023
 
