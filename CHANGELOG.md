@@ -1,6 +1,6 @@
 # Yii Mailer Library Change Log
 
-## 5.1.0 under development
+## 5.1.0 July 02, 2024
 
 - New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
 - Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
