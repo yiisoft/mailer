@@ -2,6 +2,7 @@
 
 ## 5.1.0 under development
 
+- New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
 - Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
 - Chg #89: Raise required `yiisoft/view` version to `^10.0` (@vjik)
 
