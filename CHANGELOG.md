@@ -1,5 +1,9 @@
 # Yii Mailer Library Change Log
 
+## 5.1.1 under development
+
+- no changes in this release.
+
 ## 5.1.0 July 02, 2024
 
 - New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
