@@ -11,6 +11,8 @@ use function sprintf;
 
 /**
  * `MessageFactory` creates an instance of the mail message.
+ *
+ * @psalm-import-type FromType from MessageInterface
  */
 final class MessageFactory implements MessageFactoryInterface
 {
@@ -23,11 +25,16 @@ final class MessageFactory implements MessageFactoryInterface
 
     /**
      * @param string $class The message class name.
+     * @param string|string[]|null $from The sender email address.
      *
      * @throws InvalidArgumentException If the class does not implement `MessageInterface`.
+     *
+     * @psalm-param FromType|null $from
      */
-    public function __construct(string $class)
-    {
+    public function __construct(
+        string $class,
+        private array|string|null $from = null,
+    ) {
         if (!is_subclass_of($class, MessageInterface::class)) {
             throw new InvalidArgumentException(sprintf(
                 'Class "%s" does not implement "%s".',
@@ -41,6 +48,10 @@ final class MessageFactory implements MessageFactoryInterface
 
     public function create(): MessageInterface
     {
-        return new $this->class();
+        $message = new $this->class();
+        if ($this->from !== null) {
+            $message = $message->withFrom($this->from);
+        }
+        return $message;
     }
 }

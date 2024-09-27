@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests;
 
 use Closure;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
 use stdClass;
@@ -34,7 +35,7 @@ final class FileMailerTest extends TestCase
             ->withTextBody('text body' . microtime(true));
 
         $mailer->send($message);
-        $files = glob($this->getTestFilePath() . DIRECTORY_SEPARATOR . '*.eml');
+        $files = glob(self::getTestFilePath() . DIRECTORY_SEPARATOR . '*.eml');
 
         $this->assertNotEmpty($files);
         $this->assertSame(
@@ -50,7 +51,7 @@ final class FileMailerTest extends TestCase
         }
     }
 
-    public function filenameCallbackProvider(): array
+    public static function filenameCallbackProvider(): array
     {
         $time = microtime(true);
 
@@ -63,9 +64,7 @@ final class FileMailerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider filenameCallbackProvider
-     */
+    #[DataProvider('filenameCallbackProvider')]
     public function testSendWithFilenameCallback(callable $filenameCallback, string $filenameExpected): void
     {
         $mailer = $this->createFileMailer($filenameCallback);
@@ -78,7 +77,7 @@ final class FileMailerTest extends TestCase
             ->withTextBody('text body' . microtime(true));
 
         $mailer->send($message);
-        $files = glob($this->getTestFilePath() . DIRECTORY_SEPARATOR . $filenameExpected);
+        $files = glob(self::getTestFilePath() . DIRECTORY_SEPARATOR . $filenameExpected);
 
         $this->assertNotEmpty($files);
         $this->assertSame(
@@ -94,7 +93,7 @@ final class FileMailerTest extends TestCase
         }
     }
 
-    public function invalidFilenameCallbackProvider(): array
+    public static function invalidFilenameCallbackProvider(): array
     {
         return [
             'int' => [static fn (): int => 1],
@@ -106,14 +105,12 @@ final class FileMailerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidFilenameCallbackProvider
-     */
+    #[DataProvider('invalidFilenameCallbackProvider')]
     public function testSendThrowExceptionForFilenameCallbackReturnNotString(callable $filenameCallback): void
     {
         $mailer = $this->createFileMailer($filenameCallback);
         $this->expectException(RuntimeException::class);
-        $mailer->send($this->createMessage());
+        $mailer->send(self::createMessage());
     }
 
     private function createFileMailer(callable $filenameCallback = null): FileMailer
@@ -122,7 +119,7 @@ final class FileMailerTest extends TestCase
             $this->get(MessageFactoryInterface::class),
             $this->get(MessageBodyRenderer::class),
             $this->get(EventDispatcherInterface::class),
-            $this->getTestFilePath(),
+            self::getTestFilePath(),
             $filenameCallback,
         );
     }

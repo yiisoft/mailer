@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Mailer\MessageBodyTemplate;
 
 final class MessageBodyTemplateTest extends TestCase
 {
-    public function setupProvider(): array
+    public static function setupProvider(): array
     {
-        $tempDir = $this->getTestFilePath() . DIRECTORY_SEPARATOR;
+        $tempDir = self::getTestFilePath() . DIRECTORY_SEPARATOR;
 
         return [
             ["{$tempDir}foo", 'foo', '', ''],
@@ -19,9 +20,7 @@ final class MessageBodyTemplateTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider setupProvider
-     */
+    #[DataProvider('setupProvider')]
     public function testSetup(string $viewPath, string $htmlLayout, string $textLayout): void
     {
         $template = new MessageBodyTemplate($viewPath, $htmlLayout, $textLayout);

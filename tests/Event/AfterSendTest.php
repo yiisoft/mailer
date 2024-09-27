@@ -11,7 +11,7 @@ final class AfterSendTest extends TestCase
 {
     public function testSetup(): void
     {
-        $message = $this->createMessage();
+        $message = self::createMessage();
         $event = new AfterSend($message);
         $this->assertSame($message, $event->getMessage());
     }

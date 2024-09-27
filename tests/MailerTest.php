@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
@@ -25,7 +26,7 @@ final class MailerTest extends TestCase
     public function testWithTemplate(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $template = new MessageBodyTemplate($this->getTestFilePath(), '', '');
+        $template = new MessageBodyTemplate(self::getTestFilePath(), '', '');
 
         $oldMessageBodyRenderer = $this->getInaccessibleProperty($mailer, 'messageBodyRenderer');
         $newMailer = $mailer->withTemplate($template);
@@ -48,7 +49,7 @@ final class MailerTest extends TestCase
     public function testComposeWithView(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
 
         $htmlViewName = 'test-html-view';
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
@@ -79,7 +80,7 @@ final class MailerTest extends TestCase
     public function testComposeWithLocale(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
 
         $htmlViewName = 'test-html-view';
         $this->saveFile(
@@ -124,7 +125,7 @@ final class MailerTest extends TestCase
     public function testComposeWithViewAndWithEmbedFile(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $viewPath = $this->getTestFilePath();
+        $viewPath = self::getTestFilePath();
 
         $textViewName = 'test-text-view';
         $textViewFileName = $viewPath . DIRECTORY_SEPARATOR . $textViewName . '.php';
@@ -139,9 +140,7 @@ final class MailerTest extends TestCase
         $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
     }
 
-    /**
-     * @dataProvider messagesProvider
-     */
+    #[DataProvider('messagesProvider')]
     public function testSendMultiple(array $messages): void
     {
         $mailer = $this->get(MailerInterface::class);
@@ -149,19 +148,19 @@ final class MailerTest extends TestCase
         $this->assertSame($messages, $mailer->sentMessages);
     }
 
-    public function messagesProvider(): array
+    public static function messagesProvider(): array
     {
         return [
             [[]],
-            [[$this->createMessage()]],
-            [[$this->createMessage('bar'), $this->createMessage('baz')]],
+            [[self::createMessage()]],
+            [[self::createMessage('bar'), self::createMessage('baz')]],
         ];
     }
 
     public function testSendMultipleExceptions(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $messages = [$this->createMessage(''), $this->createMessage(), $this->createMessage('')];
+        $messages = [self::createMessage(''), self::createMessage(), self::createMessage('')];
         $failed = $mailer->sendMultiple($messages);
 
         $this->assertCount(2, $failed);

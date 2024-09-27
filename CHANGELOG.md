@@ -5,6 +5,12 @@
 - New #84: Add `MessageInterface` getters: `getAttachments()`,  `getEmbeddings`, `getHeaders()` (@vjik)
 - New #84: Add class `Message` that implements `MessageInterface` (@vjik)
 
+## 5.1.0 July 02, 2024
+
+- New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
+- Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
+- Chg #89: Raise required `yiisoft/view` version to `^10.0` (@vjik)
+
 ## 5.0.1 February 17, 2023
 
 - Enh #63: Add support of `yiisoft/view` of version `^8.0` (@vjik)

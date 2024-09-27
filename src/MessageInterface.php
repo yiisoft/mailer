@@ -26,6 +26,8 @@ use Throwable;
  * ;
  * $mailer->send($message);
  * ```
+ *
+ * @psalm-type FromType = array<string, string>|string
  */
 interface MessageInterface extends Stringable
 {
@@ -51,6 +53,8 @@ interface MessageInterface extends Stringable
      *
      * @return string|string[] The sender email address.
      *
+     * @psalm-return FromType
+     *
      * @see withFrom()
      *
      * @psalm-return array<string, string>|string
@@ -68,7 +72,7 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
      *
-     * @psalm-param array<string, string>|string $from
+     * @psalm-param FromType $from
      */
     public function withFrom(array|string $from): self;
 
