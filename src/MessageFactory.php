@@ -11,8 +11,6 @@ use function sprintf;
 
 /**
  * `MessageFactory` creates an instance of the mail message.
- *
- * @psalm-import-type FromType from MessageInterface
  */
 final class MessageFactory implements MessageFactoryInterface
 {
@@ -29,7 +27,7 @@ final class MessageFactory implements MessageFactoryInterface
      *
      * @throws InvalidArgumentException If the class does not implement `MessageInterface`.
      *
-     * @psalm-param FromType|null $from
+     * @psalm-param array<string, string>|string|null $from
      */
     public function __construct(
         string $class,
