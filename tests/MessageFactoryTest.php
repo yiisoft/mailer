@@ -25,7 +25,7 @@ final class MessageFactoryTest extends TestCase
     public function testWithFrom(): void
     {
         $factory = new MessageFactory(
-            DummyMessage::class,
+            Message::class,
             from: 'test@example.com',
         );
 
