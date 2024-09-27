@@ -304,14 +304,28 @@ interface MessageInterface extends Stringable
     public function getAttachments(): array;
 
     /**
-     * Returns a new instance with the specified attached file.
+     * Returns a new instance with the specified attached files.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new attached file.
+     * and MUST return an instance that has the new attached files.
      *
-     * @param File $file The file instance.
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
      */
-    public function withAttached(File $file): self;
+    public function withAttachment(File ...$files): self;
+
+    /**
+     * Returns a new instance with the specified added attached files.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has added the new attached files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAddedAttachment(File ...$files): self;
 
     /**
      * @return File[]
@@ -320,16 +334,32 @@ interface MessageInterface extends Stringable
     public function getEmbeddings(): array;
 
     /**
-     * Returns a new instance with the specified embedded file.
+     * Returns a new instance with the specified embedded files.
      *
      * This method should be used when embedding images or other data in a message.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new embedded file.
      *
-     * @param File $file The file instance.
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
      */
-    public function withEmbedded(File $file): self;
+    public function withEmbedding(File ...$files): self;
+
+    /**
+     * Returns a new instance with the specified added embedded files.
+     *
+     * This method should be used when embedding images or other data in a message.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has added the new embedded files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAddedEmbedding(File ...$files): self;
 
     /**
      * Returns all values for the specified header.
