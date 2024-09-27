@@ -2,8 +2,8 @@
 
 ## 6.0.0 under development
 
-- New #84: Add `MessageInterface` getters: `getAttachments()`,  `getEmbeddings`, `getHeaders()` (@vjik)
-- New #84: Add class `Message` that implements `MessageInterface` (@vjik)
+- New #84: Add `MessageInterface` getters: `getAttachments()`,  `getEmbeddings()`, `getHeaders()` (@vjik)
+- New #84: Add `Message` class that implements `MessageInterface` (@vjik)
 
 ## 5.1.0 July 02, 2024
 
