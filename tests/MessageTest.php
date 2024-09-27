@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\Message;
 
@@ -34,43 +35,43 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($message->getError());
     }
 
-    public function testCharset(): void
+    public function testWithCharset(): void
     {
         $message = (new Message())->withCharset('windows-1251');
         $this->assertSame('windows-1251', $message->getCharset());
     }
 
-    public function testFrom(): void
+    public function testWithFrom(): void
     {
         $message = (new Message())->withFrom('test@example.com');
         $this->assertSame('test@example.com', $message->getFrom());
     }
 
-    public function testTo(): void
+    public function testWithTo(): void
     {
         $message = (new Message())->withTo('test@example.com');
         $this->assertSame('test@example.com', $message->getTo());
     }
 
-    public function testReplyTo(): void
+    public function testWithReplyTo(): void
     {
         $message = (new Message())->withReplyTo('test@example.com');
         $this->assertSame('test@example.com', $message->getReplyTo());
     }
 
-    public function testCc(): void
+    public function testWithCc(): void
     {
         $message = (new Message())->withCc('test@example.com');
         $this->assertSame('test@example.com', $message->getCc());
     }
 
-    public function testBcc(): void
+    public function testWithBcc(): void
     {
         $message = (new Message())->withBcc('test@example.com');
         $this->assertSame('test@example.com', $message->getBcc());
     }
 
-    public function testSubject(): void
+    public function testWithSubject(): void
     {
         $message = (new Message())->withSubject('test');
         $this->assertSame('test', $message->getSubject());
@@ -84,10 +85,8 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataDate
-     */
-    public function testDate(DateTimeInterface $date): void
+    #[DataProvider('dataDate')]
+    public function testWithDate(DateTimeInterface $date): void
     {
         $message = (new Message())->withDate($date);
         $this->assertEquals($date, $message->getDate());
