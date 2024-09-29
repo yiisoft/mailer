@@ -8,6 +8,10 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Throwable;
 
+/**
+ * Mail message class that represents the settings and content of an email, such as the sender, recipient, subject,
+ * body, etc. Messages are sent by a {@see MailerInterface}.
+ */
 final class Message implements MessageInterface
 {
     /**

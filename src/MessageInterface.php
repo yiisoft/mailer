@@ -26,6 +26,9 @@ use Throwable;
  * ;
  * $mailer->send($message);
  * ```
+ *
+ * `Stringable` implementation need for debug purposes only. Method `__toString()` should return string representation
+ * of message.
  */
 interface MessageInterface extends Stringable
 {
