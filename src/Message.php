@@ -11,22 +11,29 @@ use Throwable;
 final class Message implements MessageInterface
 {
     /**
-     * @param string|string[] $from
-     * @param string|string[] $to
-     * @param string|string[] $replyTo
-     * @param string|string[] $cc
-     * @param string|string[] $bcc
-     * @param File[] $attachments
-     * @param File[] $embeddings
-     * @param array[] $headers
-     * @psalm-param array<string, string>|string $from
-     * @psalm-param array<string, string>|string $to
-     * @psalm-param array<string, string>|string $replyTo
-     * @psalm-param array<string, string>|string $cc
-     * @psalm-param array<string, string>|string $bcc
+     * @var array[]
+     * @psalm-var array<string,list<string>>
+     */
+    private array $headers;
+
+    /**
+     * @param string|string[] $from The sender email address(es). You may also specify sender name in addition to email
+     * address using format: `[email => name]`.
+     * @param string|string[] $to The receiver email address(es). You may also specify sender name in addition to email
+     * address using format: `[email => name]`.
+     * @param string|string[] $replyTo The reply-to address(es) of this message. You may also specify sender name in
+     * addition to email address using format: `[email => name]`.
+     * @param string|string[] $cc The additional copy receiver address(es) of this message. You may also specify sender
+     * name in addition to email address using format: `[email => name]`.
+     * @param string|string[] $bcc The hidden copy receiver address(es) of this message. You may also specify sender
+     * name in addition to email address using format: `[email => name]`.
+     * @param File[] $attachments The attached files.
+     * @param File[] $embeddings The embedded files.
+     * @param array[] $headers The custom headers in format: `[name => value|value[]]`.
+     *
      * @psalm-param list<File> $attachments
      * @psalm-param list<File> $embeddings
-     * @psalm-param array<string,list<string>> $headers
+     * @psalm-param array<string,string|list<string>> $headers
      */
     public function __construct(
         private string $charset = 'utf-8',
@@ -44,9 +51,10 @@ final class Message implements MessageInterface
         private string $htmlBody = '',
         private array $attachments = [],
         private array $embeddings = [],
-        private array $headers = [],
+        array $headers = [],
         private ?Throwable $error = null,
     ) {
+        $this->setHeaders($headers);
     }
 
     public function getCharset(): string
@@ -282,10 +290,7 @@ final class Message implements MessageInterface
     public function withHeaders(array $headers): MessageInterface
     {
         $new = clone $this;
-        $new->headers = array_map(
-            static fn(string|array $value): array => (array) $value,
-            $headers,
-        );
+        $new->setHeaders($headers);
         return $new;
     }
 
@@ -311,5 +316,16 @@ final class Message implements MessageInterface
         }
         $result[] = $this->textBody;
         return implode("\n", $result);
+    }
+
+    /**
+     * @psalm-param array<string,string|list<string>> $headers
+     */
+    private function setHeaders(array $headers): void
+    {
+        $this->headers = array_map(
+            static fn(string|array $value): array => (array) $value,
+            $headers,
+        );
     }
 }

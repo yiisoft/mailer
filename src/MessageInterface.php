@@ -51,8 +51,6 @@ interface MessageInterface extends Stringable
      *
      * @return string|string[] The sender email address.
      *
-     * @psalm-return array<string, string>|string
-     *
      * @see withFrom()
      */
     public function getFrom(): array|string;
@@ -67,8 +65,6 @@ interface MessageInterface extends Stringable
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
-     *
-     * @psalm-param array<string, string>|string $from
      */
     public function withFrom(array|string $from): self;
 
@@ -78,8 +74,6 @@ interface MessageInterface extends Stringable
      * @return string|string[] The message recipients email address.
      *
      * @see withTo()
-     *
-     * @psalm-return array<string, string>|string
      */
     public function getTo(): array|string;
 
@@ -93,8 +87,6 @@ interface MessageInterface extends Stringable
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new recipients email address.
-     *
-     * @psalm-param array<string, string>|string $to
      */
     public function withTo(array|string $to): self;
 
@@ -104,8 +96,6 @@ interface MessageInterface extends Stringable
      * @return string|string[] The reply-to address of this message.
      *
      * @see withReplyTo()
-     *
-     * @psalm-return array<string, string>|string
      */
     public function getReplyTo(): array|string;
 
@@ -119,8 +109,6 @@ interface MessageInterface extends Stringable
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new reply-to address.
-     *
-     * @psalm-param array<string, string>|string $replyTo
      */
     public function withReplyTo(array|string $replyTo): self;
 
@@ -130,8 +118,6 @@ interface MessageInterface extends Stringable
      * @return string|string[] The Cc (additional copy receiver) addresses of this message.
      *
      * @see withCc()
-     *
-     * @psalm-return array<string, string>|string
      */
     public function getCc(): array|string;
 
@@ -145,8 +131,6 @@ interface MessageInterface extends Stringable
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Cc (additional copy receiver) addresses.
-     *
-     * @psalm-param array<string, string>|string $cc
      */
     public function withCc(array|string $cc): self;
 
@@ -156,8 +140,6 @@ interface MessageInterface extends Stringable
      * @return string|string[] The Bcc (hidden copy receiver) addresses of this message.
      *
      * @see withBcc()
-     *
-     * @psalm-return array<string, string>|string
      */
     public function getBcc(): array|string;
 
@@ -171,8 +153,6 @@ interface MessageInterface extends Stringable
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Bcc (hidden copy receiver) addresses.
-     *
-     * @psalm-param array<string, string>|string $bcc
      */
     public function withBcc(array|string $bcc): self;
 
