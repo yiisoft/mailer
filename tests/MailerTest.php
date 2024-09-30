@@ -135,7 +135,7 @@ final class MailerTest extends TestCase
 
         $message = $mailer
             ->compose(['text' => $textViewName])
-            ->withEmbedding($file);
+            ->withEmbeddings($file);
 
         $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
     }
