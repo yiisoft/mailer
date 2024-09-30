@@ -296,7 +296,7 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withAttachment(File ...$files): self;
+    public function withAttachments(File ...$files): self;
 
     /**
      * Returns a new instance with the specified added attached files.
@@ -308,7 +308,7 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withAddedAttachment(File ...$files): self;
+    public function withAddedAttachments(File ...$files): self;
 
     /**
      * @return File[]
@@ -328,7 +328,7 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withEmbedding(File ...$files): self;
+    public function withEmbeddings(File ...$files): self;
 
     /**
      * Returns a new instance with the specified added embedded files.
@@ -342,7 +342,7 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withAddedEmbedding(File ...$files): self;
+    public function withAddedEmbeddings(File ...$files): self;
 
     /**
      * Returns all values for the specified header.

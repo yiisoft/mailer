@@ -225,7 +225,7 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withAttachment(File ...$files): MessageInterface
+    public function withAttachments(File ...$files): MessageInterface
     {
         $new = clone $this;
         $new->attachments = $files;
@@ -235,7 +235,7 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withAddedAttachment(File ...$files): MessageInterface
+    public function withAddedAttachments(File ...$files): MessageInterface
     {
         $new = clone $this;
         $new->attachments = array_merge($this->attachments, $files);
@@ -250,7 +250,7 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withEmbedding(File ...$files): MessageInterface
+    public function withEmbeddings(File ...$files): MessageInterface
     {
         $new = clone $this;
         $new->embeddings = $files;
@@ -260,7 +260,7 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withAddedEmbedding(File ...$files): MessageInterface
+    public function withAddedEmbeddings(File ...$files): MessageInterface
     {
         $new = clone $this;
         $new->embeddings = array_merge($this->embeddings, $files);

@@ -3,9 +3,9 @@
 ## 6.0.0 under development
 
 - New #84: Add `MessageInterface` methods: `getAttachments()`,  `getEmbeddings()`, `getHeaders()`,
-  `withAddedAttachment()`, `withAddedEmbedding()` (@vjik)
-- Chg #84: Rename `MessageInterface` methods `withEmbedded()` to `withEmbedding()`, `withAttached()`
-  to `withAttachment()` and allow passing several files to it (@vjik)
+  `withAddedAttachments()`, `withAddedEmbeddings()` (@vjik)
+- Chg #84: Rename `MessageInterface` methods `withEmbedded()` to `withEmbeddings()`, `withAttached()`
+  to `withAttachments()` and allow passing several files to it (@vjik)
 - New #84: Add `Message` class that implements `MessageInterface` (@vjik)
 
 ## 5.1.0 July 02, 2024

@@ -137,10 +137,10 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame($message, $message->withReturnPath(''));
         $this->assertNotSame($message, $message->withSender(''));
         $this->assertNotSame($message, $message->withPriority(1));
-        $this->assertNotSame($message, $message->withAttachment(File::fromContent('')));
-        $this->assertNotSame($message, $message->withAddedAttachment());
-        $this->assertNotSame($message, $message->withEmbedding(File::fromContent('')));
-        $this->assertNotSame($message, $message->withAddedEmbedding());
+        $this->assertNotSame($message, $message->withAttachments(File::fromContent('')));
+        $this->assertNotSame($message, $message->withAddedAttachments());
+        $this->assertNotSame($message, $message->withEmbeddings(File::fromContent('')));
+        $this->assertNotSame($message, $message->withAddedEmbeddings());
         $this->assertNotSame($message, $message->withAddedHeader('X-Test', '0'));
         $this->assertNotSame($message, $message->withHeader('X-Test', '0'));
         $this->assertNotSame($message, $message->withHeaders([]));
