@@ -6,6 +6,7 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use Stringable;
 use Throwable;
 
 /**
@@ -26,9 +27,10 @@ use Throwable;
  * $mailer->send($message);
  * ```
  *
- * @psalm-type FromType = array<string, string>|string
+ * `Stringable` implementation need for debug purposes only. Method `__toString()` should return string representation
+ * of message.
  */
-interface MessageInterface
+interface MessageInterface extends Stringable
 {
     /**
      * Returns the charset of this message.
@@ -52,8 +54,6 @@ interface MessageInterface
      *
      * @return string|string[] The sender email address.
      *
-     * @psalm-return FromType
-     *
      * @see withFrom()
      */
     public function getFrom(): array|string;
@@ -68,15 +68,13 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
-     *
-     * @psalm-param FromType $from
      */
     public function withFrom(array|string $from): self;
 
     /**
      * Returns the message recipient(s) email address.
      *
-     * @return array<string, string>|string The message recipients email address.
+     * @return string|string[] The message recipients email address.
      *
      * @see withTo()
      */
@@ -85,7 +83,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
-     * @param array<string, string>|string|string[] $to The receiver email address.
+     * @param string|string[] $to The receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -98,7 +96,7 @@ interface MessageInterface
     /**
      * Returns the reply-to address of this message.
      *
-     * @return array<string, string>|string The reply-to address of this message.
+     * @return string|string[] The reply-to address of this message.
      *
      * @see withReplyTo()
      */
@@ -107,7 +105,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified reply-to address.
      *
-     * @param array<string, string>|string|string[] $replyTo The reply-to address.
+     * @param string|string[] $replyTo The reply-to address.
      *
      * You may pass an array of addresses if this message should be replied to multiple people.
      * You may also specify reply-to name in addition to email address using format: `[email => name]`.
@@ -120,7 +118,7 @@ interface MessageInterface
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
      *
-     * @return array<string, string>|string The Cc (additional copy receiver) addresses of this message.
+     * @return string|string[] The Cc (additional copy receiver) addresses of this message.
      *
      * @see withCc()
      */
@@ -129,7 +127,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
      *
-     * @param array<string, string>|string|string[] $cc The copy receiver email address.
+     * @param string|string[] $cc The copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -142,7 +140,7 @@ interface MessageInterface
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
      *
-     * @return array<string, string>|string The Bcc (hidden copy receiver) addresses of this message.
+     * @return string|string[] The Bcc (hidden copy receiver) addresses of this message.
      *
      * @see withBcc()
      */
@@ -151,7 +149,7 @@ interface MessageInterface
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
      *
-     * @param array<string, string>|string|string[] $bcc The hidden copy receiver email address.
+     * @param string|string[] $bcc The hidden copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -283,26 +281,68 @@ interface MessageInterface
     public function withTextBody(string $text): self;
 
     /**
-     * Returns a new instance with the specified attached file.
-     *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new attached file.
-     *
-     * @param File $file The file instance.
+     * @return File[]
+     * @psalm-return list<File>
      */
-    public function withAttached(File $file): self;
+    public function getAttachments(): array;
 
     /**
-     * Returns a new instance with the specified embedded file.
+     * Returns a new instance with the specified attached files.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has the new attached files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAttachments(File ...$files): self;
+
+    /**
+     * Returns a new instance with the specified added attached files.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has added the new attached files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAddedAttachments(File ...$files): self;
+
+    /**
+     * @return File[]
+     * @psalm-return list<File>
+     */
+    public function getEmbeddings(): array;
+
+    /**
+     * Returns a new instance with the specified embedded files.
      *
      * This method should be used when embedding images or other data in a message.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new embedded file.
      *
-     * @param File $file The file instance.
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
      */
-    public function withEmbedded(File $file): self;
+    public function withEmbeddings(File ...$files): self;
+
+    /**
+     * Returns a new instance with the specified added embedded files.
+     *
+     * This method should be used when embedding images or other data in a message.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has added the new embedded files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAddedEmbeddings(File ...$files): self;
 
     /**
      * Returns all values for the specified header.
@@ -312,6 +352,11 @@ interface MessageInterface
      * @return string[] The header values list.
      */
     public function getHeader(string $name): array;
+
+    /**
+     * @psalm-return array<string,list<string>>
+     */
+    public function getHeaders(): array;
 
     /**
      * Returns a new instance with the specified added custom header value.
@@ -334,16 +379,20 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header value.
+     *
+     * @psalm-param string|list<string> $value
      */
     public function withHeader(string $name, string|array $value): self;
 
     /**
      * Returns a new instance with the specified custom header values.
      *
-     * @param array<string, string|string[]> $headers The headers in format: `[name => value]`.
+     * @param array $headers The headers in format: `[name => value]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header values.
+     *
+     * @psalm-param array<string, string|list<string>> $headers
      */
     public function withHeaders(array $headers): self;
 
@@ -361,11 +410,4 @@ interface MessageInterface
      * and MUST return an instance that has the new send fails error.
      */
     public function withError(Throwable $e): self;
-
-    /**
-     * Returns string representation of this message.
-     *
-     * @return string The string representation of this message.
-     */
-    public function __toString(): string;
 }

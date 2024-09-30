@@ -11,12 +11,12 @@ use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
+use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
 
 use function basename;
 use function strip_tags;
@@ -135,7 +135,7 @@ final class MailerTest extends TestCase
 
         $message = $mailer
             ->compose(['text' => $textViewName])
-            ->withEmbedded($file);
+            ->withEmbeddings($file);
 
         $this->assertSame($textViewFileContent, $message->getTextBody(), 'Unable to render text!');
     }
@@ -172,7 +172,7 @@ final class MailerTest extends TestCase
 
     public function testBeforeSend(): void
     {
-        $message = new DummyMessage();
+        $message = new Message();
         $event = new BeforeSend($message);
         $messageFactory = $this->get(MessageFactoryInterface::class);
         $messageBodyRenderer = $this->get(MessageBodyRenderer::class);

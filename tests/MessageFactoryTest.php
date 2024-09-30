@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
+use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageFactory;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMessage;
 
 final class MessageFactoryTest extends TestCase
 {
     public function testCreate(): void
     {
-        $factory = new MessageFactory(DummyMessage::class);
-
-        $message = $factory->create();
-
-        $this->assertInstanceOf(DummyMessage::class, $message);
-        $this->assertSame('', $message->getFrom());
+        $factory = new MessageFactory(Message::class);
+        $this->assertInstanceOf(Message::class, $factory->create());
     }
 
     public function testConstructorThrowExceptionForInvalidMessageClass(): void
@@ -29,7 +25,7 @@ final class MessageFactoryTest extends TestCase
     public function testWithFrom(): void
     {
         $factory = new MessageFactory(
-            DummyMessage::class,
+            Message::class,
             from: 'test@example.com',
         );
 
