@@ -298,18 +298,6 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function getError(): ?Throwable
-    {
-        return $this->error;
-    }
-
-    public function withError(Throwable $e): MessageInterface
-    {
-        $new = clone $this;
-        $new->error = $e;
-        return $new;
-    }
-
     public function __toString(): string
     {
         $result = [];

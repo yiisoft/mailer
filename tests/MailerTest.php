@@ -144,7 +144,11 @@ final class MailerTest extends TestCase
     public function testSendMultiple(array $messages): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $this->assertCount(0, $mailer->sendMultiple($messages));
+
+        $result = $mailer->sendMultiple($messages);
+
+        $this->assertSame($messages, $result->successMessages);
+        $this->assertSame([], $result->failMessages);
         $this->assertSame($messages, $mailer->sentMessages);
     }
 
@@ -160,14 +164,23 @@ final class MailerTest extends TestCase
     public function testSendMultipleExceptions(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $messages = [self::createMessage(''), self::createMessage(), self::createMessage('')];
-        $failed = $mailer->sendMultiple($messages);
+        $message1 = self::createMessage('');
+        $message2 = self::createMessage();
+        $message3 = self::createMessage('');
+        $result = $mailer->sendMultiple([
+            $message1,
+            $message2,
+            $message3,
+        ]);
 
-        $this->assertCount(2, $failed);
-        $this->assertInstanceOf(InvalidArgumentException::class, $failed[0]->getError());
-        $this->assertInstanceOf(InvalidArgumentException::class, $failed[1]->getError());
-        $this->assertSame("Message's subject is required.", $failed[0]->getError()->getMessage());
-        $this->assertSame("Message's subject is required.", $failed[1]->getError()->getMessage());
+        $this->assertSame([$message2], $result->successMessages);
+        $this->assertCount(2, $result->failMessages);
+        $this->assertInstanceOf(InvalidArgumentException::class, $result->failMessages[0]['error']);
+        $this->assertInstanceOf(InvalidArgumentException::class, $result->failMessages[1]['error']);
+        $this->assertSame("Message's subject is required.", $result->failMessages[0]['error']->getMessage());
+        $this->assertSame("Message's subject is required.", $result->failMessages[1]['error']->getMessage());
+        $this->assertSame($message1, $result->failMessages[0]['message']);
+        $this->assertSame($message3, $result->failMessages[1]['message']);
     }
 
     public function testBeforeSend(): void

@@ -32,7 +32,6 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $message->getAttachments());
         $this->assertSame([], $message->getEmbeddings());
         $this->assertSame([], $message->getHeaders());
-        $this->assertNull($message->getError());
     }
 
     public function testWithCharset(): void

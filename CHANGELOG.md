@@ -7,6 +7,8 @@
 - Chg #84: Rename `MessageInterface` methods: `withEmbedded()` to `withEmbeddings()`, `withAttached()`
   to `withAttachments()` and allow passing several files to them (@vjik)
 - New #84: Add `Message` class that implements `MessageInterface` (@vjik)
+- Chg #94: Remove `getError()` and `withError()` methods from `MessageInterface` (@vjik)
+- Chg #94: Change result of `MailerInterface::sendMultiple()` to `MultipleSendResult` object (@vjik)
 
 ## 5.1.0 July 02, 2024
 
