@@ -7,7 +7,6 @@ namespace Yiisoft\Mailer;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Stringable;
-use Throwable;
 
 /**
  * `MessageInterface` is the interface that should be implemented by mail message classes.
