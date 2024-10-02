@@ -195,10 +195,9 @@ interface MessageInterface extends Stringable
     /**
      * Returns the priority of this message.
      *
-     * @return int The priority value as integer in range: `1..5`,
-     * where 1 is the highest priority and 5 is the lowest.
+     * @return Priority The message priority.
      */
-    public function getPriority(): int;
+    public function getPriority(): Priority;
 
     /**
      * Returns a new instance with the specified priority of this message.
@@ -206,10 +205,9 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new message priority.
      *
-     * @param int $priority The priority value, should be an integer in range: `1..5`,
-     * where 1 is the highest priority and 5 is the lowest.
+     * @param Priority $priority The message priority.
      */
-    public function withPriority(int $priority): self;
+    public function withPriority(Priority $priority): self;
 
     /**
      * Returns the return-path (the bounce address) of this message.

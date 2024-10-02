@@ -6,7 +6,6 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Throwable;
 
 /**
  * Mail message class that represents the settings and content of an email, such as the sender, recipient, subject,
@@ -48,7 +47,7 @@ final class Message implements MessageInterface
         private array|string $bcc = [],
         private string $subject = '',
         private ?DateTimeImmutable $date = null,
-        private int $priority = 3,
+        private Priority $priority = Priority::NORMAL,
         private string $returnPath = '',
         private string $sender = '',
         private string $textBody = '',
@@ -56,7 +55,6 @@ final class Message implements MessageInterface
         private array $attachments = [],
         private array $embeddings = [],
         array $headers = [],
-        private ?Throwable $error = null,
     ) {
         $this->setHeaders($headers);
     }
@@ -157,12 +155,12 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function getPriority(): int
+    public function getPriority(): Priority
     {
         return $this->priority;
     }
 
-    public function withPriority(int $priority): MessageInterface
+    public function withPriority(Priority $priority): MessageInterface
     {
         $new = clone $this;
         $new->priority = $priority;

@@ -9,6 +9,7 @@
 - New #84: Add `Message` class that implements `MessageInterface` (@vjik)
 - Chg #94: Remove `getError()` and `withError()` methods from `MessageInterface` (@vjik)
 - Chg #94: Change result of `MailerInterface::sendMultiple()` to `SendResults` object (@vjik)
+- Chg #95: Use new `Priority` enumeration instead of integer value for define priority in message (@vjik)
 
 ## 5.1.0 July 02, 2024
 
