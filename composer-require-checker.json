@@ -6,12 +6,13 @@
         "Core",
         "date",
         "json",
+        "hash",
         "pcre",
         "Phar",
         "Reflection",
         "SPL",
-        "standard",
-        "fileinfo"
+        "random",
+        "standard"
     ],
     "scan-files": []
 }
