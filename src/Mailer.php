@@ -19,7 +19,7 @@ abstract class Mailer implements MailerInterface
     public function __construct(
         private MessageFactoryInterface $messageFactory,
         private MessageBodyRenderer $messageBodyRenderer,
-        private EventDispatcherInterface $eventDispatcher
+        private ?EventDispatcherInterface $eventDispatcher = null,
     ) {
     }
 
@@ -166,7 +166,7 @@ abstract class Mailer implements MailerInterface
     protected function beforeSend(MessageInterface $message): bool
     {
         /** @var BeforeSend $event */
-        $event = $this->eventDispatcher->dispatch(new BeforeSend($message));
+        $event = $this->eventDispatcher?->dispatch(new BeforeSend($message));
         return !$event->isPropagationStopped();
     }
 
@@ -178,6 +178,6 @@ abstract class Mailer implements MailerInterface
      */
     protected function afterSend(MessageInterface $message): void
     {
-        $this->eventDispatcher->dispatch(new AfterSend($message));
+        $this->eventDispatcher?->dispatch(new AfterSend($message));
     }
 }

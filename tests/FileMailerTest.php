@@ -118,9 +118,9 @@ final class FileMailerTest extends TestCase
         return new FileMailer(
             $this->get(MessageFactoryInterface::class),
             $this->get(MessageBodyRenderer::class),
-            $this->get(EventDispatcherInterface::class),
             self::getTestFilePath(),
             $filenameCallback,
+            $this->get(EventDispatcherInterface::class),
         );
     }
 }
