@@ -44,11 +44,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         FileHelper::removeDirectory(self::getTestFilePath());
     }
 
+    /**
+     * @template T
+     * @param class-string<T> $id
+     * @return T
+     */
     protected function get(string $id)
     {
-        return $this
-            ->getContainer()
-            ->get($id);
+        return $this->getContainer()->get($id);
     }
 
     protected static function createMessage(

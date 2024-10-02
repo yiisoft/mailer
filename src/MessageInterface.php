@@ -7,7 +7,6 @@ namespace Yiisoft\Mailer;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Stringable;
-use Throwable;
 
 /**
  * `MessageInterface` is the interface that should be implemented by mail message classes.
@@ -395,19 +394,4 @@ interface MessageInterface extends Stringable
      * @psalm-param array<string, string|list<string>> $headers
      */
     public function withHeaders(array $headers): self;
-
-    /**
-     * Returns error represents why send fails, or null on a successful send.
-     */
-    public function getError(): ?Throwable;
-
-    /**
-     * Returns a new instance with the specified send fails error.
-     *
-     * @param Throwable $e The send fails error.
-     *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new send fails error.
-     */
-    public function withError(Throwable $e): self;
 }

@@ -60,14 +60,13 @@ interface MailerInterface
      * Sends multiple messages at once.
      *
      * This method may be implemented by some mailers which support more efficient way of
-     * sending multiple messages in the same batch. It must collects failed messages and store
-     * corresponding exceptions by {@see MessageInterface::withError()}, then returns them.
+     * sending multiple messages in the same batch.
      *
      * @param MessageInterface[] $messages List of email messages, which should be sent.
      *
-     * @return MessageInterface[] List of fails messages.
+     * @return SendResults The result object that contains all messages and errors for failed sent messages.
      */
-    public function sendMultiple(array $messages): array;
+    public function sendMultiple(array $messages): SendResults;
 
     /**
      * Returns a new instance with the specified message body template.

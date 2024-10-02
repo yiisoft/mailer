@@ -107,27 +107,29 @@ abstract class Mailer implements MailerInterface
     /**
      * Sends multiple messages at once.
      *
-     * The default implementation simply calls {@see Mailer::send()} multiple times.
-     * Child classes may override this method to implement more efficient way of sending multiple messages.
+     * This method may be implemented by some mailers which support more efficient way of
+     * sending multiple messages in the same batch.
      *
      * @param MessageInterface[] $messages List of email messages, which should be sent.
      *
-     * @return MessageInterface[] List of fails messages, the corresponding
-     * error can be retrieved by {@see MessageInterface::getError()}.
+     * @return SendResults The result object that contains all messages and errors for failed sent messages.
      */
-    public function sendMultiple(array $messages): array
+    public function sendMultiple(array $messages): SendResults
     {
-        $failed = [];
+        $successMessages = [];
+        $failMessages = [];
 
         foreach ($messages as $message) {
             try {
                 $this->send($message);
             } catch (Throwable $e) {
-                $failed[] = $message->withError($e);
+                $failMessages[] = ['message' => $message, 'error' => $e];
+                continue;
             }
+            $successMessages[] = $message;
         }
 
-        return $failed;
+        return new SendResults($successMessages, $failMessages);
     }
 
     /**
