@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Result of {@see MailerInterface::sendMultiple()}.
  */
-final class MultipleSendResult
+final class SendResults
 {
     /**
      * @param MessageInterface[] $successMessages List of successfully sent messages.

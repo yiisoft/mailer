@@ -64,9 +64,9 @@ interface MailerInterface
      *
      * @param MessageInterface[] $messages List of email messages, which should be sent.
      *
-     * @return MultipleSendResult The result object that contains all messages and errors for failed sent messages.
+     * @return SendResults The result object that contains all messages and errors for failed sent messages.
      */
-    public function sendMultiple(array $messages): MultipleSendResult;
+    public function sendMultiple(array $messages): SendResults;
 
     /**
      * Returns a new instance with the specified message body template.
