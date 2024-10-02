@@ -10,6 +10,7 @@ use DateTimeInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\Message;
+use Yiisoft\Mailer\Priority;
 
 final class MessageTest extends \PHPUnit\Framework\TestCase
 {
@@ -24,7 +25,7 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $message->getBcc());
         $this->assertSame('', $message->getSubject());
         $this->assertNull($message->getDate());
-        $this->assertSame(3, $message->getPriority());
+        $this->assertSame(Priority::NORMAL, $message->getPriority());
         $this->assertSame('', $message->getReturnPath());
         $this->assertSame('', $message->getSender());
         $this->assertSame('', $message->getTextBody());
@@ -135,7 +136,7 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
         $this->assertNotSame($message, $message->withDate(new DateTimeImmutable()));
         $this->assertNotSame($message, $message->withReturnPath(''));
         $this->assertNotSame($message, $message->withSender(''));
-        $this->assertNotSame($message, $message->withPriority(1));
+        $this->assertNotSame($message, $message->withPriority(Priority::HIGHEST));
         $this->assertNotSame($message, $message->withAttachments(File::fromContent('')));
         $this->assertNotSame($message, $message->withAddedAttachments());
         $this->assertNotSame($message, $message->withEmbeddings(File::fromContent('')));
