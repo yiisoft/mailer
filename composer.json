@@ -28,12 +28,12 @@
     ],
     "require": {
         "php": "^8.1",
-        "psr/event-dispatcher": "^1.0",
         "yiisoft/view": "^10.0.0"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.4",
         "phpunit/phpunit": "^10",
+        "psr/event-dispatcher": "^1.0",
         "rector/rector": "^1.2",
         "roave/infection-static-analysis-plugin": "^1.25",
         "spatie/phpunit-watcher": "^1.23",
@@ -45,7 +45,8 @@
     "suggest": {
         "yiisoft/event-dispatcher": "Yii Event Dispatcher",
         "yiisoft/mailer-swiftmailer": "Yii Mailer Library - Swift Mailer Extension",
-        "yiisoft/mailer-symfony": "Yii Mailer Library - Symfony Mailer Extension"
+        "yiisoft/mailer-symfony": "Yii Mailer Library - Symfony Mailer Extension",
+        "psr/event-dispatcher": "Use PSR Event Dispatcher implementation for process before/after send events"
     },
     "autoload": {
         "psr-4": {

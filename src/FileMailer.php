@@ -49,9 +49,9 @@ final class FileMailer extends Mailer
     public function __construct(
         MessageFactoryInterface $messageFactory,
         MessageBodyRenderer $messageBodyRenderer,
-        EventDispatcherInterface $eventDispatcher,
         private string $path,
-        callable $filenameCallback = null
+        callable $filenameCallback = null,
+        ?EventDispatcherInterface $eventDispatcher = null,
     ) {
         parent::__construct($messageFactory, $messageBodyRenderer, $eventDispatcher);
         $this->filenameCallback = $filenameCallback;
