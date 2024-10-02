@@ -6,7 +6,6 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Throwable;
 
 /**
  * Mail message class that represents the settings and content of an email, such as the sender, recipient, subject,
