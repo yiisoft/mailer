@@ -28,7 +28,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "yiisoft/view": "^10.0.0"
+        "yiisoft/view": "^11.0.0"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.4",
