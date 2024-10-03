@@ -12,7 +12,8 @@
 - Chg #95: Use new `Priority` enumeration instead of integer value for define priority in message (@vjik)
 - Enh #83: Make `psr/event-dispatcher` dependency optional (@vjik)
 - Chg #96: Change order of constructor parameters in `Mailer` and `FailMailer` (@vjik)
-- Chg #98: Make `MessageBodyTemplate` simple DTO with public readonly properties (@vjik) 
+- Chg #98: Make `MessageBodyTemplate` simple DTO with public readonly properties (@vjik)
+- Enh #99: Add `yiisoft/view` of version `^11` support (@vjik)
 
 ## 5.1.0 July 02, 2024
 
