@@ -228,8 +228,7 @@ TEXT
         string $viewPath,
         ?string $htmlLayout = null,
         ?string $textLayout = null,
-    ): MessageBodyRenderer
-    {
+    ): MessageBodyRenderer {
         return new MessageBodyRenderer(
             $this->get(View::class),
             new MessageBodyTemplate($viewPath, $htmlLayout, $textLayout)
