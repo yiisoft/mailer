@@ -110,17 +110,17 @@ final class MessageBodyRenderer
     public function renderHtml(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
         $content = $this->view
-            ->withContext($this->template)
+            ->withContextPath($this->template->viewPath)
             ->render($view, $viewParameters);
 
-        if ($this->template->getHtmlLayout() === '') {
+        if ($this->template->htmlLayout === null) {
             return $content;
         }
 
         $layoutParameters['content'] = $content;
         return $this->view
-            ->withContext($this->template)
-            ->render($this->template->getHtmlLayout(), $layoutParameters);
+            ->withContextPath($this->template->viewPath)
+            ->render($this->template->htmlLayout, $layoutParameters);
     }
 
     /**
@@ -141,17 +141,17 @@ final class MessageBodyRenderer
     public function renderText(string $view, array $viewParameters = [], array $layoutParameters = []): string
     {
         $content = $this->view
-            ->withContext($this->template)
+            ->withContextPath($this->template->viewPath)
             ->render($view, $viewParameters);
 
-        if ($this->template->getTextLayout() === '') {
+        if ($this->template->textLayout === null) {
             return $content;
         }
 
         $layoutParameters['content'] = $content;
         return $this->view
-            ->withContext($this->template)
-            ->render($this->template->getTextLayout(), $layoutParameters);
+            ->withContextPath($this->template->viewPath)
+            ->render($this->template->textLayout, $layoutParameters);
     }
 
     /**
