@@ -37,7 +37,7 @@ final class MessageBodyRendererTest extends TestCase
     public function testWithTemplate(): void
     {
         $renderer = $this->createRenderer(self::getTestFilePath(), 'test-html', 'test-text');
-        $template = new MessageBodyTemplate(self::getTestFilePath(), '', '');
+        $template = new MessageBodyTemplate(self::getTestFilePath());
         $newRenderer = $renderer->withTemplate($template);
 
         $this->assertNotSame($renderer, $newRenderer);
@@ -48,7 +48,7 @@ final class MessageBodyRendererTest extends TestCase
     {
         $viewPath = self::getTestFilePath();
         $renderer = $this
-            ->createRenderer($viewPath, '', '')
+            ->createRenderer($viewPath)
             ->withLocale('de_DE');
 
         $viewName = 'test-view-locale';
@@ -65,7 +65,7 @@ final class MessageBodyRendererTest extends TestCase
     public function testRenderHtmlAndRenderTextWithoutLayouts(): void
     {
         $viewPath = self::getTestFilePath();
-        $renderer = $this->createRenderer($viewPath, '', '');
+        $renderer = $this->createRenderer($viewPath);
 
         $viewName = 'test-view';
         $viewFileName = $viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
@@ -124,7 +124,7 @@ final class MessageBodyRendererTest extends TestCase
     public function testAddToMessage(): void
     {
         $viewPath = self::getTestFilePath();
-        $renderer = $this->createRenderer($viewPath, '', '');
+        $renderer = $this->createRenderer($viewPath);
         $htmlViewName = 'test-html-view';
         $textViewName = 'test-text-view';
 
@@ -188,7 +188,7 @@ TEXT
     public function testAddToMessagePlainTextFallback(string $htmlViewFileContent, string $expectedTextRendering): void
     {
         $viewPath = self::getTestFilePath();
-        $renderer = $this->createRenderer($viewPath, '', '');
+        $renderer = $this->createRenderer($viewPath);
         $htmlViewName = 'test-html-view';
 
         $htmlViewFileName = $viewPath . DIRECTORY_SEPARATOR . $htmlViewName . '.php';
@@ -219,12 +219,16 @@ TEXT
     #[DataProvider('invalidViewProvider')]
     public function testAddToMessageThrowExceptionForInvalidView(mixed $view): void
     {
-        $renderer = $this->createRenderer(self::getTestFilePath(), '', '');
+        $renderer = $this->createRenderer(self::getTestFilePath());
         $this->expectException(RuntimeException::class);
         $renderer->addToMessage(self::createMessage(), $view);
     }
 
-    public function createRenderer(string $viewPath, string $htmlLayout, string $textLayout): MessageBodyRenderer
+    public function createRenderer(
+        string $viewPath,
+        ?string $htmlLayout = null,
+        ?string $textLayout = null,
+    ): MessageBodyRenderer
     {
         return new MessageBodyRenderer(
             $this->get(View::class),

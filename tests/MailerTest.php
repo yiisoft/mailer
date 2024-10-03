@@ -26,7 +26,7 @@ final class MailerTest extends TestCase
     public function testWithTemplate(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $template = new MessageBodyTemplate(self::getTestFilePath(), '', '');
+        $template = new MessageBodyTemplate(self::getTestFilePath());
 
         $oldMessageBodyRenderer = $this->getInaccessibleProperty($mailer, 'messageBodyRenderer');
         $newMailer = $mailer->withTemplate($template);
