@@ -281,7 +281,7 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
             '1',
         ];
         yield [
-            ['X-Test' => ['0'], 'X-Origin' => 'on'],
+            ['X-Test' => ['0'], 'X-Origin' => ['on']],
             'X-Origin',
             'on',
         ];
