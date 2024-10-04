@@ -12,8 +12,6 @@ use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageBodyTemplate;
-use Yiisoft\Mailer\MessageFactory;
-use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 use Yiisoft\Test\Support\Container\SimpleContainer;
@@ -120,14 +118,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $view = new View($tempDir, $eventDispatcher);
             $messageBodyTemplate = new MessageBodyTemplate($tempDir);
             $messageBodyRenderer = new MessageBodyRenderer($view, $messageBodyTemplate);
-            $messageFactory = new MessageFactory(Message::class);
 
             $this->container = new SimpleContainer([
                 EventDispatcherInterface::class => $eventDispatcher,
-                MailerInterface::class => new DummyMailer($messageFactory, $messageBodyRenderer, $eventDispatcher),
+                MailerInterface::class => new DummyMailer($messageBodyRenderer, eventDispatcher: $eventDispatcher),
                 MessageBodyRenderer::class => new MessageBodyRenderer($view, $messageBodyTemplate),
                 MessageBodyTemplate::class => $messageBodyTemplate,
-                MessageFactoryInterface::class => $messageFactory,
                 View::class => $view,
             ]);
         }

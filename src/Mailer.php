@@ -17,8 +17,8 @@ use Yiisoft\Mailer\Event\BeforeSend;
 abstract class Mailer implements MailerInterface
 {
     public function __construct(
-        private MessageFactoryInterface $messageFactory,
         private MessageBodyRenderer $messageBodyRenderer,
+        private ?DefaultMessageSettings $defaultMessageSettings = null,
         private ?EventDispatcherInterface $eventDispatcher = null,
     ) {
     }
@@ -150,7 +150,8 @@ abstract class Mailer implements MailerInterface
      */
     protected function createMessage(): MessageInterface
     {
-        return $this->messageFactory->create();
+        $message = new Message();
+        return $this->defaultMessageSettings?->applyTo($message) ?? $message;
     }
 
     /**

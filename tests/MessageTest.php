@@ -17,22 +17,22 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
     public function testDefaultValues(): void
     {
         $message = new Message();
-        $this->assertSame('utf-8', $message->getCharset());
-        $this->assertSame([], $message->getFrom());
-        $this->assertSame([], $message->getTo());
-        $this->assertSame([], $message->getReplyTo());
-        $this->assertSame([], $message->getCc());
-        $this->assertSame([], $message->getBcc());
-        $this->assertSame('', $message->getSubject());
+        $this->assertNull($message->getCharset());
+        $this->assertNull($message->getFrom());
+        $this->assertNull($message->getTo());
+        $this->assertNull($message->getReplyTo());
+        $this->assertNull($message->getCc());
+        $this->assertNull($message->getBcc());
+        $this->assertNull($message->getSubject());
         $this->assertNull($message->getDate());
-        $this->assertSame(Priority::NORMAL, $message->getPriority());
-        $this->assertSame('', $message->getReturnPath());
-        $this->assertSame('', $message->getSender());
-        $this->assertSame('', $message->getTextBody());
-        $this->assertSame('', $message->getHtmlBody());
-        $this->assertSame([], $message->getAttachments());
-        $this->assertSame([], $message->getEmbeddings());
-        $this->assertSame([], $message->getHeaders());
+        $this->assertNull($message->getPriority());
+        $this->assertNull($message->getReturnPath());
+        $this->assertNull($message->getSender());
+        $this->assertNull($message->getTextBody());
+        $this->assertNull($message->getHtmlBody());
+        $this->assertNull($message->getAttachments());
+        $this->assertNull($message->getEmbeddings());
+        $this->assertNull($message->getHeaders());
     }
 
     public function testWithCharset(): void

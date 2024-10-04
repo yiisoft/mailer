@@ -13,7 +13,6 @@ use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\MessageBodyRenderer;
-use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 
 use function file_get_contents;
@@ -116,11 +115,10 @@ final class FileMailerTest extends TestCase
     private function createFileMailer(callable $filenameCallback = null): FileMailer
     {
         return new FileMailer(
-            $this->get(MessageFactoryInterface::class),
             $this->get(MessageBodyRenderer::class),
             self::getTestFilePath(),
             $filenameCallback,
-            $this->get(EventDispatcherInterface::class),
+            eventDispatcher: $this->get(EventDispatcherInterface::class),
         );
     }
 }

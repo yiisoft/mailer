@@ -14,7 +14,6 @@ use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageBodyTemplate;
-use Yiisoft\Mailer\MessageFactoryInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 
@@ -187,13 +186,12 @@ final class MailerTest extends TestCase
     {
         $message = new Message();
         $event = new BeforeSend($message);
-        $messageFactory = $this->get(MessageFactoryInterface::class);
         $messageBodyRenderer = $this->get(MessageBodyRenderer::class);
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $eventDispatcher
             ->method('dispatch')
             ->willReturn($event);
-        $mailer = new DummyMailer($messageFactory, $messageBodyRenderer, $eventDispatcher);
+        $mailer = new DummyMailer($messageBodyRenderer, eventDispatcher: $eventDispatcher);
 
         $this->assertTrue($mailer->beforeSend($message));
         $event->stopPropagation();
