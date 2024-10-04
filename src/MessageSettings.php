@@ -169,8 +169,10 @@ final class MessageSettings
             $message = $message->withAddedEmbeddings(...$this->addEmbeddings);
         }
 
-        if ($this->headers !== null && $message->getHeaders() === null) {
-            $message = $message->withHeaders($this->headers);
+        if ($this->headers !== null) {
+            $message = $message->withHeaders(
+                array_merge($this->headers, $message->getHeaders() ?? [])
+            );
         }
         if ($this->overwriteHeaders !== null) {
             foreach ($this->overwriteHeaders as $headerName => $headerValue) {
