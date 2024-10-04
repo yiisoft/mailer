@@ -49,10 +49,10 @@ final class FileMailer extends Mailer
         MessageBodyRenderer $messageBodyRenderer,
         private string $path,
         callable $filenameCallback = null,
-        ?DefaultMessageSettings $defaultMessageSettings = null,
+        ?MessageSettings $messageSettings = null,
         ?EventDispatcherInterface $eventDispatcher = null,
     ) {
-        parent::__construct($messageBodyRenderer, $defaultMessageSettings, $eventDispatcher);
+        parent::__construct($messageBodyRenderer, $messageSettings, $eventDispatcher);
         $this->filenameCallback = $filenameCallback;
     }
 

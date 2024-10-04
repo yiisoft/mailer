@@ -18,7 +18,7 @@ abstract class Mailer implements MailerInterface
 {
     public function __construct(
         private MessageBodyRenderer $messageBodyRenderer,
-        private ?DefaultMessageSettings $defaultMessageSettings = null,
+        private ?MessageSettings $defaultMessageSettings = null,
         private ?EventDispatcherInterface $eventDispatcher = null,
     ) {
     }

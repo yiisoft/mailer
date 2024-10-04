@@ -6,7 +6,7 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 
-final class DefaultMessageSettings
+final class MessageSettings
 {
     /**
      * @var array[]|null
