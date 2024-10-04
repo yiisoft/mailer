@@ -14,208 +14,247 @@ use DateTimeInterface;
 final class Message implements MessageInterface
 {
     /**
-     * @var array[]
-     * @psalm-var array<string,list<string>>
+     * @var array[]|null
+     * @psalm-var array<string,list<string>>|null
      */
-    private array $headers;
+    private array|null $headers;
 
     /**
-     * @param string|string[] $from The sender email address(es). You may also specify sender name in addition to email
-     * address using format: `[email => name]`.
-     * @param string|string[] $to The receiver email address(es). You may also specify sender name in addition to email
-     * address using format: `[email => name]`.
-     * @param string|string[] $replyTo The reply-to address(es) of this message. You may also specify sender name in
-     * addition to email address using format: `[email => name]`.
-     * @param string|string[] $cc The additional copy receiver address(es) of this message. You may also specify sender
-     * name in addition to email address using format: `[email => name]`.
-     * @param string|string[] $bcc The hidden copy receiver address(es) of this message. You may also specify sender
-     * name in addition to email address using format: `[email => name]`.
-     * @param File[] $attachments The attached files.
-     * @param File[] $embeddings The embedded files.
-     * @param array[] $headers The custom headers in format: `[name => value|value[]]`.
+     * @param string|string[]|null $from The sender email address(es). You may also specify sender name in addition
+     * to email address using format: `[email => name]`.
+     * @param string|string[]|null $to The receiver email address(es). You may also specify sender name in addition
+     * to email address using format: `[email => name]`.
+     * @param string|string[]|null $replyTo The reply-to address(es) of this message. You may also specify sender name
+     * in addition to email address using format: `[email => name]`.
+     * @param string|string[]|null $cc The additional copy receiver address(es) of this message. You may also specify
+     * sender name in addition to email address using format: `[email => name]`.
+     * @param string|string[]|null $bcc The hidden copy receiver address(es) of this message. You may also specify
+     * sender name in addition to email address using format: `[email => name]`.
+     * @param File[]|null $attachments The attached files.
+     * @param File[]|null $embeddings The embedded files.
+     * @param array[]|null $headers The custom headers in format: `[name => value|value[]]`.
      *
-     * @psalm-param list<File> $attachments
-     * @psalm-param list<File> $embeddings
-     * @psalm-param array<string,string|list<string>> $headers
+     * @psalm-param list<File>|null $attachments
+     * @psalm-param list<File>|null $embeddings
+     * @psalm-param array<string,string|list<string>>|null $headers
      */
     public function __construct(
-        private string $charset = 'utf-8',
-        private array|string $from = [],
-        private array|string $to = [],
-        private array|string $replyTo = [],
-        private array|string $cc = [],
-        private array|string $bcc = [],
-        private string $subject = '',
-        private ?DateTimeImmutable $date = null,
-        private Priority $priority = Priority::NORMAL,
-        private string $returnPath = '',
-        private string $sender = '',
-        private string $textBody = '',
-        private string $htmlBody = '',
-        private array $attachments = [],
-        private array $embeddings = [],
-        array $headers = [],
+        private string|null $charset = null,
+        private array|string|null $from = null,
+        private array|string|null $to = null,
+        private array|string|null $replyTo = null,
+        private array|string|null $cc = null,
+        private array|string|null $bcc = null,
+        private string|null $subject = null,
+        private DateTimeImmutable|null $date = null,
+        private Priority|null $priority = null,
+        private string|null $returnPath = null,
+        private string|null $sender = null,
+        private string|null $textBody = null,
+        private string|null $htmlBody = null,
+        private array|null $attachments = null,
+        private array|null $embeddings = null,
+        array|null $headers = null,
     ) {
         $this->setHeaders($headers);
     }
 
-    public function getCharset(): string
+    public function getCharset(): string|null
     {
         return $this->charset;
     }
 
-    public function withCharset(string $charset): MessageInterface
+    public function withCharset(string|null $charset): MessageInterface
     {
         $new = clone $this;
         $new->charset = $charset;
         return $new;
     }
 
-    public function getFrom(): array|string
+    public function getFrom(): array|string|null
     {
         return $this->from;
     }
 
-    public function withFrom(array|string $from): MessageInterface
+    public function withFrom(array|string|null $from): MessageInterface
     {
         $new = clone $this;
         $new->from = $from;
         return $new;
     }
 
-    public function getTo(): array|string
+    public function withAddedFrom(array|string $from): MessageInterface
+    {
+        return $this->withFrom(
+            $this->mergeAddresses($this->from, $from)
+        );
+    }
+
+    public function getTo(): array|string|null
     {
         return $this->to;
     }
 
-    public function withTo(array|string $to): MessageInterface
+    public function withTo(array|string|null $to): MessageInterface
     {
         $new = clone $this;
         $new->to = $to;
         return $new;
     }
 
-    public function getReplyTo(): array|string
+    public function withAddedTo(array|string $to): MessageInterface
+    {
+        return $this->withTo(
+            $this->mergeAddresses($this->to, $to)
+        );
+    }
+
+    public function getReplyTo(): array|string|null
     {
         return $this->replyTo;
     }
 
-    public function withReplyTo(array|string $replyTo): MessageInterface
+    public function withReplyTo(array|string|null $replyTo): MessageInterface
     {
         $new = clone $this;
         $new->replyTo = $replyTo;
         return $new;
     }
 
-    public function getCc(): array|string
+    public function withAddedReplyTo(array|string $replyTo): MessageInterface
+    {
+        return $this->withReplyTo(
+            $this->mergeAddresses($this->replyTo, $replyTo)
+        );
+    }
+
+    public function getCc(): array|string|null
     {
         return $this->cc;
     }
 
-    public function withCc(array|string $cc): MessageInterface
+    public function withCc(array|string|null $cc): MessageInterface
     {
         $new = clone $this;
         $new->cc = $cc;
         return $new;
     }
 
-    public function getBcc(): array|string
+    public function withAddedCc(array|string $cc): MessageInterface
+    {
+        return $this->withCc(
+            $this->mergeAddresses($this->cc, $cc)
+        );
+    }
+
+    public function getBcc(): array|string|null
     {
         return $this->bcc;
     }
 
-    public function withBcc(array|string $bcc): MessageInterface
+    public function withBcc(array|string|null $bcc): MessageInterface
     {
         $new = clone $this;
         $new->bcc = $bcc;
         return $new;
     }
 
-    public function getSubject(): string
+    public function withAddedBcc(array|string $bcc): MessageInterface
+    {
+        return $this->withBcc(
+            $this->mergeAddresses($this->bcc, $bcc)
+        );
+    }
+
+    public function getSubject(): string|null
     {
         return $this->subject;
     }
 
-    public function withSubject(string $subject): MessageInterface
+    public function withSubject(string|null $subject): MessageInterface
     {
         $new = clone $this;
         $new->subject = $subject;
         return $new;
     }
 
-    public function getDate(): ?DateTimeImmutable
+    public function getDate(): DateTimeImmutable|null
     {
         return $this->date;
     }
 
-    public function withDate(DateTimeInterface $date): MessageInterface
+    public function withDate(DateTimeInterface|null $date): MessageInterface
     {
         $new = clone $this;
-        $new->date = $date instanceof DateTimeImmutable ? $date : DateTimeImmutable::createFromInterface($date);
+        if ($date === null) {
+            $new->date = $date;
+        } else {
+            $new->date = $date instanceof DateTimeImmutable ? $date : DateTimeImmutable::createFromInterface($date);
+        }
         return $new;
     }
 
-    public function getPriority(): Priority
+    public function getPriority(): Priority|null
     {
         return $this->priority;
     }
 
-    public function withPriority(Priority $priority): MessageInterface
+    public function withPriority(Priority|null $priority): MessageInterface
     {
         $new = clone $this;
         $new->priority = $priority;
         return $new;
     }
 
-    public function getReturnPath(): string
+    public function getReturnPath(): string|null
     {
         return $this->returnPath;
     }
 
-    public function withReturnPath(string $address): MessageInterface
+    public function withReturnPath(string|null $address): MessageInterface
     {
         $new = clone $this;
         $new->returnPath = $address;
         return $new;
     }
 
-    public function getSender(): string
+    public function getSender(): string|null
     {
         return $this->sender;
     }
 
-    public function withSender(string $address): MessageInterface
+    public function withSender(string|null $address): MessageInterface
     {
         $new = clone $this;
         $new->sender = $address;
         return $new;
     }
 
-    public function getHtmlBody(): string
+    public function getHtmlBody(): string|null
     {
         return $this->htmlBody;
     }
 
-    public function withHtmlBody(string $html): MessageInterface
+    public function withHtmlBody(string|null $html): MessageInterface
     {
         $new = clone $this;
         $new->htmlBody = $html;
         return $new;
     }
 
-    public function getTextBody(): string
+    public function getTextBody(): string|null
     {
         return $this->textBody;
     }
 
-    public function withTextBody(string $text): MessageInterface
+    public function withTextBody(string|null $text): MessageInterface
     {
         $new = clone $this;
         $new->textBody = $text;
         return $new;
     }
 
-    public function getAttachments(): array
+    public function getAttachments(): array|null
     {
         return $this->attachments;
     }
@@ -236,11 +275,18 @@ final class Message implements MessageInterface
     public function withAddedAttachments(File ...$files): MessageInterface
     {
         $new = clone $this;
-        $new->attachments = array_merge($this->attachments, $files);
+        $new->attachments = array_merge($this->attachments ?? [], $files);
         return $new;
     }
 
-    public function getEmbeddings(): array
+    public function withoutAttachments(): MessageInterface
+    {
+        $new = clone $this;
+        $new->attachments = null;
+        return $new;
+    }
+
+    public function getEmbeddings(): array|null
     {
         return $this->embeddings;
     }
@@ -261,7 +307,14 @@ final class Message implements MessageInterface
     public function withAddedEmbeddings(File ...$files): MessageInterface
     {
         $new = clone $this;
-        $new->embeddings = array_merge($this->embeddings, $files);
+        $new->embeddings = array_merge($this->embeddings ?? [], $files);
+        return $new;
+    }
+
+    public function withoutEmbeddings(): MessageInterface
+    {
+        $new = clone $this;
+        $new->embeddings = null;
         return $new;
     }
 
@@ -270,7 +323,7 @@ final class Message implements MessageInterface
         return $this->headers[$name] ?? [];
     }
 
-    public function getHeaders(): array
+    public function getHeaders(): array|null
     {
         return $this->headers;
     }
@@ -278,6 +331,7 @@ final class Message implements MessageInterface
     public function withAddedHeader(string $name, string $value): MessageInterface
     {
         $new = clone $this;
+        $new->headers ??= [];
         $new->headers[$name][] = $value;
         return $new;
     }
@@ -289,7 +343,7 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function withHeaders(array $headers): MessageInterface
+    public function withHeaders(array|null $headers): MessageInterface
     {
         $new = clone $this;
         $new->setHeaders($headers);
@@ -299,9 +353,11 @@ final class Message implements MessageInterface
     public function __toString(): string
     {
         $result = [];
-        foreach ($this->headers as $name => $values) {
-            foreach ($values as $value) {
-                $result[] = $name . ': ' . $value;
+        if ($this->headers !== null) {
+            foreach ($this->headers as $name => $values) {
+                foreach ($values as $value) {
+                    $result[] = $name . ': ' . $value;
+                }
             }
         }
         $result[] = $this->textBody;
@@ -309,13 +365,22 @@ final class Message implements MessageInterface
     }
 
     /**
-     * @psalm-param array<string,string|list<string>> $headers
+     * @psalm-param array<string,string|list<string>>|null $headers
      */
-    private function setHeaders(array $headers): void
+    private function setHeaders(array|null $headers): void
     {
-        $this->headers = array_map(
-            static fn(string|array $value): array => (array) $value,
-            $headers,
-        );
+        $this->headers = HeadersNormalizer::normalize($headers);
+    }
+
+    /**
+     * @param string[]|string|null $base
+     * @param string[]|string $added
+     * @return string[]|string
+     */
+    private function mergeAddresses(array|string|null $base, array|string $added): array|string
+    {
+        return $base === null
+            ? $added
+            : array_merge((array) $base, (array) $added);
     }
 }
