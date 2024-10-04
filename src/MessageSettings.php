@@ -6,6 +6,9 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 
+/**
+ * `MessageSettings` provides default and extra message settings.
+ */
 final class MessageSettings
 {
     /**
@@ -23,28 +26,28 @@ final class MessageSettings
     /**
      * @param string|string[]|null $from The sender email address(es). You may also specify sender name in addition
      * to email address using format: `[email => name]`.
-     * @param string|string[]|null $addFrom The sender email address(es) that always will be added to message. You may
+     * @param string|string[]|null $addFrom The sender email address(es) that will always be added to message. You may
      * also specify sender name in addition to email address using format: `[email => name]`.
      * @param string|string[]|null $to The receiver email address(es). You may also specify sender name in addition
      * to email address using format: `[email => name]`.
-     * @param string|string[]|null $addTo The receiver email address(es) that always will be added to message. You may
+     * @param string|string[]|null $addTo The receiver email address(es) that will always be added to message. You may
      * also specify sender name in addition to email address using format: `[email => name]`.
      * @param string|string[]|null $replyTo The reply-to address(es) of this message. You may also specify sender name
      * in addition to email address using format: `[email => name]`.
-     * @param string|string[]|null $addReplyTo The reply-to address(es) that always will be added to message. You may
+     * @param string|string[]|null $addReplyTo The reply-to address(es) that will always be added to message. You may
      * also specify sender name in addition to email address using format: `[email => name]`.
      * @param string|string[]|null $cc The additional copy receiver address(es) of this message. You may also specify
      * sender name in addition to email address using format: `[email => name]`.
-     * @param string|string[]|null $addCc The additional copy receiver address(es) that always will be added to message.
+     * @param string|string[]|null $addCc The additional copy receiver address(es) that will always be added to message.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
      * @param string|string[]|null $bcc The hidden copy receiver address(es) of this message. You may also specify
      * sender name in addition to email address using format: `[email => name]`.
-     * @param string|string[]|null $addBcc The hidden copy receiver address(es) that always will be added to message.
+     * @param string|string[]|null $addBcc The hidden copy receiver address(es) that will always be added to message.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
      * @param File[]|null $attachments The attached files.
-     * @param File[]|null $addAttachments The attached files that always will be added to message.
+     * @param File[]|null $addAttachments The attached files that will always be added to message.
      * @param File[]|null $embeddings The embedded files.
-     * @param File[]|null $addEmbeddings The embedded files that always will be added to message.
+     * @param File[]|null $addEmbeddings The embedded files that will always be added to message.
      * @param array[]|null $headers The custom headers in format `[name => value|value[]]`.
      * @param array[]|null $overwriteHeaders The custom headers in format `[name => value|value[]]` that always will be
      * added to message.

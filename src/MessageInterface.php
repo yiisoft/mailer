@@ -71,7 +71,9 @@ interface MessageInterface extends Stringable
     public function withFrom(array|string|null $from): self;
 
     /**
-     * @param string|string[] $from The sender email address.
+     * Returns a new instance with added sender email address(es).
+     *
+     * @param string|string[] $from The sender email address(es).
      */
     public function withAddedFrom(array|string $from): self;
 
@@ -98,6 +100,8 @@ interface MessageInterface extends Stringable
     public function withTo(array|string|null $to): self;
 
     /**
+     * Returns a new instance with added recipient(s) email address.
+     *
      * @param string|string[] $to The receiver email address.
      */
     public function withAddedTo(array|string $to): self;
@@ -125,7 +129,9 @@ interface MessageInterface extends Stringable
     public function withReplyTo(array|string|null $replyTo): self;
 
     /**
-     * @param string|string[] $replyTo The reply-to address.
+     * Returns a new instance with added reply-to address(es).
+     *
+     * @param string|string[] $replyTo The reply-to address(es).
      */
     public function withAddedReplyTo(array|string $replyTo): self;
 
@@ -152,7 +158,9 @@ interface MessageInterface extends Stringable
     public function withCc(array|string $cc): self;
 
     /**
-     * @param string|string[] $cc The copy receiver email address.
+     * Returns a new instance with the specified Cc (additional copy receiver) address(es).
+     *
+     * @param string|string[] $cc The copy receiver email address(es).
      */
     public function withAddedCc(array|string $cc): self;
 
@@ -179,7 +187,9 @@ interface MessageInterface extends Stringable
     public function withBcc(array|string|null $bcc): self;
 
     /**
-     * @param string|string[] $bcc The hidden copy receiver email address.
+     * Returns a new instance with the specified Bcc (hidden copy receiver) address(es).
+     *
+     * @param string|string[] $bcc The hidden copy receiver email address(es).
      */
     public function withAddedBcc(array|string $bcc): self;
 

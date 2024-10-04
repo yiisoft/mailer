@@ -43,6 +43,7 @@ final class FileMailer extends Mailer
      * @param string $path The path where message files located.
      * @param callable|null $filenameCallback A PHP callback that return a file name which will be used to save
      * the email message.
+     * @param MessageSettings|null $messageSettings The default and extra message settings.
      * @param EventDispatcherInterface|null $eventDispatcher The event dispatcher instance.
      */
     public function __construct(
