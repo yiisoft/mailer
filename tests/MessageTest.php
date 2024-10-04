@@ -288,7 +288,7 @@ final class MessageTest extends \PHPUnit\Framework\TestCase
     }
 
     #[DataProvider('dataAddedHeader')]
-    public function withAddedHeader(array $expected, string $headerName, string $headerValue): void
+    public function testWithAddedHeader(array $expected, string $headerName, string $headerValue): void
     {
         $sourceMessage = new Message(headers: ['X-Test' => '0']);
 
