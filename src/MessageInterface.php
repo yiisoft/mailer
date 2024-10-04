@@ -83,6 +83,7 @@ interface MessageInterface extends Stringable
      * @see withTo()
      */
     public function getTo(): array|string|null;
+
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
@@ -100,7 +101,6 @@ interface MessageInterface extends Stringable
      * @param string|string[] $to The receiver email address.
      */
     public function withAddedTo(array|string $to): self;
-
 
     /**
      * Returns the reply-to address of this message.

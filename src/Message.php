@@ -373,9 +373,9 @@ final class Message implements MessageInterface
     }
 
     /**
-     * @param string[]|string|null $base
-     * @param string[]|string $added
-     * @return string[]|string
+     * @param string|string[]|null $base
+     * @param string|string[] $added
+     * @return string|string[]
      */
     private function mergeAddresses(array|string|null $base, array|string $added): array|string
     {
