@@ -205,7 +205,7 @@ final class MailerTest extends TestCase
     public function testAfterSend(): void
     {
         $mailer = $this->get(MailerInterface::class);
-        $message = $mailer->createMessage();
+        $message = new Message();
         $mailer->afterSend($message);
 
         $this->assertSame(

@@ -76,7 +76,7 @@ abstract class Mailer implements MailerInterface
      */
     public function compose($view = null, array $viewParameters = [], array $layoutParameters = []): MessageInterface
     {
-        $message = $this->createMessage();
+        $message = new Message();
 
         if ($view === null) {
             return $message;
@@ -96,6 +96,8 @@ abstract class Mailer implements MailerInterface
      */
     public function send(MessageInterface $message): void
     {
+        $message = $this->defaultMessageSettings?->applyTo($message) ?? $message;
+
         if (!$this->beforeSend($message)) {
             return;
         }
@@ -142,17 +144,6 @@ abstract class Mailer implements MailerInterface
      * @throws Throwable If sending failed.
      */
     abstract protected function sendMessage(MessageInterface $message): void;
-
-    /**
-     * Creates a new message instance.
-     *
-     * @return MessageInterface The message instance.
-     */
-    protected function createMessage(): MessageInterface
-    {
-        $message = new Message();
-        return $this->defaultMessageSettings?->applyTo($message) ?? $message;
-    }
 
     /**
      * This method is invoked right before mail send.

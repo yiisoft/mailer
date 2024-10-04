@@ -30,9 +30,4 @@ final class DummyMailer extends Mailer
     {
         parent::afterSend($message);
     }
-
-    public function createMessage(): MessageInterface
-    {
-        return parent::createMessage();
-    }
 }
