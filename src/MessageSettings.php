@@ -12,13 +12,14 @@ use DateTimeImmutable;
 final class MessageSettings
 {
     /**
-     * @var array[]|null
+     * @var array[]|null The custom headers in format `[name => value[]]` that will be added if there are
+     * no corresponding headers in the message.
      * @psalm-var array<string,list<string>>|null
      */
     public readonly array|null $headers;
 
     /**
-     * @var array[]|null
+     * @var array[]|null The custom headers in format `[name => value[]]` that will always be added to message.
      * @psalm-var array<string,list<string>>|null
      */
     public readonly array|null $overwriteHeaders;
@@ -48,8 +49,9 @@ final class MessageSettings
      * @param File[]|null $addAttachments The attached files that will always be added to message.
      * @param File[]|null $embeddings The embedded files.
      * @param File[]|null $addEmbeddings The embedded files that will always be added to message.
-     * @param array[]|null $headers The custom headers in format `[name => value|value[]]`.
-     * @param array[]|null $overwriteHeaders The custom headers in format `[name => value|value[]]` that always will be
+     * @param array[]|null $headers The custom headers in format `[name => value|value[]]` that will be added if
+     * there are no corresponding headers in the message.
+     * @param array[]|null $overwriteHeaders The custom headers in format `[name => value|value[]]` that will always be
      * added to message.
      *
      * @psalm-param list<File>|null $attachments
