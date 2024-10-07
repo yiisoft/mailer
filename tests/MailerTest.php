@@ -12,8 +12,8 @@ use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
-use Yiisoft\Mailer\MessageBodyRenderer;
-use Yiisoft\Mailer\MessageBodyTemplate;
+use Yiisoft\Mailer\ViewMailer\MessageBodyRenderer;
+use Yiisoft\Mailer\ViewMailer\MessageBodyTemplate;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 

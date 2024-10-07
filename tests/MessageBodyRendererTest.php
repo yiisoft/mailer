@@ -7,8 +7,8 @@ namespace Yiisoft\Mailer\Tests;
 use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 use stdClass;
-use Yiisoft\Mailer\MessageBodyRenderer;
-use Yiisoft\Mailer\MessageBodyTemplate;
+use Yiisoft\Mailer\ViewMailer\MessageBodyRenderer;
+use Yiisoft\Mailer\ViewMailer\MessageBodyTemplate;
 use Yiisoft\View\View;
 
 final class MessageBodyRendererTest extends TestCase

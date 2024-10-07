@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Mailer;
+namespace Yiisoft\Mailer\ViewMailer;
 
 use LogicException;
 

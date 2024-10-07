@@ -6,7 +6,7 @@ namespace Yiisoft\Mailer\Tests;
 
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Yiisoft\Mailer\MessageBodyTemplate;
+use Yiisoft\Mailer\ViewMailer\MessageBodyTemplate;
 
 final class MessageBodyTemplateTest extends TestCase
 {

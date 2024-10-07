@@ -12,7 +12,7 @@ use stdClass;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\FileMailer;
-use Yiisoft\Mailer\MessageBodyRenderer;
+use Yiisoft\Mailer\ViewMailer\MessageBodyRenderer;
 use Yiisoft\Mailer\MessageInterface;
 
 use function file_get_contents;

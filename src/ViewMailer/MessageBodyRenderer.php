@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Mailer;
+namespace Yiisoft\Mailer\ViewMailer;
 
 use RuntimeException;
 use Throwable;
+use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\View\View;
 
 use function html_entity_decode;
