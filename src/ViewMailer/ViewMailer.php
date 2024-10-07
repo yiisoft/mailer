@@ -65,7 +65,7 @@ final class ViewMailer implements MailerInterface
      */
     public function compose($view = null, array $viewParameters = [], array $layoutParameters = []): MessageInterface
     {
-        $message = new Message;
+        $message = new Message();
 
         if ($view === null) {
             return $message;
