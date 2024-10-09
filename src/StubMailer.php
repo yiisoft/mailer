@@ -6,6 +6,9 @@ namespace Yiisoft\Mailer;
 
 use function array_values;
 
+/**
+ * This mailer keep messages in memory and does not send them.
+ */
 final class StubMailer implements MailerInterface
 {
     /**
