@@ -15,6 +15,9 @@
 - Chg #98: Make `MessageBodyTemplate` simple DTO with public readonly properties (@vjik)
 - Enh #99: Add `yiisoft/view` of version `^11` support (@vjik)
 - Chg #100: Remove `MessageFactoryInterface` and `MessageFactory`, add `MessageSettings` instead it (@vjik)
+- Chg #101: Remove `MessageInterface` methods `compose()`, `withTemplate()` and `withLocale()` (@vjik)
+- Chg #101: Remove `MessageBodyRenderer` and `MessageBodyTemplate` classes (@vjik)
+- New #101: Add `NullMailer` and `StubMailer` (@vjik)
 
 ## 5.1.0 July 02, 2024
 
