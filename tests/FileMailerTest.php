@@ -12,7 +12,7 @@ use stdClass;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\FileMailer;
-use Yiisoft\Mailer\ViewMailer\MessageBodyRenderer;
+use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageInterface;
 
 use function file_get_contents;
@@ -26,8 +26,7 @@ final class FileMailerTest extends TestCase
     {
         $mailer = $this->createFileMailer();
 
-        $message = $mailer
-            ->compose()
+        $message = (new Message())
             ->withTo('to@example.com')
             ->withFrom('from@example.com')
             ->withSubject('test subject')
@@ -68,8 +67,7 @@ final class FileMailerTest extends TestCase
     {
         $mailer = $this->createFileMailer($filenameCallback);
 
-        $message = $mailer
-            ->compose()
+        $message = (new Message())
             ->withTo('to@example.com')
             ->withFrom('from@example.com')
             ->withSubject('test subject')
@@ -115,7 +113,6 @@ final class FileMailerTest extends TestCase
     private function createFileMailer(callable $filenameCallback = null): FileMailer
     {
         return new FileMailer(
-            $this->get(MessageBodyRenderer::class),
             self::getTestFilePath(),
             $filenameCallback,
             eventDispatcher: $this->get(EventDispatcherInterface::class),
