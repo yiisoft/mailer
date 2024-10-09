@@ -44,32 +44,12 @@ The following code can be used to send an email:
  * @var \Yiisoft\Mailer\MailerInterface $mailer
  */
 
-$message = $mailer
-    ->compose()
+$message = (new \Yiisoft\Mailer\Message())
     ->withFrom('from@domain.com')
     ->withTo('to@domain.com')
     ->withSubject('Message subject')
     ->withTextBody('Plain text content')
     ->withHtmlBody('<b>HTML content</b>');
-    
-$mailer->send($message);
-```
-
-### Localize view file
-
-You can set a specific locale that will be used to localize view files with `withLocale()` method:
-
-```php
-/**
- * @var \Yiisoft\Mailer\MailerInterface $mailer
- */
-
-$message = $mailer
-    ->withLocale('de_DE')
-    ->compose('html-view')
-    ->withFrom('from@domain.com')
-    ->withTo('to@domain.com')
-    ->withSubject('Message subject');
     
 $mailer->send($message);
 ```
