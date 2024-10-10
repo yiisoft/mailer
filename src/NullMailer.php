@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer;
 
 /**
- * This mailer can be used to avoid send messages.
+ * This mailer can be used to avoid sending messages.
  */
 final class NullMailer implements MailerInterface
 {
