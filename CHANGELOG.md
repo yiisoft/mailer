@@ -17,7 +17,9 @@
 - Chg #101: Remove `MessageBodyRenderer` and `MessageBodyTemplate` classes (@vjik)
 - Chg #101: Remove `yiisoft/view` dependency (@vjik)
 - New #101: Add `NullMailer` and `StubMailer` (@vjik)
-- Chg #101: Rename `Mailer` to `BaseMailer`, finalize methods and mark dependencies as read only (@vjik)
+- Chg #102: Rename `Mailer` to `BaseMailer`, finalize methods and mark dependencies as read only (@vjik)
+- Chg #102: Remove `getMessage()` method from `AfterSend` and `BeforeSend` classes, make `$message` property public
+ read only instead it (@vjik)
 
 ## 5.1.0 July 02, 2024
 
