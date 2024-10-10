@@ -39,7 +39,6 @@ final class FileMailer extends Mailer
     private $filenameCallback;
 
     /**
-     * @param MessageBodyRenderer $messageBodyRenderer The message body renderer instance.
      * @param string $path The path where message files located.
      * @param callable|null $filenameCallback A PHP callback that return a file name which will be used to save
      * the email message.
@@ -47,13 +46,12 @@ final class FileMailer extends Mailer
      * @param EventDispatcherInterface|null $eventDispatcher The event dispatcher instance.
      */
     public function __construct(
-        MessageBodyRenderer $messageBodyRenderer,
         private string $path,
         callable $filenameCallback = null,
         ?MessageSettings $messageSettings = null,
         ?EventDispatcherInterface $eventDispatcher = null,
     ) {
-        parent::__construct($messageBodyRenderer, $messageSettings, $eventDispatcher);
+        parent::__construct($messageSettings, $eventDispatcher);
         $this->filenameCallback = $filenameCallback;
     }
 

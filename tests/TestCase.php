@@ -10,13 +10,10 @@ use ReflectionClass;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
-use Yiisoft\Mailer\MessageBodyRenderer;
-use Yiisoft\Mailer\MessageBodyTemplate;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
-use Yiisoft\View\View;
 
 use function basename;
 use function dirname;
@@ -113,18 +110,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     private function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
-            $tempDir = self::getTestFilePath();
             $eventDispatcher = new SimpleEventDispatcher();
-            $view = new View($tempDir, $eventDispatcher);
-            $messageBodyTemplate = new MessageBodyTemplate($tempDir);
-            $messageBodyRenderer = new MessageBodyRenderer($view, $messageBodyTemplate);
-
             $this->container = new SimpleContainer([
                 EventDispatcherInterface::class => $eventDispatcher,
-                MailerInterface::class => new DummyMailer($messageBodyRenderer, eventDispatcher: $eventDispatcher),
-                MessageBodyRenderer::class => new MessageBodyRenderer($view, $messageBodyTemplate),
-                MessageBodyTemplate::class => $messageBodyTemplate,
-                View::class => $view,
+                MailerInterface::class => new DummyMailer(eventDispatcher: $eventDispatcher),
             ]);
         }
 
