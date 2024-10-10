@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests\Event;
 
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\Event\AfterSend;
-use Yiisoft\Mailer\Tests\TestCase;
+use Yiisoft\Mailer\Message;
 
 final class AfterSendTest extends TestCase
 {
     public function testSetup(): void
     {
-        $message = self::createMessage();
+        $message = new Message();
+
         $event = new AfterSend($message);
-        $this->assertSame($message, $event->getMessage());
+
+        $this->assertSame($message, $event->message);
     }
 }

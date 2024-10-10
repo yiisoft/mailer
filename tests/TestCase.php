@@ -11,7 +11,7 @@ use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageInterface;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
+use Yiisoft\Mailer\Tests\Support\DummyMailer;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Mailer\Tests\TestAsset;
+namespace Yiisoft\Mailer\Tests\Support;
 
 use InvalidArgumentException;
-use Yiisoft\Mailer\Mailer;
+use Yiisoft\Mailer\BaseMailer;
 use Yiisoft\Mailer\MessageInterface;
 
-final class DummyMailer extends Mailer
+final class DummyMailer extends BaseMailer
 {
     public array $sentMessages = [];
 
@@ -19,15 +19,5 @@ final class DummyMailer extends Mailer
         }
 
         $this->sentMessages[] = $message;
-    }
-
-    public function beforeSend(MessageInterface $message): bool
-    {
-        return parent::beforeSend($message);
-    }
-
-    public function afterSend(MessageInterface $message): void
-    {
-        parent::afterSend($message);
     }
 }

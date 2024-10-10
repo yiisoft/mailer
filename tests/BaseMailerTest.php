@@ -6,14 +6,14 @@ namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
+use Yiisoft\Mailer\Tests\Support\DummyMailer;
+use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
-final class MailerTest extends TestCase
+final class BaseMailerTest extends TestCase
 {
     #[DataProvider('messagesProvider')]
     public function testSendMultiple(array $messages): void
@@ -58,36 +58,32 @@ final class MailerTest extends TestCase
         $this->assertSame($message3, $result->failMessages[1]['message']);
     }
 
-    public function testBeforeSend(): void
+    public function testBeforeSendWithStop(): void
     {
-        $message = new Message();
-        $event = new BeforeSend($message);
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $eventDispatcher
-            ->method('dispatch')
-            ->willReturn($event);
+        $eventDispatcher = new SimpleEventDispatcher(
+            static function (object $event): void {
+                if ($event instanceof BeforeSend) {
+                    $event->stopPropagation();
+                }
+            }
+        );
         $mailer = new DummyMailer(eventDispatcher: $eventDispatcher);
 
-        $this->assertTrue($mailer->beforeSend($message));
-        $event->stopPropagation();
-        $this->assertFalse($mailer->beforeSend($message));
+        $mailer->send(new Message());
 
-        $this->assertSame([], $mailer->sentMessages);
-        $mailer->send($message);
-        $this->assertSame([], $mailer->sentMessages);
+        $this->assertSame([BeforeSend::class], $eventDispatcher->getEventClasses());
+        $this->assertEmpty($mailer->sentMessages);
     }
 
-    public function testAfterSend(): void
+    public function testBeforeSendWithoutStop(): void
     {
-        $mailer = $this->get(MailerInterface::class);
-        $message = new Message();
-        $mailer->afterSend($message);
+        $eventDispatcher = new SimpleEventDispatcher();
+        $mailer = new DummyMailer(eventDispatcher: $eventDispatcher);
+        $message = new Message(subject: 'Hello!');
 
-        $this->assertSame(
-            [AfterSend::class],
-            $this
-                ->get(EventDispatcherInterface::class)
-                ->getEventClasses()
-        );
+        $mailer->send($message);
+
+        $this->assertSame([BeforeSend::class, AfterSend::class], $eventDispatcher->getEventClasses());
+        $this->assertSame([$message], $mailer->sentMessages);
     }
 }

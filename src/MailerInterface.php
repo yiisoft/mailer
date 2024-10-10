@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer;
 
-use Throwable;
-
 /**
  * `MailerInterface` is the interface that should be implemented by mailers.
- *
- * A mailer should support composition of a {@see \Yiisoft\Mailer\MessageInterface} body through the view
- * rendering mechanism and sending one or multiple {@see \Yiisoft\Mailer\MessageInterface}.
  *
  * For example:
  *
  * ```php
- * $message = $mailer->compose()
+ * $message = (new Message())
  *     ->withFrom('from@domain.com')
  *     ->withTo('to@domain.com')
  *     ->withSubject('Message subject')
@@ -31,8 +26,6 @@ interface MailerInterface
      * Sends the given email message.
      *
      * @param MessageInterface $message The email message instance to be sent.
-     *
-     * @throws Throwable If sending failed.
      */
     public function send(MessageInterface $message): void;
 
