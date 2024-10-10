@@ -21,11 +21,6 @@ final class DummyMailer extends BaseMailer
         $this->sentMessages[] = $message;
     }
 
-    public function beforeSend(MessageInterface $message): bool
-    {
-        return parent::beforeSend($message);
-    }
-
     public function afterSend(MessageInterface $message): void
     {
         parent::afterSend($message);

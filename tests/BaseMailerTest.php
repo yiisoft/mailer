@@ -12,6 +12,7 @@ use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
+use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
 final class BaseMailerTest extends TestCase
 {
@@ -58,23 +59,31 @@ final class BaseMailerTest extends TestCase
         $this->assertSame($message3, $result->failMessages[1]['message']);
     }
 
-    public function testBeforeSend(): void
+    public function testBeforeSendWithStop(): void
     {
-        $message = new Message();
-        $event = new BeforeSend($message);
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $eventDispatcher
-            ->method('dispatch')
-            ->willReturn($event);
+        $eventDispatcher = new SimpleEventDispatcher(
+            static function (object $event): void {
+                if ($event instanceof BeforeSend) {
+                    $event->stopPropagation();
+                }
+            }
+        );
         $mailer = new DummyMailer(eventDispatcher: $eventDispatcher);
 
-        $this->assertTrue($mailer->beforeSend($message));
-        $event->stopPropagation();
-        $this->assertFalse($mailer->beforeSend($message));
+        $mailer->send(new Message());
 
-        $this->assertSame([], $mailer->sentMessages);
+        $this->assertEmpty($mailer->sentMessages);
+    }
+
+    public function testBeforeSendWithoutStop(): void
+    {
+        $eventDispatcher = new SimpleEventDispatcher();
+        $mailer = new DummyMailer(eventDispatcher: $eventDispatcher);
+        $message = new Message(subject: 'Hello!');
+
         $mailer->send($message);
-        $this->assertSame([], $mailer->sentMessages);
+
+        $this->assertSame([$message], $mailer->sentMessages);
     }
 
     public function testAfterSend(): void
