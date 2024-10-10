@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Mailer\Tests\TestAsset;
+namespace Yiisoft\Mailer\Tests\Support;
 
 use InvalidArgumentException;
 use Yiisoft\Mailer\BaseMailer;
@@ -19,10 +19,5 @@ final class DummyMailer extends BaseMailer
         }
 
         $this->sentMessages[] = $message;
-    }
-
-    public function afterSend(MessageInterface $message): void
-    {
-        parent::afterSend($message);
     }
 }

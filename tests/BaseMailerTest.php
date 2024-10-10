@@ -6,12 +6,11 @@ namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
-use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
+use Yiisoft\Mailer\Tests\Support\DummyMailer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
 final class BaseMailerTest extends TestCase
@@ -72,6 +71,7 @@ final class BaseMailerTest extends TestCase
 
         $mailer->send(new Message());
 
+        $this->assertSame([BeforeSend::class], $eventDispatcher->getEventClasses());
         $this->assertEmpty($mailer->sentMessages);
     }
 
@@ -83,20 +83,7 @@ final class BaseMailerTest extends TestCase
 
         $mailer->send($message);
 
+        $this->assertSame([BeforeSend::class, AfterSend::class], $eventDispatcher->getEventClasses());
         $this->assertSame([$message], $mailer->sentMessages);
-    }
-
-    public function testAfterSend(): void
-    {
-        $mailer = $this->get(MailerInterface::class);
-        $message = new Message();
-        $mailer->afterSend($message);
-
-        $this->assertSame(
-            [AfterSend::class],
-            $this
-                ->get(EventDispatcherInterface::class)
-                ->getEventClasses()
-        );
     }
 }
