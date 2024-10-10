@@ -10,19 +10,15 @@ use Yiisoft\Mailer\MessageInterface;
 /**
  * `BeforeSend` event is triggered right before sending the message.
  *
- * @see \Yiisoft\Mailer\Mailer::beforeSend()
+ * @see \Yiisoft\Mailer\BaseMailer::beforeSend()
  */
 final class BeforeSend implements StoppableEventInterface
 {
     private bool $stopPropagation = false;
 
-    public function __construct(private MessageInterface $message)
-    {
-    }
-
-    public function getMessage(): MessageInterface
-    {
-        return $this->message;
+    public function __construct(
+        public readonly MessageInterface $message,
+    ) {
     }
 
     public function stopPropagation(): void
