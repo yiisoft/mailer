@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests\TestAsset;
 
 use InvalidArgumentException;
-use Yiisoft\Mailer\Mailer;
+use Yiisoft\Mailer\BaseMailer;
 use Yiisoft\Mailer\MessageInterface;
 
-final class DummyMailer extends Mailer
+final class DummyMailer extends BaseMailer
 {
     public array $sentMessages = [];
 

@@ -22,7 +22,7 @@ use function sprintf;
 /**
  * `FileMailer` is a mock mailer that save email messages in files instead of sending them.
  */
-final class FileMailer extends Mailer
+final class FileMailer extends BaseMailer
 {
     /**
      * @var callable|null A PHP callback that return a file name which will be used to save the email message.

@@ -10,28 +10,25 @@ use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 
 /**
- * `Mailer` serves as a base class that implements the basic functions required by {@see MailerInterface}.
+ * `BaseMailer` serves as a base class that implements the basic functions required by {@see MailerInterface}.
  *
- * Concrete child classes may focus on implementing the {@see Mailer::sendMessage()} method.
+ * Concrete child classes may focus on implementing the {@see BaseMailer::sendMessage()} method.
  */
-abstract class Mailer implements MailerInterface
+abstract class BaseMailer implements MailerInterface
 {
     public function __construct(
-        private ?MessageSettings $defaultMessageSettings = null,
-        private ?EventDispatcherInterface $eventDispatcher = null,
+        private readonly ?MessageSettings $defaultMessageSettings = null,
+        private readonly ?EventDispatcherInterface $eventDispatcher = null,
     ) {
     }
 
     /**
-     * Sends the given email message.
-     * This method will log a message about the email being sent.
-     * Child classes should implement [[sendMessage()]] with the actual email sending logic.
+     * Sends the given email message. Child classes should implement {@see BaseMailer::sendMessage()} with the actual
+     * email sending logic.
      *
-     * @param MessageInterface $message email message instance to be sent
-     *
-     * @throws Throwable If sending failed.
+     * @param MessageInterface $message Email message instance to be sent
      */
-    public function send(MessageInterface $message): void
+    final public function send(MessageInterface $message): void
     {
         $message = $this->defaultMessageSettings?->applyTo($message) ?? $message;
 
@@ -53,7 +50,7 @@ abstract class Mailer implements MailerInterface
      *
      * @return SendResults The result object that contains all messages and errors for failed sent messages.
      */
-    public function sendMultiple(array $messages): SendResults
+    final public function sendMultiple(array $messages): SendResults
     {
         $successMessages = [];
         $failMessages = [];
@@ -77,8 +74,6 @@ abstract class Mailer implements MailerInterface
      * This method should be implemented by child classes with the actual email sending logic.
      *
      * @param MessageInterface $message the message to be sent
-     *
-     * @throws Throwable If sending failed.
      */
     abstract protected function sendMessage(MessageInterface $message): void;
 

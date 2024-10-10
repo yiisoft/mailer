@@ -13,7 +13,7 @@ use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\Tests\TestAsset\DummyMailer;
 
-final class MailerTest extends TestCase
+final class BaseMailerTest extends TestCase
 {
     #[DataProvider('messagesProvider')]
     public function testSendMultiple(array $messages): void
