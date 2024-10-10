@@ -87,7 +87,7 @@ abstract class BaseMailer implements MailerInterface
      *
      * @return bool Whether to continue sending an email.
      */
-    protected function beforeSend(MessageInterface $message): bool
+    final protected function beforeSend(MessageInterface $message): bool
     {
         /** @var BeforeSend $event */
         $event = $this->eventDispatcher?->dispatch(new BeforeSend($message));
@@ -100,7 +100,7 @@ abstract class BaseMailer implements MailerInterface
      * You may override this method to do some postprocessing or logging based on mail send status.
      * If you override this method, please make sure you call the parent implementation first.
      */
-    protected function afterSend(MessageInterface $message): void
+    final protected function afterSend(MessageInterface $message): void
     {
         $this->eventDispatcher?->dispatch(new AfterSend($message));
     }
