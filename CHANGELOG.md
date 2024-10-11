@@ -10,7 +10,7 @@
 - Chg #94: Remove `getError()` and `withError()` methods from `MessageInterface` (@vjik)
 - Chg #94: Change result of `MailerInterface::sendMultiple()` to `SendResults` object (@vjik)
 - Chg #95: Use new `Priority` enumeration instead of integer value for define priority in message (@vjik)
-- Enh #83: Make `psr/event-dispatcher` dependency optional (@vjik)
+- Enh #83, #103: Make `psr/event-dispatcher` dependency optional (@vjik)
 - Chg #96: Change order of constructor parameters in `Mailer` and `FailMailer` (@vjik)
 - Chg #100: Remove `MessageFactoryInterface` and `MessageFactory`, add `MessageSettings` instead it (@vjik)
 - Chg #101: Remove `MessageInterface` methods `compose()`, `withTemplate()` and `withLocale()` (@vjik)
@@ -20,6 +20,8 @@
 - Chg #102: Rename `Mailer` to `BaseMailer`, finalize methods and mark dependencies as read only (@vjik)
 - Chg #102: Remove `getMessage()` method from `AfterSend` and `BeforeSend` classes, make `$message` property public
  read only instead it (@vjik)
+- Eng #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
+  value and improve exception message (@vjik)
 
 ## 5.1.0 July 02, 2024
 
