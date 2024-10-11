@@ -6,55 +6,60 @@ namespace Yiisoft\Mailer\Tests;
 
 use Closure;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
 use stdClass;
+use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageInterface;
 
+use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
+
 use function file_get_contents;
 use function glob;
 use function is_file;
 use function microtime;
 
-final class FileMailerTest extends TestCase
+final class FileMailerTest extends \PHPUnit\Framework\TestCase
 {
     public function testSend(): void
     {
-        $mailer = $this->createFileMailer();
-
-        $message = (new Message())
-            ->withTo('to@example.com')
-            ->withFrom('from@example.com')
-            ->withSubject('test subject')
-            ->withTextBody('text body' . microtime(true));
-
-        $mailer->send($message);
-        $files = glob(self::getTestFilePath() . DIRECTORY_SEPARATOR . '*.eml');
-
-        $this->assertNotEmpty($files);
-        $this->assertSame(
-            [BeforeSend::class, AfterSend::class],
-            $this
-                ->get(EventDispatcherInterface::class)
-                ->getEventClasses(),
+        $directory = $this->prepareAndGetTempDirectory();
+        $eventDispatcher = new SimpleEventDispatcher();
+        $mailer = new FileMailer(
+            $directory,
+            eventDispatcher: $eventDispatcher,
         );
 
-        foreach ($files as $file) {
-            $this->assertTrue(is_file($file));
-            $this->assertSame((string) $message, file_get_contents($file));
-        }
+        $message = new Message(
+            from: 'from@example.com',
+            to: 'to@example.com',
+            subject: 'test subject',
+            textBody: 'text body',
+        );
+
+        $mailer->send($message);
+        $files = glob($directory . '/*.eml');
+
+        $this->assertCount(1, $files);
+        $this->assertTrue(is_file($files[0]));
+        $this->assertSame((string) $message, file_get_contents($files[0]));
+        $this->assertSame(
+            [BeforeSend::class, AfterSend::class],
+            $eventDispatcher->getEventClasses(),
+        );
     }
 
-    public static function filenameCallbackProvider(): array
+    public static function dataSendWithFilenameCallback(): array
     {
         $time = microtime(true);
-
         return [
-            'without-message' => [static fn () => "test-file-{$time}.txt", "test-file-{$time}.txt"],
+            'without-message' => [
+                static fn() => "test-file-{$time}.txt",
+                "test-file-{$time}.txt",
+            ],
             'with-message' => [
                 static fn (MessageInterface $message) => "{$message->getFrom()}-{$time}.txt",
                 "from@example.com-{$time}.txt",
@@ -62,60 +67,55 @@ final class FileMailerTest extends TestCase
         ];
     }
 
-    #[DataProvider('filenameCallbackProvider')]
+    #[DataProvider('dataSendWithFilenameCallback')]
     public function testSendWithFilenameCallback(callable $filenameCallback, string $filenameExpected): void
     {
-        $mailer = $this->createFileMailer($filenameCallback);
+        $directory = $this->prepareAndGetTempDirectory();
+        $mailer = new FileMailer($directory, $filenameCallback);
 
-        $message = (new Message())
-            ->withTo('to@example.com')
-            ->withFrom('from@example.com')
-            ->withSubject('test subject')
-            ->withTextBody('text body' . microtime(true));
-
-        $mailer->send($message);
-        $files = glob(self::getTestFilePath() . DIRECTORY_SEPARATOR . $filenameExpected);
-
-        $this->assertNotEmpty($files);
-        $this->assertSame(
-            [BeforeSend::class, AfterSend::class],
-            $this
-                ->get(EventDispatcherInterface::class)
-                ->getEventClasses(),
+        $message = new Message(
+            from: 'from@example.com',
+            to: 'to@example.com',
+            subject: 'test subject',
+            textBody: 'text body',
         );
 
-        foreach ($files as $file) {
-            $this->assertTrue(is_file($file));
-            $this->assertEquals((string) $message, file_get_contents($file));
-        }
+        $mailer->send($message);
+        $files = glob($directory . '/' . $filenameExpected);
+
+        $this->assertCount(1, $files);
+        $this->assertTrue(is_file($files[0]));
+        $this->assertSame((string) $message, file_get_contents($files[0]));
     }
 
-    public static function invalidFilenameCallbackProvider(): array
+    public static function dataInvalidFilenameCallbackProvider(): array
     {
         return [
-            'int' => [static fn (): int => 1],
-            'float' => [static fn (): float => 1,1],
-            'bool' => [static fn (): bool => true],
-            'array' => [static fn (): array => []],
-            'object' => [static fn (): stdClass => new stdClass()],
-            'callable' => [static fn (): Closure => static fn () => 'string'],
+            'int' => ['int', static fn (): int => 1],
+            'float' => ['float', static fn (): float => 1,1],
+            'bool' => ['bool', static fn (): bool => true],
+            'array' => ['array', static fn (): array => []],
+            'object' => ['stdClass', static fn (): stdClass => new stdClass()],
+            'callable' => ['Closure', static fn (): Closure => static fn () => 'string'],
         ];
     }
 
-    #[DataProvider('invalidFilenameCallbackProvider')]
-    public function testSendThrowExceptionForFilenameCallbackReturnNotString(callable $filenameCallback): void
+    #[DataProvider('dataInvalidFilenameCallbackProvider')]
+    public function testInvalidFilenameCallbackProvider($type, callable $filenameCallback): void
     {
-        $mailer = $this->createFileMailer($filenameCallback);
+        $directory = $this->prepareAndGetTempDirectory();
+        $mailer = new FileMailer($directory, $filenameCallback);
+        $message = new Message(subject: 'test');
+
         $this->expectException(RuntimeException::class);
-        $mailer->send(self::createMessage());
+        $this->expectExceptionMessage('Filename must be a string. "' . $type . '" received.');
+        $mailer->send($message);
     }
 
-    private function createFileMailer(callable $filenameCallback = null): FileMailer
+    private function prepareAndGetTempDirectory(): string
     {
-        return new FileMailer(
-            self::getTestFilePath(),
-            $filenameCallback,
-            eventDispatcher: $this->get(EventDispatcherInterface::class),
-        );
+        $directory = __DIR__ . '/runtime/FileMailer';
+        FileHelper::removeDirectory($directory);
+        return $directory;
     }
 }
