@@ -89,9 +89,9 @@ abstract class BaseMailer implements MailerInterface
      */
     final protected function beforeSend(MessageInterface $message): bool
     {
-        /** @var BeforeSend $event */
+        /** @var BeforeSend|null $event */
         $event = $this->eventDispatcher?->dispatch(new BeforeSend($message));
-        return !$event->isPropagationStopped();
+        return $event === null || !$event->isPropagationStopped();
     }
 
     /**
