@@ -12,7 +12,6 @@ use RuntimeException;
 use function date;
 use function dirname;
 use function file_put_contents;
-use function gettype;
 use function is_dir;
 use function is_string;
 use function microtime;
