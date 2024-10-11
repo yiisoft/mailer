@@ -10,7 +10,7 @@ use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageSettings;
 use Yiisoft\Mailer\Priority;
 
-final class MessageSettingsTest extends TestCase
+final class MessageSettingsTest extends \PHPUnit\Framework\TestCase
 {
     public function testApplyToEmptyMessage(): void
     {

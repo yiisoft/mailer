@@ -10,7 +10,7 @@ use Yiisoft\Mailer\File;
 use function strlen;
 use function strpos;
 
-final class FileTest extends TestCase
+final class FileTest extends \PHPUnit\Framework\TestCase
 {
     public function testFromContent(): void
     {
