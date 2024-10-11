@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use Closure;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
 use stdClass;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\Event\AfterSend;
@@ -110,6 +111,21 @@ final class FileMailerTest extends \PHPUnit\Framework\TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Filename must be a string. "' . $type . '" received.');
         $mailer->send($message);
+    }
+
+    public function testFailCreateDirectory(): void
+    {
+        $baseDirectory = $this->prepareAndGetTempDirectory();
+        mkdir($baseDirectory);
+        $directory = $baseDirectory . '/test';
+        touch($directory);
+
+        $mailer = new FileMailer($directory);
+        $message = new Message();
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Directory "' . $directory . '" was not created.');
+        @$mailer->send($message);
     }
 
     private function prepareAndGetTempDirectory(): string
