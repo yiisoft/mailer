@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests;
 
 use Closure;
+use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
-use RuntimeException;
 use stdClass;
 use Yiisoft\Files\FileHelper;
 use Yiisoft\Mailer\Event\AfterSend;
@@ -107,7 +107,7 @@ final class FileMailerTest extends \PHPUnit\Framework\TestCase
         $mailer = new FileMailer($directory, $filenameCallback);
         $message = new Message(subject: 'test');
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Filename must be a string. "' . $type . '" received.');
         $mailer->send($message);
     }
