@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer;
 
 use Exception;
+use LogicException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
 
 use function date;
 use function dirname;
 use function file_put_contents;
-use function gettype;
 use function is_dir;
 use function is_string;
 use function microtime;
@@ -73,7 +73,7 @@ final class FileMailer extends BaseMailer
      * @param MessageInterface $message The message instance.
      *
      * @throws Exception {@see https://www.php.net/manual/en/function.random-int.php}
-     * @throws RuntimeException If {@see FileMailer::$filenameCallback} does not return a string.
+     * @throws LogicException If {@see FileMailer::$filenameCallback} does not return a string.
      *
      * @return string The filename for saving the message.
      */
@@ -87,7 +87,7 @@ final class FileMailer extends BaseMailer
         $filename = ($this->filenameCallback)($message);
 
         if (!is_string($filename)) {
-            throw new RuntimeException(sprintf('Filename must be a string. "%s" received.', gettype($filename)));
+            throw new LogicException(sprintf('Filename must be a string. "%s" received.', get_debug_type($filename)));
         }
 
         return $filename;

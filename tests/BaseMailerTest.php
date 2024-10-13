@@ -8,17 +8,23 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
-use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\Tests\Support\DummyMailer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
-final class BaseMailerTest extends TestCase
+final class BaseMailerTest extends \PHPUnit\Framework\TestCase
 {
-    #[DataProvider('messagesProvider')]
+    public static function dataSendMultiple(): iterable
+    {
+        yield [[]];
+        yield [[new Message(subject: 'test')]];
+        yield [[new Message(subject: 'foo'), new Message(subject: 'bar')]];
+    }
+
+    #[DataProvider('dataSendMultiple')]
     public function testSendMultiple(array $messages): void
     {
-        $mailer = $this->get(MailerInterface::class);
+        $mailer = new DummyMailer();
 
         $result = $mailer->sendMultiple($messages);
 
@@ -27,21 +33,13 @@ final class BaseMailerTest extends TestCase
         $this->assertSame($messages, $mailer->sentMessages);
     }
 
-    public static function messagesProvider(): array
-    {
-        return [
-            [[]],
-            [[self::createMessage()]],
-            [[self::createMessage('bar'), self::createMessage('baz')]],
-        ];
-    }
-
     public function testSendMultipleExceptions(): void
     {
-        $mailer = $this->get(MailerInterface::class);
-        $message1 = self::createMessage('');
-        $message2 = self::createMessage();
-        $message3 = self::createMessage('');
+        $mailer = new DummyMailer();
+        $message1 = new Message();
+        $message2 = new Message(subject: 'test');
+        $message3 = new Message();
+
         $result = $mailer->sendMultiple([
             $message1,
             $message2,
