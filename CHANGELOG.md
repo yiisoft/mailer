@@ -22,6 +22,7 @@
  read only instead it (@vjik)
 - Eng #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
   value and improve exception message (@vjik)
+- New #104: Add `FileMailer` configuration (@vjik)
 
 ## 5.1.0 July 02, 2024
 

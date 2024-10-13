@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer\Tests;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageSettings;
 use Yiisoft\Mailer\Priority;
 
-final class MessageSettingsTest extends \PHPUnit\Framework\TestCase
+final class MessageSettingsTest extends TestCase
 {
     public function testApplyToEmptyMessage(): void
     {

@@ -6,13 +6,14 @@ namespace Yiisoft\Mailer\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\Event\AfterSend;
 use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\Tests\Support\DummyMailer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
-final class BaseMailerTest extends \PHPUnit\Framework\TestCase
+final class BaseMailerTest extends TestCase
 {
     public static function dataSendMultiple(): iterable
     {

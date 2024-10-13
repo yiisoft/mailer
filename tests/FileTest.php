@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Yiisoft\Mailer\File;
 
 use function strlen;
 use function strpos;
 
-final class FileTest extends \PHPUnit\Framework\TestCase
+final class FileTest extends TestCase
 {
     public function testFromContent(): void
     {
