@@ -34,7 +34,7 @@ final class ConfigTest extends TestCase
                                     'runtime' => $runtimePath,
                                 ],
                             ],
-                        ]
+                        ],
                     ]
                 )
         );
