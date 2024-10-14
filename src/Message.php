@@ -64,7 +64,7 @@ final class Message implements MessageInterface
         return $this->charset;
     }
 
-    public function withCharset(string|null $charset): MessageInterface
+    public function withCharset(string|null $charset): static
     {
         $new = clone $this;
         $new->charset = $charset;
@@ -76,14 +76,14 @@ final class Message implements MessageInterface
         return $this->from;
     }
 
-    public function withFrom(array|string|null $from): MessageInterface
+    public function withFrom(array|string|null $from): static
     {
         $new = clone $this;
         $new->from = $from;
         return $new;
     }
 
-    public function withAddedFrom(array|string $from): MessageInterface
+    public function withAddedFrom(array|string $from): static
     {
         return $this->withFrom(
             $this->mergeAddresses($this->from, $from)
@@ -95,14 +95,14 @@ final class Message implements MessageInterface
         return $this->to;
     }
 
-    public function withTo(array|string|null $to): MessageInterface
+    public function withTo(array|string|null $to): static
     {
         $new = clone $this;
         $new->to = $to;
         return $new;
     }
 
-    public function withAddedTo(array|string $to): MessageInterface
+    public function withAddedTo(array|string $to): static
     {
         return $this->withTo(
             $this->mergeAddresses($this->to, $to)
@@ -114,14 +114,14 @@ final class Message implements MessageInterface
         return $this->replyTo;
     }
 
-    public function withReplyTo(array|string|null $replyTo): MessageInterface
+    public function withReplyTo(array|string|null $replyTo): static
     {
         $new = clone $this;
         $new->replyTo = $replyTo;
         return $new;
     }
 
-    public function withAddedReplyTo(array|string $replyTo): MessageInterface
+    public function withAddedReplyTo(array|string $replyTo): static
     {
         return $this->withReplyTo(
             $this->mergeAddresses($this->replyTo, $replyTo)
@@ -133,14 +133,14 @@ final class Message implements MessageInterface
         return $this->cc;
     }
 
-    public function withCc(array|string|null $cc): MessageInterface
+    public function withCc(array|string|null $cc): static
     {
         $new = clone $this;
         $new->cc = $cc;
         return $new;
     }
 
-    public function withAddedCc(array|string $cc): MessageInterface
+    public function withAddedCc(array|string $cc): static
     {
         return $this->withCc(
             $this->mergeAddresses($this->cc, $cc)
@@ -152,14 +152,14 @@ final class Message implements MessageInterface
         return $this->bcc;
     }
 
-    public function withBcc(array|string|null $bcc): MessageInterface
+    public function withBcc(array|string|null $bcc): static
     {
         $new = clone $this;
         $new->bcc = $bcc;
         return $new;
     }
 
-    public function withAddedBcc(array|string $bcc): MessageInterface
+    public function withAddedBcc(array|string $bcc): static
     {
         return $this->withBcc(
             $this->mergeAddresses($this->bcc, $bcc)
@@ -171,7 +171,7 @@ final class Message implements MessageInterface
         return $this->subject;
     }
 
-    public function withSubject(string|null $subject): MessageInterface
+    public function withSubject(string|null $subject): static
     {
         $new = clone $this;
         $new->subject = $subject;
@@ -183,7 +183,7 @@ final class Message implements MessageInterface
         return $this->date;
     }
 
-    public function withDate(DateTimeInterface|null $date): MessageInterface
+    public function withDate(DateTimeInterface|null $date): static
     {
         $new = clone $this;
         if ($date === null) {
@@ -199,7 +199,7 @@ final class Message implements MessageInterface
         return $this->priority;
     }
 
-    public function withPriority(Priority|null $priority): MessageInterface
+    public function withPriority(Priority|null $priority): static
     {
         $new = clone $this;
         $new->priority = $priority;
@@ -211,7 +211,7 @@ final class Message implements MessageInterface
         return $this->returnPath;
     }
 
-    public function withReturnPath(string|null $address): MessageInterface
+    public function withReturnPath(string|null $address): static
     {
         $new = clone $this;
         $new->returnPath = $address;
@@ -223,7 +223,7 @@ final class Message implements MessageInterface
         return $this->sender;
     }
 
-    public function withSender(string|null $address): MessageInterface
+    public function withSender(string|null $address): static
     {
         $new = clone $this;
         $new->sender = $address;
@@ -235,7 +235,7 @@ final class Message implements MessageInterface
         return $this->htmlBody;
     }
 
-    public function withHtmlBody(string|null $html): MessageInterface
+    public function withHtmlBody(string|null $html): static
     {
         $new = clone $this;
         $new->htmlBody = $html;
@@ -247,7 +247,7 @@ final class Message implements MessageInterface
         return $this->textBody;
     }
 
-    public function withTextBody(string|null $text): MessageInterface
+    public function withTextBody(string|null $text): static
     {
         $new = clone $this;
         $new->textBody = $text;
@@ -262,7 +262,7 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withAttachments(File ...$files): MessageInterface
+    public function withAttachments(File ...$files): static
     {
         $new = clone $this;
         $new->attachments = $files;
@@ -272,14 +272,14 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withAddedAttachments(File ...$files): MessageInterface
+    public function withAddedAttachments(File ...$files): static
     {
         $new = clone $this;
         $new->attachments = array_merge($this->attachments ?? [], $files);
         return $new;
     }
 
-    public function withoutAttachments(): MessageInterface
+    public function withoutAttachments(): static
     {
         $new = clone $this;
         $new->attachments = null;
@@ -294,7 +294,7 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withEmbeddings(File ...$files): MessageInterface
+    public function withEmbeddings(File ...$files): static
     {
         $new = clone $this;
         $new->embeddings = $files;
@@ -304,14 +304,14 @@ final class Message implements MessageInterface
     /**
      * @no-named-arguments
      */
-    public function withAddedEmbeddings(File ...$files): MessageInterface
+    public function withAddedEmbeddings(File ...$files): static
     {
         $new = clone $this;
         $new->embeddings = array_merge($this->embeddings ?? [], $files);
         return $new;
     }
 
-    public function withoutEmbeddings(): MessageInterface
+    public function withoutEmbeddings(): static
     {
         $new = clone $this;
         $new->embeddings = null;
@@ -328,7 +328,7 @@ final class Message implements MessageInterface
         return $this->headers;
     }
 
-    public function withAddedHeader(string $name, string $value): MessageInterface
+    public function withAddedHeader(string $name, string $value): static
     {
         $new = clone $this;
         $new->headers ??= [];
@@ -336,14 +336,14 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function withHeader(string $name, array|string $value): MessageInterface
+    public function withHeader(string $name, array|string $value): static
     {
         $new = clone $this;
         $new->headers[$name] = (array) $value;
         return $new;
     }
 
-    public function withHeaders(array|null $headers): MessageInterface
+    public function withHeaders(array|null $headers): static
     {
         $new = clone $this;
         $new->setHeaders($headers);
