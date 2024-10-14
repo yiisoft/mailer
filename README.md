@@ -15,12 +15,13 @@
 [![psalm-level](https://shepherd.dev/github/yiisoft/mailer/level.svg)](https://shepherd.dev/github/yiisoft/mailer)
 [![type-coverage](https://shepherd.dev/github/yiisoft/mailer/coverage.svg)](https://shepherd.dev/github/yiisoft/mailer)
 
-The package provides the content composition functionality, and a basic interface for sending emails.
-Actual mail sending is provided by separate interchangeable packages.
+The package provides abstraction for sending emails via mailer and message interfaces. Actual mail sending is provided 
+by separate interchangeable packages.
 
 Out of the box the package profiles a file mailer that, instead of actually sending an email, writes its
-contents into a file. There are also [Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers
-available as a separate package that actually can send emails.
+contents into a file. There are official drivers available as a separate package that actually can send emails: 
+
+- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
 
 ## Requirements
 
@@ -52,10 +53,6 @@ $message = (new \Yiisoft\Mailer\Message())
     
 $mailer->send($message);
 ```
-
-### Mailer implementations
-
-- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
 
 ## Documentation
 
