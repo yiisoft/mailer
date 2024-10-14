@@ -10,6 +10,8 @@ use Yiisoft\Mailer\MessageInterface;
  * `AfterSend` event is triggered right after sent the message.
  *
  * @see \Yiisoft\Mailer\BaseMailer::afterSend()
+ *
+ * @api
  */
 final class AfterSend
 {

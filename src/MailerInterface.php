@@ -19,6 +19,8 @@ namespace Yiisoft\Mailer;
  * ;
  * $mailer->send($message);
  * ```
+ *
+ * @api
  */
 interface MailerInterface
 {

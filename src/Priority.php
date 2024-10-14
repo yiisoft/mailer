@@ -6,6 +6,8 @@ namespace Yiisoft\Mailer;
 
 /**
  * Priority indicates importance of message.
+ *
+ * @api
  */
 enum Priority: int
 {

@@ -28,6 +28,8 @@ use Stringable;
  *
  * `Stringable` implementation need for debug purposes only. Method `__toString()` should return string representation
  * of message.
+ *
+ * @api
  */
 interface MessageInterface extends Stringable
 {

@@ -8,6 +8,8 @@ use DateTimeImmutable;
 
 /**
  * `MessageSettings` provides default and extra message settings.
+ *
+ * @api
  */
 final class MessageSettings
 {

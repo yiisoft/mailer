@@ -13,6 +13,8 @@ use Yiisoft\Mailer\Event\BeforeSend;
  * `BaseMailer` serves as a base class that implements the basic functions required by {@see MailerInterface}.
  *
  * Concrete child classes may focus on implementing the {@see BaseMailer::sendMessage()} method.
+ *
+ * @api
  */
 abstract class BaseMailer implements MailerInterface
 {

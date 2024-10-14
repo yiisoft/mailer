@@ -6,6 +6,8 @@ namespace Yiisoft\Mailer;
 
 /**
  * This mailer can be used to avoid sending messages.
+ *
+ * @api
  */
 final class NullMailer implements MailerInterface
 {
