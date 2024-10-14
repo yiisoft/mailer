@@ -19,9 +19,8 @@ The package provides the content composition functionality, and a basic interfac
 Actual mail sending is provided by separate interchangeable packages.
 
 Out of the box the package profiles a file mailer that, instead of actually sending an email, writes its
-contents into a file. There are also [Swift Mailer](https://github.com/yiisoft/mailer-swiftmailer) and
-[Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers available as a
-separate packages that actually can send emails.
+contents into a file. There are also [Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers
+available as a separate package that actually can send emails.
 
 ## Requirements
 
