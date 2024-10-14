@@ -70,7 +70,7 @@ final class ConfigTest extends TestCase
 
         $this->assertInstanceOf(BuildingException::class, $exception);
         $this->assertInstanceOf(LogicException::class, $exception->getPrevious());
-        $this->assertSame('Aliases dependency are required to resolve path "@runtime/mail".', $exception->getPrevious()->getMessage());
+        $this->assertSame('yiisoft/aliases dependency is required to resolve path "@runtime/mail".', $exception->getPrevious()->getMessage());
     }
 
     public function testFileMailerWithoutAliasesWithAbsolutePath(): void
