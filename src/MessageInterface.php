@@ -16,7 +16,7 @@ use Stringable;
  * Messages are sent by a {@see \Yiisoft\Mailer\MailerInterface}, like the following:
  *
  * ```php
- * $message = $mailer->compose()
+ * $message = (new Message())
  *     ->withFrom('from@domain.com')
  *     ->withTo('to@domain.com')
  *     ->withSubject('Message subject')
@@ -46,7 +46,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $charset The charset name.
      */
-    public function withCharset(string|null $charset): self;
+    public function withCharset(string|null $charset): static;
 
     /**
      * Returns the message sender email address.
@@ -68,14 +68,14 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
      */
-    public function withFrom(array|string|null $from): self;
+    public function withFrom(array|string|null $from): static;
 
     /**
      * Returns a new instance with added sender email address(es).
      *
      * @param string|string[] $from The sender email address(es).
      */
-    public function withAddedFrom(array|string $from): self;
+    public function withAddedFrom(array|string $from): static;
 
     /**
      * Returns the message recipient(s) email address.
@@ -97,14 +97,14 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new recipients email address.
      */
-    public function withTo(array|string|null $to): self;
+    public function withTo(array|string|null $to): static;
 
     /**
      * Returns a new instance with added recipient(s) email address.
      *
      * @param string|string[] $to The receiver email address.
      */
-    public function withAddedTo(array|string $to): self;
+    public function withAddedTo(array|string $to): static;
 
     /**
      * Returns the reply-to address of this message.
@@ -126,14 +126,14 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new reply-to address.
      */
-    public function withReplyTo(array|string|null $replyTo): self;
+    public function withReplyTo(array|string|null $replyTo): static;
 
     /**
      * Returns a new instance with added reply-to address(es).
      *
      * @param string|string[] $replyTo The reply-to address(es).
      */
-    public function withAddedReplyTo(array|string $replyTo): self;
+    public function withAddedReplyTo(array|string $replyTo): static;
 
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
@@ -155,14 +155,14 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Cc (additional copy receiver) addresses.
      */
-    public function withCc(array|string $cc): self;
+    public function withCc(array|string $cc): static;
 
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) address(es).
      *
      * @param string|string[] $cc The copy receiver email address(es).
      */
-    public function withAddedCc(array|string $cc): self;
+    public function withAddedCc(array|string $cc): static;
 
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
@@ -184,14 +184,14 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Bcc (hidden copy receiver) addresses.
      */
-    public function withBcc(array|string|null $bcc): self;
+    public function withBcc(array|string|null $bcc): static;
 
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) address(es).
      *
      * @param string|string[] $bcc The hidden copy receiver email address(es).
      */
-    public function withAddedBcc(array|string $bcc): self;
+    public function withAddedBcc(array|string $bcc): static;
 
     /**
      * Returns the message subject.
@@ -208,7 +208,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $subject The message subject.
      */
-    public function withSubject(string|null $subject): self;
+    public function withSubject(string|null $subject): static;
 
     /**
      * Returns the date when the message was sent, or null if it was not set.
@@ -225,7 +225,7 @@ interface MessageInterface extends Stringable
      *
      * @param DateTimeInterface|null $date The date when the message was sent.
      */
-    public function withDate(DateTimeInterface|null $date): self;
+    public function withDate(DateTimeInterface|null $date): static;
 
     /**
      * Returns the priority of this message.
@@ -242,7 +242,7 @@ interface MessageInterface extends Stringable
      *
      * @param Priority|null $priority The message priority.
      */
-    public function withPriority(Priority|null $priority): self;
+    public function withPriority(Priority|null $priority): static;
 
     /**
      * Returns the return-path (the bounce address) of this message.
@@ -259,7 +259,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $address The bounce email address.
      */
-    public function withReturnPath(string|null $address): self;
+    public function withReturnPath(string|null $address): static;
 
     /**
      * Returns the message actual sender email address.
@@ -276,7 +276,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $address The actual sender email address.
      */
-    public function withSender(string|null $address): self;
+    public function withSender(string|null $address): static;
 
     /**
      * Returns the message HTML body.
@@ -293,7 +293,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $html message HTML content.
      */
-    public function withHtmlBody(string|null $html): self;
+    public function withHtmlBody(string|null $html): static;
 
     /**
      * Returns the message text body.
@@ -310,7 +310,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $text The message plain text content.
      */
-    public function withTextBody(string|null $text): self;
+    public function withTextBody(string|null $text): static;
 
     /**
      * @return File[]|null
@@ -328,7 +328,7 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withAttachments(File ...$files): self;
+    public function withAttachments(File ...$files): static;
 
     /**
      * Returns a new instance with the specified added attached files.
@@ -340,12 +340,12 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withAddedAttachments(File ...$files): self;
+    public function withAddedAttachments(File ...$files): static;
 
     /**
      * Returns a new instance without attached files.
      */
-    public function withoutAttachments(): self;
+    public function withoutAttachments(): static;
 
     /**
      * @return File[]|null
@@ -365,7 +365,7 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withEmbeddings(File ...$files): self;
+    public function withEmbeddings(File ...$files): static;
 
     /**
      * Returns a new instance with the specified added embedded files.
@@ -379,12 +379,12 @@ interface MessageInterface extends Stringable
      *
      * @no-named-arguments
      */
-    public function withAddedEmbeddings(File ...$files): self;
+    public function withAddedEmbeddings(File ...$files): static;
 
     /**
      * Returns a new instance without embedded files.
      */
-    public function withoutEmbeddings(): self;
+    public function withoutEmbeddings(): static;
 
     /**
      * Returns all values for the specified header.
@@ -411,7 +411,7 @@ interface MessageInterface extends Stringable
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new added custom header value.
      */
-    public function withAddedHeader(string $name, string $value): self;
+    public function withAddedHeader(string $name, string $value): static;
 
     /**
      * Returns a new instance with the specified custom header value.
@@ -424,7 +424,7 @@ interface MessageInterface extends Stringable
      *
      * @psalm-param string|list<string> $value
      */
-    public function withHeader(string $name, string|array $value): self;
+    public function withHeader(string $name, string|array $value): static;
 
     /**
      * Returns a new instance with the specified custom header values.
@@ -436,5 +436,5 @@ interface MessageInterface extends Stringable
      *
      * @psalm-param array<string, string|list<string>>|null $headers
      */
-    public function withHeaders(array|null $headers): self;
+    public function withHeaders(array|null $headers): static;
 }
