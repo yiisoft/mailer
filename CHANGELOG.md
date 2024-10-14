@@ -1,4 +1,4 @@
-# Yii Mailer Library Change Log
+# Yii Mailer Change Log
 
 ## 6.0.0 under development
 
