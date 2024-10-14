@@ -21,7 +21,7 @@ return [
                     if (str_starts_with($params['yiisoft/mailer']['fileMailer']['path'], '@')) {
                         throw new LogicException(
                             sprintf(
-                                'Aliases dependency are required to resolve path "%s".',
+                                'yiisoft/aliases dependency is required to resolve path "%s".',
                                 $params['yiisoft/mailer']['fileMailer']['path']
                             )
                         );
