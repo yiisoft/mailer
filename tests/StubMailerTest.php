@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\StubMailer;
 
-final class StubMailerTest extends \PHPUnit\Framework\TestCase
+final class StubMailerTest extends TestCase
 {
     public function testSend(): void
     {

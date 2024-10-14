@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use Closure;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
 use Yiisoft\Files\FileHelper;
@@ -23,7 +24,7 @@ use function glob;
 use function is_file;
 use function microtime;
 
-final class FileMailerTest extends \PHPUnit\Framework\TestCase
+final class FileMailerTest extends TestCase
 {
     public function testSend(): void
     {

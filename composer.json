@@ -37,6 +37,9 @@
         "roave/infection-static-analysis-plugin": "^1.25",
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^5.24",
+        "yiisoft/aliases": "^3.0",
+        "yiisoft/definitions": "^3.3",
+        "yiisoft/di": "^1.2",
         "yiisoft/files": "^2.0",
         "yiisoft/test-support": "^3.0"
     },
@@ -54,6 +57,12 @@
     "autoload-dev": {
         "psr-4": {
             "Yiisoft\\Mailer\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "config-plugin": {
+            "params": "config/params.php",
+            "di": "config/di.php"
         }
     },
     "config": {

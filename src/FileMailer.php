@@ -46,7 +46,7 @@ final class FileMailer extends BaseMailer
      * @param EventDispatcherInterface|null $eventDispatcher The event dispatcher instance.
      */
     public function __construct(
-        private string $path,
+        private readonly string $path,
         callable $filenameCallback = null,
         ?MessageSettings $messageSettings = null,
         ?EventDispatcherInterface $eventDispatcher = null,

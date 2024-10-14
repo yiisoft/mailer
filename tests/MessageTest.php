@@ -8,11 +8,12 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\Priority;
 
-final class MessageTest extends \PHPUnit\Framework\TestCase
+final class MessageTest extends TestCase
 {
     public function testDefaultValues(): void
     {
