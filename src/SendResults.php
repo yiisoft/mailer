@@ -8,6 +8,8 @@ use Throwable;
 
 /**
  * Result of {@see MailerInterface::sendMultiple()}.
+ *
+ * @api
  */
 final class SendResults
 {

@@ -2,7 +2,7 @@
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
-    <h1 align="center">Yii Mailer Library</h1>
+    <h1 align="center">Yii Mailer</h1>
     <br>
 </p>
 
@@ -15,13 +15,13 @@
 [![psalm-level](https://shepherd.dev/github/yiisoft/mailer/level.svg)](https://shepherd.dev/github/yiisoft/mailer)
 [![type-coverage](https://shepherd.dev/github/yiisoft/mailer/coverage.svg)](https://shepherd.dev/github/yiisoft/mailer)
 
-The package provides the content composition functionality, and a basic interface for sending emails.
-Actual mail sending is provided by separate interchangeable packages.
+The package provides abstraction for sending emails via mailer and message interfaces. Actual mail sending is provided 
+by separate interchangeable packages.
 
 Out of the box the package profiles a file mailer that, instead of actually sending an email, writes its
-contents into a file. There are also [Swift Mailer](https://github.com/yiisoft/mailer-swiftmailer) and
-[Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers available as a
-separate packages that actually can send emails.
+contents into a file. There are official drivers available as a separate package that actually can send emails: 
+
+- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
 
 ## Requirements
 
@@ -54,10 +54,6 @@ $message = (new \Yiisoft\Mailer\Message())
 $mailer->send($message);
 ```
 
-### Mailer implementations
-
-- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
-
 ## Documentation
 
 - [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md)
@@ -68,7 +64,7 @@ You may also check out other [Yii Community Resources](https://www.yiiframework.
 
 ## License
 
-The Yii Mailer Library is free software. It is released under the terms of the BSD License.
+The Yii Mailer is free software. It is released under the terms of the BSD License.
 Please see [`LICENSE`](./LICENSE.md) for more information.
 
 Maintained by [Yii Software](https://www.yiiframework.com/).

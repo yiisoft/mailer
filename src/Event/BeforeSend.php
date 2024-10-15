@@ -11,6 +11,8 @@ use Yiisoft\Mailer\MessageInterface;
  * `BeforeSend` event is triggered right before sending the message.
  *
  * @see \Yiisoft\Mailer\BaseMailer::beforeSend()
+ *
+ * @api
  */
 final class BeforeSend implements StoppableEventInterface
 {

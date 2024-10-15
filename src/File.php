@@ -13,6 +13,8 @@ use function random_bytes;
 
 /**
  * `File` is a data object that stores data for attaching a file to a mail message.
+ *
+ * @api
  */
 final class File
 {

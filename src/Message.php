@@ -10,6 +10,8 @@ use DateTimeInterface;
 /**
  * Mail message class that represents the settings and content of an email, such as the sender, recipient, subject,
  * body, etc. Messages are sent by a {@see MailerInterface}.
+ *
+ * @api
  */
 final class Message implements MessageInterface
 {

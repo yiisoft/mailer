@@ -8,6 +8,8 @@ use function array_values;
 
 /**
  * This mailer keeps messages in memory and doesn't send them.
+ *
+ * @api
  */
 final class StubMailer implements MailerInterface
 {

@@ -21,6 +21,8 @@ use function sprintf;
 
 /**
  * `FileMailer` is a mock mailer that save email messages in files instead of sending them.
+ *
+ * @api
  */
 final class FileMailer extends BaseMailer
 {
