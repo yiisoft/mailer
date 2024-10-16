@@ -25,7 +25,7 @@
   value and improve exception message (@vjik)
 - New #104: Add `FileMailer` configuration (@vjik)
 - Chg #105: Change result type of `MessageInterface::with*` methods from `self` to `static` (@vjik)
-- Chg #108: Remove from `BeforeSend` implementation of `StoppableEventInterface` and add `$preventSendingMessage`
+- Chg #108: Remove implementation of `StoppableEventInterface` from `BeforeSend` and add `$preventSendingMessage`
   property to it (@vjik)
 - Chg #108: Remove `beforeSend()` and `afterSend()` messages from `BaseMailer` (@vjik)
 
