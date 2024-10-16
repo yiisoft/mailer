@@ -17,13 +17,17 @@
 - Chg #101: Remove `MessageBodyRenderer` and `MessageBodyTemplate` classes (@vjik)
 - Chg #101: Remove `yiisoft/view` dependency (@vjik)
 - New #101: Add `NullMailer` and `StubMailer` (@vjik)
-- Chg #102: Rename `Mailer` to `BaseMailer`, finalize methods and mark dependencies as read only (@vjik)
+- Chg #102, #108: Rename `Mailer` to `BaseMailer`, remove `beforeSend()` and `afterSend()` methods, finalize methods,
+  and mark dependencies as read only (@vjik)
 - Chg #102: Remove `getMessage()` method from `AfterSend` and `BeforeSend` classes, make `$message` property public
  read only instead it (@vjik)
 - Eng #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
   value and improve exception message (@vjik)
 - New #104: Add `FileMailer` configuration (@vjik)
 - Chg #105: Change result type of `MessageInterface::with*` methods from `self` to `static` (@vjik)
+- Chg #108: Remove from `BeforeSend` implementation of `StoppableEventInterface` and add `$preventSendingMessage`
+  property to it (@vjik)
+- Chg #108: Remove `beforeSend()` and `afterSend()` messages from `BaseMailer` (@vjik)
 
 ## 5.1.0 July 02, 2024
 

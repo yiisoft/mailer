@@ -17,14 +17,6 @@ final class BeforeSendTest extends TestCase
         $event = new BeforeSend($message);
 
         $this->assertSame($message, $event->message);
-        $this->assertFalse($event->isPropagationStopped());
-    }
-
-    public function testStopPropagation(): void
-    {
-        $event = new BeforeSend(new Message());
-        $event->stopPropagation();
-
-        $this->assertTrue($event->isPropagationStopped());
+        $this->assertFalse($event->preventSendingMessage);
     }
 }

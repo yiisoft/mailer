@@ -57,12 +57,12 @@ final class BaseMailerTest extends TestCase
         $this->assertSame($message3, $result->failMessages[1]['message']);
     }
 
-    public function testBeforeSendWithStop(): void
+    public function testBeforeSendWithPreventSendingMessage(): void
     {
         $eventDispatcher = new SimpleEventDispatcher(
             static function (object $event): void {
                 if ($event instanceof BeforeSend) {
-                    $event->stopPropagation();
+                    $event->preventSendingMessage = true;
                 }
             }
         );
@@ -74,7 +74,7 @@ final class BaseMailerTest extends TestCase
         $this->assertEmpty($mailer->sentMessages);
     }
 
-    public function testBeforeSendWithoutStop(): void
+    public function testBeforeSend(): void
     {
         $eventDispatcher = new SimpleEventDispatcher();
         $mailer = new DummyMailer(eventDispatcher: $eventDispatcher);

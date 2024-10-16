@@ -34,12 +34,14 @@ abstract class BaseMailer implements MailerInterface
     {
         $message = $this->defaultMessageSettings?->applyTo($message) ?? $message;
 
-        if (!$this->beforeSend($message)) {
+        $event = $this->eventDispatcher?->dispatch(new BeforeSend($message));
+        if ($event instanceof BeforeSend && $event->preventSendingMessage) {
             return;
         }
 
         $this->sendMessage($message);
-        $this->afterSend($message);
+
+        $this->eventDispatcher?->dispatch(new AfterSend($message));
     }
 
     /**
@@ -78,32 +80,4 @@ abstract class BaseMailer implements MailerInterface
      * @param MessageInterface $message the message to be sent
      */
     abstract protected function sendMessage(MessageInterface $message): void;
-
-    /**
-     * This method is invoked right before mail send.
-     *
-     * You may override this method to do last-minute preparation for the message.
-     * If you override this method, please make sure you call the parent implementation first.
-     *
-     * @param MessageInterface $message The message instance.
-     *
-     * @return bool Whether to continue sending an email.
-     */
-    final protected function beforeSend(MessageInterface $message): bool
-    {
-        /** @var BeforeSend|null $event */
-        $event = $this->eventDispatcher?->dispatch(new BeforeSend($message));
-        return $event === null || !$event->isPropagationStopped();
-    }
-
-    /**
-     * This method is invoked right after mail was send.
-     *
-     * You may override this method to do some postprocessing or logging based on mail send status.
-     * If you override this method, please make sure you call the parent implementation first.
-     */
-    final protected function afterSend(MessageInterface $message): void
-    {
-        $this->eventDispatcher?->dispatch(new AfterSend($message));
-    }
 }
