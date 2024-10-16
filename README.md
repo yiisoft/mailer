@@ -18,10 +18,18 @@
 The package provides abstraction for sending emails via mailer and message interfaces. Actual mail sending is provided 
 by separate interchangeable packages.
 
-Out of the box the package profiles a file mailer that, instead of actually sending an email, writes its
-contents into a file. There are official drivers available as a separate package that actually can send emails: 
+The following mailers are available out of the box:
 
-- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
+- `FileMailer` - writes message to files instead of actually sending email.
+- `StubMailer` - keeps messages in memory and doesn't send them.
+- `NullMailer` - does nothing.
+
+Yii Mailer extensions:
+
+- [Yii Symfony Mailer](https://github.com/yiisoft/mailer-symfony) - [symfony/mailer](https://github.com/symfony/mailer)
+  adapter.
+- [Yii Mailer View](https://github.com/yiisoft/mailer-view) - mailer decorator with extra method `compose()` for
+  composing message body via view rendering.
 
 ## Requirements
 
