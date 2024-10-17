@@ -6,8 +6,6 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 
-use function call_user_func;
-
 /**
  * `MessageSettings` provides default and extra message settings.
  *
@@ -205,7 +203,7 @@ final class MessageSettings
             $html = $message->getHtmlBody();
             if ($html !== null) {
                 $message = $message->withTextBody(
-                    call_user_func($this->htmlToTextBodyConverter, $html)
+                    ($this->htmlToTextBodyConverter)($html)
                 );
             }
         }
