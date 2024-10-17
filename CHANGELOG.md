@@ -28,6 +28,7 @@
 - Chg #108: Remove implementation of `StoppableEventInterface` from `BeforeSend` and add `$preventSendingMessage`
   property to it (@vjik)
 - Chg #108: Remove `beforeSend()` and `afterSend()` messages from `BaseMailer` (@vjik)
+- New #109: Add `HtmlToTextBodyConverter` (@vjik)
 
 ## 5.1.0 July 02, 2024
 
