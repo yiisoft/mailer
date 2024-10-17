@@ -7,6 +7,7 @@ namespace Yiisoft\Mailer\Tests;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\File;
+use Yiisoft\Mailer\HtmlToTextBodyConverter;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageSettings;
 use Yiisoft\Mailer\Priority;
@@ -47,6 +48,7 @@ final class MessageSettingsTest extends TestCase
             addEmbeddings: [$file4],
             headers: ['X-Test' => 'on'],
             overwriteHeaders: ['X-Pass' => 'true'],
+            htmlToTextBodyConverter: new HtmlToTextBodyConverter(),
         );
 
         $message = $settings->applyTo($sourceMessage);
@@ -123,6 +125,7 @@ final class MessageSettingsTest extends TestCase
             addEmbeddings: [$file4],
             headers: ['X-Test' => 'on'],
             overwriteHeaders: ['X-Pass' => 'true'],
+            htmlToTextBodyConverter: new HtmlToTextBodyConverter(),
         );
 
         $message = $settings->applyTo($sourceMessage);
@@ -169,5 +172,15 @@ final class MessageSettingsTest extends TestCase
             ],
             $message->getHeaders(),
         );
+    }
+
+    public function testHtmlToTextBodyConverter(): void
+    {
+        $sourceMessage = new Message(htmlBody: '<p>Привет!</p>');
+        $settings = new MessageSettings(htmlToTextBodyConverter: new HtmlToTextBodyConverter());
+
+        $message = $settings->applyTo($sourceMessage);
+
+        $this->assertSame('Привет!', $message->getTextBody());
     }
 }

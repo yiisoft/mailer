@@ -6,10 +6,14 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 
+use function call_user_func;
+
 /**
  * `MessageSettings` provides default and extra message settings.
  *
  * @api
+ *
+ * @psalm-type HtmlToTextBodyConverterCallable = callable(string):string
  */
 final class MessageSettings
 {
@@ -25,6 +29,12 @@ final class MessageSettings
      * @psalm-var array<string,list<string>>|null
      */
     public readonly array|null $overwriteHeaders;
+
+    /**
+     * @var callable|null The HTML to text body converter.
+     * @psalm-var HtmlToTextBodyConverterCallable|null
+     */
+    public readonly mixed $htmlToTextBodyConverter;
 
     /**
      * @param string|string[]|null $from The sender email address(es). You may also specify sender name in addition
@@ -55,6 +65,7 @@ final class MessageSettings
      * there are no corresponding headers in the message.
      * @param array[]|null $overwriteHeaders The custom headers in format `[name => value|value[]]` that will always be
      * added to message.
+     * @param callable|null $htmlToTextBodyConverter The HTML to text body converter.
      *
      * @psalm-param list<File>|null $attachments
      * @psalm-param list<File>|null $addAttachments
@@ -62,6 +73,7 @@ final class MessageSettings
      * @psalm-param list<File>|null $addEmbeddings
      * @psalm-param array<string,string|list<string>>|null $headers
      * @psalm-param array<string,string|list<string>>|null $overwriteHeaders
+     * @psalm-param HtmlToTextBodyConverterCallable|null $htmlToTextBodyConverter
      */
     public function __construct(
         public readonly string|null $charset = null,
@@ -88,9 +100,11 @@ final class MessageSettings
         public readonly array|null $addEmbeddings = null,
         array|null $headers = null,
         array|null $overwriteHeaders = null,
+        callable|null $htmlToTextBodyConverter = null,
     ) {
         $this->headers = HeadersNormalizer::normalize($headers);
         $this->overwriteHeaders = HeadersNormalizer::normalize($overwriteHeaders);
+        $this->htmlToTextBodyConverter = $htmlToTextBodyConverter;
     }
 
     public function applyTo(MessageInterface $message): MessageInterface
@@ -184,6 +198,15 @@ final class MessageSettings
         if ($this->overwriteHeaders !== null) {
             foreach ($this->overwriteHeaders as $headerName => $headerValue) {
                 $message = $message->withHeader($headerName, $headerValue);
+            }
+        }
+
+        if ($this->htmlToTextBodyConverter !== null && $message->getTextBody() === null) {
+            $html = $message->getHtmlBody();
+            if ($html !== null) {
+                $message = $message->withTextBody(
+                    call_user_func($this->htmlToTextBodyConverter, $html)
+                );
             }
         }
 
