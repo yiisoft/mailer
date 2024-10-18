@@ -1,34 +1,34 @@
 # Yii Mailer Change Log
 
-## 6.0.0 under development
+## 6.0.0 October 18, 2024
 
+- Eng #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
+  value and improve exception message (@vjik)
+- New #101: Add `NullMailer` and `StubMailer` (@vjik)
+- New #104: Add `FileMailer` configuration (@vjik)
+- New #109: Add `HtmlToTextBodyConverter` (@vjik)
 - New #84: Add `MessageInterface` methods: `getAttachments()`,  `getEmbeddings()`, `getHeaders()`,
   `withAddedAttachments()`, `withAddedEmbeddings()` (@vjik)
-- Chg #84: Rename `MessageInterface` methods: `withEmbedded()` to `withEmbeddings()`, `withAttached()`
-  to `withAttachments()` and allow passing several files to them (@vjik)
 - New #84: Add `Message` class that implements `MessageInterface` (@vjik)
-- Chg #94: Remove `getError()` and `withError()` methods from `MessageInterface` (@vjik)
-- Chg #94: Change result of `MailerInterface::sendMultiple()` to `SendResults` object (@vjik)
-- Chg #95: Use new `Priority` enumeration instead of integer value for define priority in message (@vjik)
-- Enh #83, #103: Make `psr/event-dispatcher` dependency optional (@vjik)
-- Chg #96: Change order of constructor parameters in `Mailer` and `FailMailer` (@vjik)
 - Chg #100: Remove `MessageFactoryInterface` and `MessageFactory`, add `MessageSettings` instead it (@vjik)
-- Chg #101: Remove `MessageInterface` methods `compose()`, `withTemplate()` and `withLocale()` (@vjik)
 - Chg #101: Remove `MessageBodyRenderer` and `MessageBodyTemplate` classes (@vjik)
 - Chg #101: Remove `yiisoft/view` dependency (@vjik)
-- New #101: Add `NullMailer` and `StubMailer` (@vjik)
+- Chg #101: Remove `MessageInterface` methods `compose()`, `withTemplate()` and `withLocale()` (@vjik)
 - Chg #102, #108: Rename `Mailer` to `BaseMailer`, remove `beforeSend()` and `afterSend()` methods, finalize methods,
   and mark dependencies as read only (@vjik)
 - Chg #102: Remove `getMessage()` method from `AfterSend` and `BeforeSend` classes, make `$message` property public
  read only instead it (@vjik)
-- Eng #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
-  value and improve exception message (@vjik)
-- New #104: Add `FileMailer` configuration (@vjik)
 - Chg #105: Change result type of `MessageInterface::with*` methods from `self` to `static` (@vjik)
 - Chg #108: Remove implementation of `StoppableEventInterface` from `BeforeSend` and add `$preventSendingMessage`
   property to it (@vjik)
 - Chg #108: Remove `beforeSend()` and `afterSend()` messages from `BaseMailer` (@vjik)
-- New #109: Add `HtmlToTextBodyConverter` (@vjik)
+- Chg #84: Rename `MessageInterface` methods: `withEmbedded()` to `withEmbeddings()`, `withAttached()`
+  to `withAttachments()` and allow passing several files to them (@vjik)
+- Chg #94: Remove `getError()` and `withError()` methods from `MessageInterface` (@vjik)
+- Chg #94: Change result of `MailerInterface::sendMultiple()` to `SendResults` object (@vjik)
+- Chg #95: Use new `Priority` enumeration instead of integer value for define priority in message (@vjik)
+- Chg #96: Change order of constructor parameters in `Mailer` and `FailMailer` (@vjik)
+- Enh #83, #103: Make `psr/event-dispatcher` dependency optional (@vjik)
 
 ## 5.1.0 July 02, 2024
 
