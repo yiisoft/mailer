@@ -28,8 +28,6 @@ Yii Mailer extensions:
 
 - [Yii Symfony Mailer](https://github.com/yiisoft/mailer-symfony) - [symfony/mailer](https://github.com/symfony/mailer)
   adapter.
-- [Yii Mailer View](https://github.com/yiisoft/mailer-view) - mailer decorator with extra method `compose()` for
-  composing message body via view rendering.
 
 ## Requirements
 
