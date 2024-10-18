@@ -1,9 +1,11 @@
 # Yii Mailer Change Log
 
+## 6.0.1 under development
+
+- no changes in this release.
+
 ## 6.0.0 October 18, 2024
 
-- Eng #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
-  value and improve exception message (@vjik)
 - New #101: Add `NullMailer` and `StubMailer` (@vjik)
 - New #104: Add `FileMailer` configuration (@vjik)
 - New #109: Add `HtmlToTextBodyConverter` (@vjik)
@@ -29,6 +31,8 @@
 - Chg #95: Use new `Priority` enumeration instead of integer value for define priority in message (@vjik)
 - Chg #96: Change order of constructor parameters in `Mailer` and `FailMailer` (@vjik)
 - Enh #83, #103: Make `psr/event-dispatcher` dependency optional (@vjik)
+- Enh #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
+  value and improve exception message (@vjik)
 
 ## 5.1.0 July 02, 2024
 
