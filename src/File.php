@@ -44,7 +44,7 @@ final class File
      * @param string|null $name The name that should be used to attach the file.
      * @param string|null $contentType MIME type that should be used to attach the file.
      */
-    public static function fromContent(string $content, string $name = null, string $contentType = null): self
+    public static function fromContent(string $content, ?string $name = null, ?string $contentType = null): self
     {
         return new self($name, null, $content, $contentType);
     }
@@ -58,7 +58,7 @@ final class File
      *
      * @throws RuntimeException If the specified file does not exist.
      */
-    public static function fromPath(string $path, string $name = null, string $contentType = null): self
+    public static function fromPath(string $path, ?string $name = null, ?string $contentType = null): self
     {
         if (!is_file($path)) {
             throw new RuntimeException("The file {$path} does not exist.");
