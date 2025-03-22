@@ -29,14 +29,26 @@ final class HtmlToTextBodyConverter
             $html = $match[1];
         }
 
-        // remove style and script
+        /**
+         * Remove style and script
+         *
+         * @var string $html We use valid regular expression, so `preg_replace()` will return string.
+         */
         $html = preg_replace('~<((style|script))[^>]*>(.*?)</\1>~is', '', $html);
 
         // strip all HTML tags and decode HTML entities
         $text = html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5);
 
-        // improve whitespace
+        /**
+         * Improve whitespace
+         *
+         * @var string $text We use valid regular expression, so `preg_replace()` will return string.
+         */
         $text = preg_replace("~^[ \t]+~m", '', trim($text));
+
+        /**
+         * @var string We use valid regular expression, so `preg_replace()` will return string.
+         */
         return preg_replace('~\R\R+~mu', "\n\n", $text);
     }
 
