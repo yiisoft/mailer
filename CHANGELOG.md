@@ -1,5 +1,9 @@
 # Yii Mailer Change Log
 
+## 6.0.2 under development
+
+- no changes in this release.
+
 ## 6.0.1 March 25, 2025
 
 - Chg #114: Change PHP constraint in `composer.json` to `8.1 - 8.4` (@vjik)
