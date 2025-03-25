@@ -49,7 +49,7 @@ final class FileMailer extends BaseMailer
      */
     public function __construct(
         private readonly string $path,
-        callable $filenameCallback = null,
+        ?callable $filenameCallback = null,
         ?MessageSettings $messageSettings = null,
         ?EventDispatcherInterface $eventDispatcher = null,
     ) {
