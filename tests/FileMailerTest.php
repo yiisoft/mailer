@@ -16,7 +16,6 @@ use Yiisoft\Mailer\Event\BeforeSend;
 use Yiisoft\Mailer\FileMailer;
 use Yiisoft\Mailer\Message;
 use Yiisoft\Mailer\MessageInterface;
-
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 
 use function file_get_contents;
