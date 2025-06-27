@@ -56,9 +56,7 @@ final class MailerCollector implements SummaryCollectorInterface
             return [];
         }
         return [
-            'mailer' => [
-                'total' => count($this->messages),
-            ],
+            'total' => count($this->messages),
         ];
     }
 
