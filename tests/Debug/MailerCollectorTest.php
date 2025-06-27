@@ -30,7 +30,7 @@ final class MailerCollectorTest extends AbstractCollectorTestCase
     protected function checkSummaryData(array $data): void
     {
         parent::checkSummaryData($data);
-        $this->assertSame(['total' => 2], $data['mailer']);
+        $this->assertSame(['total' => 2], $data);
     }
 
     protected function checkCollectedData(array $data): void
