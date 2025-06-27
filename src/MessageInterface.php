@@ -6,7 +6,7 @@ namespace Yiisoft\Mailer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Throwable;
+use Stringable;
 
 /**
  * `MessageInterface` is the interface that should be implemented by mail message classes.
@@ -16,7 +16,7 @@ use Throwable;
  * Messages are sent by a {@see \Yiisoft\Mailer\MailerInterface}, like the following:
  *
  * ```php
- * $message = $mailer->compose()
+ * $message = (new Message())
  *     ->withFrom('from@domain.com')
  *     ->withTo('to@domain.com')
  *     ->withSubject('Message subject')
@@ -25,15 +25,20 @@ use Throwable;
  * ;
  * $mailer->send($message);
  * ```
+ *
+ * `Stringable` implementation need for debug purposes only. Method `__toString()` should return string representation
+ * of message.
+ *
+ * @api
  */
-interface MessageInterface
+interface MessageInterface extends Stringable
 {
     /**
      * Returns the charset of this message.
      *
-     * @return string The charset of this message.
+     * @return string|null The charset of this message.
      */
-    public function getCharset(): string;
+    public function getCharset(): string|null;
 
     /**
      * Returns a new instance with the specified charset.
@@ -41,23 +46,23 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new charset.
      *
-     * @param string $charset The charset name.
+     * @param string|null $charset The charset name.
      */
-    public function withCharset(string $charset): self;
+    public function withCharset(string|null $charset): static;
 
     /**
      * Returns the message sender email address.
      *
-     * @return array<string, string>|string The sender email address.
+     * @return string|string[]|null The sender email address.
      *
      * @see withFrom()
      */
-    public function getFrom(): array|string;
+    public function getFrom(): array|string|null;
 
     /**
      * Returns a new instance with the specified sender email address.
      *
-     * @param array<string, string>|string|string[] $from The sender email address.
+     * @param string|string[]|null $from The sender email address.
      *
      * You may pass an array of addresses if this message is from multiple people.
      * You may also specify sender name in addition to email address using format: `[email => name]`.
@@ -65,21 +70,28 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new sender email address.
      */
-    public function withFrom(array|string $from): self;
+    public function withFrom(array|string|null $from): static;
+
+    /**
+     * Returns a new instance with added sender email address(es).
+     *
+     * @param string|string[] $from The sender email address(es).
+     */
+    public function withAddedFrom(array|string $from): static;
 
     /**
      * Returns the message recipient(s) email address.
      *
-     * @return array<string, string>|string The message recipients email address.
+     * @return string|string[]|null The message recipients email address.
      *
      * @see withTo()
      */
-    public function getTo(): array|string;
+    public function getTo(): array|string|null;
 
     /**
      * Returns a new instance with the specified recipient(s) email address.
      *
-     * @param array<string, string>|string|string[] $to The receiver email address.
+     * @param string|string[]|null $to The receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -87,21 +99,28 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new recipients email address.
      */
-    public function withTo(array|string $to): self;
+    public function withTo(array|string|null $to): static;
+
+    /**
+     * Returns a new instance with added recipient(s) email address.
+     *
+     * @param string|string[] $to The receiver email address.
+     */
+    public function withAddedTo(array|string $to): static;
 
     /**
      * Returns the reply-to address of this message.
      *
-     * @return array<string, string>|string The reply-to address of this message.
+     * @return string|string[]|null The reply-to address of this message.
      *
      * @see withReplyTo()
      */
-    public function getReplyTo(): array|string;
+    public function getReplyTo(): array|string|null;
 
     /**
      * Returns a new instance with the specified reply-to address.
      *
-     * @param array<string, string>|string|string[] $replyTo The reply-to address.
+     * @param string|string[]|null $replyTo The reply-to address.
      *
      * You may pass an array of addresses if this message should be replied to multiple people.
      * You may also specify reply-to name in addition to email address using format: `[email => name]`.
@@ -109,21 +128,28 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new reply-to address.
      */
-    public function withReplyTo(array|string $replyTo): self;
+    public function withReplyTo(array|string|null $replyTo): static;
+
+    /**
+     * Returns a new instance with added reply-to address(es).
+     *
+     * @param string|string[] $replyTo The reply-to address(es).
+     */
+    public function withAddedReplyTo(array|string $replyTo): static;
 
     /**
      * Returns the Cc (additional copy receiver) addresses of this message.
      *
-     * @return array<string, string>|string The Cc (additional copy receiver) addresses of this message.
+     * @return string|string[]|null The Cc (additional copy receiver) addresses of this message.
      *
      * @see withCc()
      */
-    public function getCc(): array|string;
+    public function getCc(): array|string|null;
 
     /**
      * Returns a new instance with the specified Cc (additional copy receiver) addresses.
      *
-     * @param array<string, string>|string|string[] $cc The copy receiver email address.
+     * @param string|string[] $cc The copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -131,21 +157,28 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Cc (additional copy receiver) addresses.
      */
-    public function withCc(array|string $cc): self;
+    public function withCc(array|string $cc): static;
+
+    /**
+     * Returns a new instance with the specified Cc (additional copy receiver) address(es).
+     *
+     * @param string|string[] $cc The copy receiver email address(es).
+     */
+    public function withAddedCc(array|string $cc): static;
 
     /**
      * Returns the Bcc (hidden copy receiver) addresses of this message.
      *
-     * @return array<string, string>|string The Bcc (hidden copy receiver) addresses of this message.
+     * @return string|string[]|null The Bcc (hidden copy receiver) addresses of this message.
      *
      * @see withBcc()
      */
-    public function getBcc(): array|string;
+    public function getBcc(): array|string|null;
 
     /**
      * Returns a new instance with the specified Bcc (hidden copy receiver) addresses.
      *
-     * @param array<string, string>|string|string[] $bcc The hidden copy receiver email address.
+     * @param string|string[] $bcc The hidden copy receiver email address.
      *
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format: `[email => name]`.
@@ -153,14 +186,21 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new Bcc (hidden copy receiver) addresses.
      */
-    public function withBcc(array|string $bcc): self;
+    public function withBcc(array|string|null $bcc): static;
+
+    /**
+     * Returns a new instance with the specified Bcc (hidden copy receiver) address(es).
+     *
+     * @param string|string[] $bcc The hidden copy receiver email address(es).
+     */
+    public function withAddedBcc(array|string $bcc): static;
 
     /**
      * Returns the message subject.
      *
-     * @return string The message subject.
+     * @return string|null The message subject.
      */
-    public function getSubject(): string;
+    public function getSubject(): string|null;
 
     /**
      * Returns a new instance with the specified message subject.
@@ -168,16 +208,16 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new message subject.
      *
-     * @param string $subject The message subject.
+     * @param string|null $subject The message subject.
      */
-    public function withSubject(string $subject): self;
+    public function withSubject(string|null $subject): static;
 
     /**
      * Returns the date when the message was sent, or null if it was not set.
      *
      * @return DateTimeImmutable|null The date when the message was sent.
      */
-    public function getDate(): ?DateTimeImmutable;
+    public function getDate(): DateTimeImmutable|null;
 
     /**
      * Returns a new instance with the specified date when the message was sent.
@@ -185,17 +225,16 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new date when the message was sent.
      *
-     * @param DateTimeInterface $date The date when the message was sent.
+     * @param DateTimeInterface|null $date The date when the message was sent.
      */
-    public function withDate(DateTimeInterface $date): self;
+    public function withDate(DateTimeInterface|null $date): static;
 
     /**
      * Returns the priority of this message.
      *
-     * @return int The priority value as integer in range: `1..5`,
-     * where 1 is the highest priority and 5 is the lowest.
+     * @return Priority|null The message priority.
      */
-    public function getPriority(): int;
+    public function getPriority(): Priority|null;
 
     /**
      * Returns a new instance with the specified priority of this message.
@@ -203,17 +242,16 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new message priority.
      *
-     * @param int $priority The priority value, should be an integer in range: `1..5`,
-     * where 1 is the highest priority and 5 is the lowest.
+     * @param Priority|null $priority The message priority.
      */
-    public function withPriority(int $priority): self;
+    public function withPriority(Priority|null $priority): static;
 
     /**
      * Returns the return-path (the bounce address) of this message.
      *
-     * @return string The bounce email address.
+     * @return string|null The bounce email address.
      */
-    public function getReturnPath(): string;
+    public function getReturnPath(): string|null;
 
     /**
      * Returns a new instance with the specified return-path (the bounce address) of this message.
@@ -221,16 +259,16 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new return-path (the bounce address).
      *
-     * @param string $address The bounce email address.
+     * @param string|null $address The bounce email address.
      */
-    public function withReturnPath(string $address): self;
+    public function withReturnPath(string|null $address): static;
 
     /**
      * Returns the message actual sender email address.
      *
-     * @return string The actual sender email address.
+     * @return string|null The actual sender email address.
      */
-    public function getSender(): string;
+    public function getSender(): string|null;
 
     /**
      * Returns a new instance with the specified actual sender email address.
@@ -238,16 +276,16 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new actual sender email address.
      *
-     * @param string $address The actual sender email address.
+     * @param string|null $address The actual sender email address.
      */
-    public function withSender(string $address): self;
+    public function withSender(string|null $address): static;
 
     /**
      * Returns the message HTML body.
      *
-     * @return string The message HTML body.
+     * @return string|null The message HTML body.
      */
-    public function getHtmlBody(): string;
+    public function getHtmlBody(): string|null;
 
     /**
      * Returns a new instance with the specified message HTML content.
@@ -255,16 +293,16 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new message HTML content.
      *
-     * @param string $html message HTML content.
+     * @param string|null $html message HTML content.
      */
-    public function withHtmlBody(string $html): self;
+    public function withHtmlBody(string|null $html): static;
 
     /**
      * Returns the message text body.
      *
-     * @return string The message text body.
+     * @return string|null The message text body.
      */
-    public function getTextBody(): string;
+    public function getTextBody(): string|null;
 
     /**
      * Returns a new instance with the specified message plain text content.
@@ -272,31 +310,83 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new message plain text content.
      *
-     * @param string $text The message plain text content.
+     * @param string|null $text The message plain text content.
      */
-    public function withTextBody(string $text): self;
+    public function withTextBody(string|null $text): static;
 
     /**
-     * Returns a new instance with the specified attached file.
+     * @return File[]|null
+     * @psalm-return list<File>|null
+     */
+    public function getAttachments(): array|null;
+
+    /**
+     * Returns a new instance with the specified attached files.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new attached file.
+     * and MUST return an instance that has the new attached files.
      *
-     * @param File $file The file instance.
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
      */
-    public function withAttached(File $file): self;
+    public function withAttachments(File ...$files): static;
 
     /**
-     * Returns a new instance with the specified embedded file.
+     * Returns a new instance with the specified added attached files.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has added the new attached files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAddedAttachments(File ...$files): static;
+
+    /**
+     * Returns a new instance without attached files.
+     */
+    public function withoutAttachments(): static;
+
+    /**
+     * @return File[]|null
+     * @psalm-return list<File>|null
+     */
+    public function getEmbeddings(): array|null;
+
+    /**
+     * Returns a new instance with the specified embedded files.
      *
      * This method should be used when embedding images or other data in a message.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new embedded file.
      *
-     * @param File $file The file instance.
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
      */
-    public function withEmbedded(File $file): self;
+    public function withEmbeddings(File ...$files): static;
+
+    /**
+     * Returns a new instance with the specified added embedded files.
+     *
+     * This method should be used when embedding images or other data in a message.
+     *
+     * This method MUST be implemented in such a way as to retain the immutability of the message,
+     * and MUST return an instance that has added the new embedded files.
+     *
+     * @param File ...$files The file instances.
+     *
+     * @no-named-arguments
+     */
+    public function withAddedEmbeddings(File ...$files): static;
+
+    /**
+     * Returns a new instance without embedded files.
+     */
+    public function withoutEmbeddings(): static;
 
     /**
      * Returns all values for the specified header.
@@ -306,6 +396,11 @@ interface MessageInterface
      * @return string[] The header values list.
      */
     public function getHeader(string $name): array;
+
+    /**
+     * @psalm-return array<string,list<string>>|null
+     */
+    public function getHeaders(): array|null;
 
     /**
      * Returns a new instance with the specified added custom header value.
@@ -318,7 +413,7 @@ interface MessageInterface
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new added custom header value.
      */
-    public function withAddedHeader(string $name, string $value): self;
+    public function withAddedHeader(string $name, string $value): static;
 
     /**
      * Returns a new instance with the specified custom header value.
@@ -328,38 +423,20 @@ interface MessageInterface
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header value.
+     *
+     * @psalm-param string|list<string> $value
      */
-    public function withHeader(string $name, string|array $value): self;
+    public function withHeader(string $name, string|array $value): static;
 
     /**
      * Returns a new instance with the specified custom header values.
      *
-     * @param array<string, string|string[]> $headers The headers in format: `[name => value]`.
+     * @param array|null $headers The headers in format: `[name => value]`.
      *
      * This method MUST be implemented in such a way as to retain the immutability of the message,
      * and MUST return an instance that has the new custom header values.
-     */
-    public function withHeaders(array $headers): self;
-
-    /**
-     * Returns error represents why send fails, or null on a successful send.
-     */
-    public function getError(): ?Throwable;
-
-    /**
-     * Returns a new instance with the specified send fails error.
      *
-     * @param Throwable $e The send fails error.
-     *
-     * This method MUST be implemented in such a way as to retain the immutability of the message,
-     * and MUST return an instance that has the new send fails error.
+     * @psalm-param array<string, string|list<string>>|null $headers
      */
-    public function withError(Throwable $e): self;
-
-    /**
-     * Returns string representation of this message.
-     *
-     * @return string The string representation of this message.
-     */
-    public function __toString(): string;
+    public function withHeaders(array|null $headers): static;
 }

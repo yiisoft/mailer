@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests\Event;
 
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mailer\Event\BeforeSend;
-use Yiisoft\Mailer\Tests\TestCase;
+use Yiisoft\Mailer\Message;
 
 final class BeforeSendTest extends TestCase
 {
     public function testSetup(): void
     {
-        $message = self::createMessage();
-        $event = new BeforeSend($message);
-        $this->assertSame($message, $event->getMessage());
-        $this->assertFalse($event->isPropagationStopped());
-    }
+        $message = new Message();
 
-    public function testStopPropagation(): void
-    {
-        $event = new BeforeSend(self::createMessage());
-        $event->stopPropagation();
-        $this->assertTrue($event->isPropagationStopped());
+        $event = new BeforeSend($message);
+
+        $this->assertSame($message, $event->message);
+        $this->assertFalse($event->preventSendingMessage);
     }
 }

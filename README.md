@@ -2,27 +2,32 @@
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
     </a>
-    <h1 align="center">Yii Mailer Library</h1>
+    <h1 align="center">Yii Mailer</h1>
     <br>
 </p>
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/mailer/v/stable.png)](https://packagist.org/packages/yiisoft/mailer)
-[![Total Downloads](https://poser.pugx.org/yiisoft/mailer/downloads.png)](https://packagist.org/packages/yiisoft/mailer)
-[![Build status](https://github.com/yiisoft/mailer/workflows/build/badge.svg)](https://github.com/yiisoft/mailer/actions?query=workflow%3Abuild)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yiisoft/mailer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/mailer/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/yiisoft/mailer/v)](https://packagist.org/packages/yiisoft/mailer)
+[![Total Downloads](https://poser.pugx.org/yiisoft/mailer/downloads)](https://packagist.org/packages/yiisoft/mailer)
+[![Build status](https://github.com/yiisoft/mailer/actions/workflows/build.yml/badge.svg)](https://github.com/yiisoft/mailer/actions/workflows/build.yml)
 [![Code Coverage](https://codecov.io/gh/yiisoft/mailer/branch/master/graph/badge.svg)](https://codecov.io/gh/yiisoft/mailer)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2Fmailer%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/mailer/master)
 [![static analysis](https://github.com/yiisoft/mailer/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/mailer/actions?query=workflow%3A%22static+analysis%22)
 [![psalm-level](https://shepherd.dev/github/yiisoft/mailer/level.svg)](https://shepherd.dev/github/yiisoft/mailer)
 [![type-coverage](https://shepherd.dev/github/yiisoft/mailer/coverage.svg)](https://shepherd.dev/github/yiisoft/mailer)
 
-The package provides the content composition functionality, and a basic interface for sending emails.
-Actual mail sending is provided by separate interchangeable packages.
+The package provides abstraction for sending emails via mailer and message interfaces. Actual mail sending is provided 
+by separate interchangeable packages.
 
-Out of the box the package profiles a file mailer that, instead of actually sending an email, writes its
-contents into a file. There are also [Swift Mailer](https://github.com/yiisoft/mailer-swiftmailer) and
-[Symfony Mailer](https://github.com/yiisoft/mailer-symfony) based official drivers available as a
-separate packages that actually can send emails.
+The following mailers are available out of the box:
+
+- `FileMailer` - writes message to files instead of actually sending email.
+- `StubMailer` - keeps messages in memory and doesn't send them.
+- `NullMailer` - does nothing.
+
+Yii Mailer extensions:
+
+- [Yii Symfony Mailer](https://github.com/yiisoft/mailer-symfony) - [symfony/mailer](https://github.com/symfony/mailer)
+  adapter.
 
 ## Requirements
 
@@ -45,8 +50,7 @@ The following code can be used to send an email:
  * @var \Yiisoft\Mailer\MailerInterface $mailer
  */
 
-$message = $mailer
-    ->compose()
+$message = (new \Yiisoft\Mailer\Message())
     ->withFrom('from@domain.com')
     ->withTo('to@domain.com')
     ->withSubject('Message subject')
@@ -55,29 +59,6 @@ $message = $mailer
     
 $mailer->send($message);
 ```
-
-### Localize view file
-
-You can set a specific locale that will be used to localize view files with `withLocale()` method:
-
-```php
-/**
- * @var \Yiisoft\Mailer\MailerInterface $mailer
- */
-
-$message = $mailer
-    ->withLocale('de_DE')
-    ->compose('html-view')
-    ->withFrom('from@domain.com')
-    ->withTo('to@domain.com')
-    ->withSubject('Message subject');
-    
-$mailer->send($message);
-```
-
-### Mailer implementations
-
-- [Symfony Mailer](https://github.com/yiisoft/mailer-symfony)
 
 ## Documentation
 
@@ -89,7 +70,7 @@ You may also check out other [Yii Community Resources](https://www.yiiframework.
 
 ## License
 
-The Yii Mailer Library is free software. It is released under the terms of the BSD License.
+The Yii Mailer is free software. It is released under the terms of the BSD License.
 Please see [`LICENSE`](./LICENSE.md) for more information.
 
 Maintained by [Yii Software](https://www.yiiframework.com/).

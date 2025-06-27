@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Yiisoft\Mailer;
 
 use Exception;
+use LogicException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
 
 use function date;
 use function dirname;
 use function file_put_contents;
-use function gettype;
 use function is_dir;
 use function is_string;
 use function microtime;
@@ -21,8 +21,10 @@ use function sprintf;
 
 /**
  * `FileMailer` is a mock mailer that save email messages in files instead of sending them.
+ *
+ * @api
  */
-final class FileMailer extends Mailer
+final class FileMailer extends BaseMailer
 {
     /**
      * @var callable|null A PHP callback that return a file name which will be used to save the email message.
@@ -39,21 +41,19 @@ final class FileMailer extends Mailer
     private $filenameCallback;
 
     /**
-     * @param MessageFactoryInterface $messageFactory The message factory instance.
-     * @param MessageBodyRenderer $messageBodyRenderer The message body renderer instance.
-     * @param EventDispatcherInterface $eventDispatcher The event dispatcher instance.
      * @param string $path The path where message files located.
      * @param callable|null $filenameCallback A PHP callback that return a file name which will be used to save
      * the email message.
+     * @param MessageSettings|null $messageSettings The default and extra message settings.
+     * @param EventDispatcherInterface|null $eventDispatcher The event dispatcher instance.
      */
     public function __construct(
-        MessageFactoryInterface $messageFactory,
-        MessageBodyRenderer $messageBodyRenderer,
-        EventDispatcherInterface $eventDispatcher,
-        private string $path,
-        callable $filenameCallback = null
+        private readonly string $path,
+        ?callable $filenameCallback = null,
+        ?MessageSettings $messageSettings = null,
+        ?EventDispatcherInterface $eventDispatcher = null,
     ) {
-        parent::__construct($messageFactory, $messageBodyRenderer, $eventDispatcher);
+        parent::__construct($messageSettings, $eventDispatcher);
         $this->filenameCallback = $filenameCallback;
     }
 
@@ -75,7 +75,7 @@ final class FileMailer extends Mailer
      * @param MessageInterface $message The message instance.
      *
      * @throws Exception {@see https://www.php.net/manual/en/function.random-int.php}
-     * @throws RuntimeException If {@see FileMailer::$filenameCallback} does not return a string.
+     * @throws LogicException If {@see FileMailer::$filenameCallback} does not return a string.
      *
      * @return string The filename for saving the message.
      */
@@ -89,7 +89,7 @@ final class FileMailer extends Mailer
         $filename = ($this->filenameCallback)($message);
 
         if (!is_string($filename)) {
-            throw new RuntimeException(sprintf('Filename must be a string. "%s" received.', gettype($filename)));
+            throw new LogicException(sprintf('Filename must be a string. "%s" received.', get_debug_type($filename)));
         }
 
         return $filename;

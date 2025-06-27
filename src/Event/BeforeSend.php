@@ -4,34 +4,21 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Event;
 
-use Psr\EventDispatcher\StoppableEventInterface;
 use Yiisoft\Mailer\MessageInterface;
 
 /**
  * `BeforeSend` event is triggered right before sending the message.
  *
- * @see \Yiisoft\Mailer\Mailer::beforeSend()
+ * @see \Yiisoft\Mailer\BaseMailer::send()
+ *
+ * @api
  */
-final class BeforeSend implements StoppableEventInterface
+final class BeforeSend
 {
-    private bool $stopPropagation = false;
+    public bool $preventSendingMessage = false;
 
-    public function __construct(private MessageInterface $message)
-    {
-    }
-
-    public function getMessage(): MessageInterface
-    {
-        return $this->message;
-    }
-
-    public function stopPropagation(): void
-    {
-        $this->stopPropagation = true;
-    }
-
-    public function isPropagationStopped(): bool
-    {
-        return $this->stopPropagation;
+    public function __construct(
+        public readonly MessageInterface $message,
+    ) {
     }
 }

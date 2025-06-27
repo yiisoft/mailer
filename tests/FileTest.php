@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mailer\Tests;
 
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Yiisoft\Mailer\File;
 
