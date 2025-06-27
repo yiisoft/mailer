@@ -7,14 +7,14 @@ namespace Yiisoft\Mailer\Tests\TestAsset;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Stringable;
 use Throwable;
 use Yiisoft\Mailer\File;
 use Yiisoft\Mailer\MessageInterface;
+use Yiisoft\Mailer\Priority;
 
 use function json_encode;
 
-final class DummyMessage implements MessageInterface, Stringable
+final class DummyMessage implements MessageInterface
 {
     private string $charset = '';
     private string|array $from = '';
@@ -24,7 +24,7 @@ final class DummyMessage implements MessageInterface, Stringable
     private string $bcc = '';
     private string $subject = '';
     private ?DateTimeImmutable $date = null;
-    private int $priority = 3;
+    private Priority $priority = Priority::NORMAL;
     private string $returnPath = '';
     private string $sender = '';
     private string $htmlBody = '';
@@ -36,7 +36,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->charset;
     }
 
-    public function withCharset(string $charset): self
+    public function withCharset(string|null $charset): static
     {
         $new = clone $this;
         $new->charset = $charset;
@@ -48,7 +48,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->from;
     }
 
-    public function withFrom($from): self
+    public function withFrom($from): static
     {
         $new = clone $this;
         $new->from = $from;
@@ -60,7 +60,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->to;
     }
 
-    public function withTo($to): self
+    public function withTo($to): static
     {
         $new = clone $this;
         $new->to = $to;
@@ -72,7 +72,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->replyTo;
     }
 
-    public function withReplyTo($replyTo): self
+    public function withReplyTo($replyTo): static
     {
         $new = clone $this;
         $new->replyTo = $replyTo;
@@ -84,7 +84,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->cc;
     }
 
-    public function withCc($cc): self
+    public function withCc($cc): static
     {
         $new = clone $this;
         $new->cc = $cc;
@@ -96,7 +96,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->bcc;
     }
 
-    public function withBcc($bcc): self
+    public function withBcc($bcc): static
     {
         $new = clone $this;
         $new->bcc = $bcc;
@@ -108,7 +108,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->subject;
     }
 
-    public function withSubject(string $subject): self
+    public function withSubject(string|null $subject): static
     {
         $new = clone $this;
         $new->subject = $subject;
@@ -120,7 +120,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->date;
     }
 
-    public function withDate(DateTimeInterface $date): self
+    public function withDate(DateTimeInterface|null $date): static
     {
         if ($date instanceof DateTime) {
             $immutable = new DateTimeImmutable('@' . $date->getTimestamp());
@@ -132,12 +132,12 @@ final class DummyMessage implements MessageInterface, Stringable
         return $new;
     }
 
-    public function getPriority(): int
+    public function getPriority(): Priority
     {
         return $this->priority;
     }
 
-    public function withPriority(int $priority): self
+    public function withPriority(Priority|null $priority): static
     {
         $new = clone $this;
         $new->priority = $priority;
@@ -149,7 +149,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->returnPath;
     }
 
-    public function withReturnPath(string $address): self
+    public function withReturnPath(string|null $address): static
     {
         $new = clone $this;
         $new->returnPath = $address;
@@ -161,7 +161,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->sender;
     }
 
-    public function withSender(string $address): self
+    public function withSender(string|null $address): static
     {
         $new = clone $this;
         $new->sender = $address;
@@ -173,7 +173,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->textBody;
     }
 
-    public function withTextBody(string $text): self
+    public function withTextBody(string|null $text): static
     {
         $new = clone $this;
         $new->textBody = $text;
@@ -185,7 +185,7 @@ final class DummyMessage implements MessageInterface, Stringable
         return $this->htmlBody;
     }
 
-    public function withHtmlBody(string $html): self
+    public function withHtmlBody(string|null $html): static
     {
         $new = clone $this;
         $new->htmlBody = $html;
@@ -207,17 +207,17 @@ final class DummyMessage implements MessageInterface, Stringable
         return [];
     }
 
-    public function withAddedHeader(string $name, string $value): self
+    public function withAddedHeader(string $name, string $value): static
     {
         return $this;
     }
 
-    public function withHeader(string $name, $value): self
+    public function withHeader(string $name, $value): static
     {
         return $this;
     }
 
-    public function withHeaders(array $headers): self
+    public function withHeaders(array|null $headers): static
     {
         return $this;
     }
@@ -232,6 +232,76 @@ final class DummyMessage implements MessageInterface, Stringable
         $new = clone $this;
         $new->error = $e;
         return $new;
+    }
+
+    public function withAddedFrom(array|string $from): static
+    {
+        return $this;
+    }
+
+    public function withAddedTo(array|string $to): static
+    {
+        return $this;
+    }
+
+    public function withAddedReplyTo(array|string $replyTo): static
+    {
+        return $this;
+    }
+
+    public function withAddedCc(array|string $cc): static
+    {
+        return $this;
+    }
+
+    public function withAddedBcc(array|string $bcc): static
+    {
+        return $this;
+    }
+
+    public function getAttachments(): array|null
+    {
+        return [];
+    }
+
+    public function withAttachments(File ...$files): static
+    {
+        return $this;
+    }
+
+    public function withAddedAttachments(File ...$files): static
+    {
+        return $this;
+    }
+
+    public function withoutAttachments(): static
+    {
+        return $this;
+    }
+
+    public function getEmbeddings(): array|null
+    {
+        return [];
+    }
+
+    public function withEmbeddings(File ...$files): static
+    {
+        return $this;
+    }
+
+    public function withAddedEmbeddings(File ...$files): static
+    {
+        return $this;
+    }
+
+    public function withoutEmbeddings(): static
+    {
+        return $this;
+    }
+
+    public function getHeaders(): array|null
+    {
+        return [];
     }
 
     public function __toString(): string
