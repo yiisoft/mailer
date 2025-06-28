@@ -2,7 +2,7 @@
 
 ## 6.0.2 under development
 
-- no changes in this release.
+- New #72: Add debug collector (@xepozz)
 
 ## 6.0.1 March 25, 2025
 
@@ -37,11 +37,11 @@
 - Chg #96: Change order of constructor parameters in `Mailer` and `FailMailer` (@vjik)
 - Enh #83, #103: Make `psr/event-dispatcher` dependency optional (@vjik)
 - Enh #103: Replace `RuntimeException` to `LogicException` when file name callback of `FileMailer` returns non-string
-  value and improve exception message (@vjik)
+  value and improve an exception message (@vjik)
 
 ## 5.1.0 July 02, 2024
 
-- New #82: Allow to set default "from" value in `MessageFactory` (@vjik)
+- New #82: Allow setting default "from" value in `MessageFactory` (@vjik)
 - Chg #85: Raise minimal PHP version to `^8.1` (@vjik)
 - Chg #89: Raise required `yiisoft/view` version to `^10.0` (@vjik)
 
