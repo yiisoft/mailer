@@ -20,13 +20,13 @@ final class MessageSettings
      * no corresponding headers in the message.
      * @psalm-var array<string,list<string>>|null
      */
-    public readonly array|null $headers;
+    public readonly ?array $headers;
 
     /**
      * @var array[]|null The custom headers in format `[name => value[]]` that will always be added to message.
      * @psalm-var array<string,list<string>>|null
      */
-    public readonly array|null $overwriteHeaders;
+    public readonly ?array $overwriteHeaders;
 
     /**
      * @var callable|null The HTML to text body converter.
@@ -74,7 +74,7 @@ final class MessageSettings
      * @psalm-param HtmlToTextBodyConverterCallable|null $htmlToTextBodyConverter
      */
     public function __construct(
-        public readonly string|null $charset = null,
+        public readonly ?string $charset = null,
         public readonly array|string|null $from = null,
         public readonly array|string|null $addFrom = null,
         public readonly array|string|null $to = null,
@@ -85,20 +85,20 @@ final class MessageSettings
         public readonly array|string|null $addCc = null,
         public readonly array|string|null $bcc = null,
         public readonly array|string|null $addBcc = null,
-        public readonly string|null $subject = null,
-        public readonly DateTimeImmutable|null $date = null,
-        public readonly Priority|null $priority = null,
-        public readonly string|null $returnPath = null,
-        public readonly string|null $sender = null,
-        public readonly string|null $textBody = null,
-        public readonly string|null $htmlBody = null,
-        public readonly array|null $attachments = null,
-        public readonly array|null $addAttachments = null,
-        public readonly array|null $embeddings = null,
-        public readonly array|null $addEmbeddings = null,
-        array|null $headers = null,
-        array|null $overwriteHeaders = null,
-        callable|null $htmlToTextBodyConverter = null,
+        public readonly ?string $subject = null,
+        public readonly ?DateTimeImmutable $date = null,
+        public readonly ?Priority $priority = null,
+        public readonly ?string $returnPath = null,
+        public readonly ?string $sender = null,
+        public readonly ?string $textBody = null,
+        public readonly ?string $htmlBody = null,
+        public readonly ?array $attachments = null,
+        public readonly ?array $addAttachments = null,
+        public readonly ?array $embeddings = null,
+        public readonly ?array $addEmbeddings = null,
+        ?array $headers = null,
+        ?array $overwriteHeaders = null,
+        ?callable $htmlToTextBodyConverter = null,
     ) {
         $this->headers = HeadersNormalizer::normalize($headers);
         $this->overwriteHeaders = HeadersNormalizer::normalize($overwriteHeaders);
@@ -190,7 +190,7 @@ final class MessageSettings
 
         if ($this->headers !== null) {
             $message = $message->withHeaders(
-                array_merge($this->headers, $message->getHeaders() ?? [])
+                array_merge($this->headers, $message->getHeaders() ?? []),
             );
         }
         if ($this->overwriteHeaders !== null) {
@@ -203,7 +203,7 @@ final class MessageSettings
             $html = $message->getHtmlBody();
             if ($html !== null) {
                 $message = $message->withTextBody(
-                    ($this->htmlToTextBodyConverter)($html)
+                    ($this->htmlToTextBodyConverter)($html),
                 );
             }
         }

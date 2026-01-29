@@ -205,7 +205,7 @@ final class MessageTest extends TestCase
             X-Test: b
             Hello, World!
             BODY,
-            (string) $message
+            (string) $message,
         );
     }
 

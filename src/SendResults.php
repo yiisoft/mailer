@@ -29,6 +29,5 @@ final class SendResults
     public function __construct(
         public readonly array $successMessages,
         public readonly array $failMessages,
-    ) {
-    }
+    ) {}
 }

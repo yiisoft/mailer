@@ -14,6 +14,8 @@ use Yiisoft\Mailer\Priority;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 final class DummyMessage implements MessageInterface
 {
     private string $charset = '';
@@ -31,12 +33,32 @@ final class DummyMessage implements MessageInterface
     private string $textBody = '';
     private ?Throwable $error = null;
 
+    public function __toString(): string
+    {
+        return json_encode([
+            'charset' => $this->charset,
+            'from' => $this->from,
+            'to' => $this->to,
+            'replyTo' => $this->replyTo,
+            'cc' => $this->cc,
+            'bcc' => $this->bcc,
+            'subject' => $this->subject,
+            'date' => (array) $this->date,
+            'priority' => $this->priority,
+            'returnPath' => $this->returnPath,
+            'sender' => $this->sender,
+            'htmlBody' => $this->htmlBody,
+            'textBody' => $this->textBody,
+            'error' => (string) $this->error,
+        ], JSON_THROW_ON_ERROR);
+    }
+
     public function getCharset(): string
     {
         return $this->charset;
     }
 
-    public function withCharset(string|null $charset): static
+    public function withCharset(?string $charset): static
     {
         $new = clone $this;
         $new->charset = $charset;
@@ -108,7 +130,7 @@ final class DummyMessage implements MessageInterface
         return $this->subject;
     }
 
-    public function withSubject(string|null $subject): static
+    public function withSubject(?string $subject): static
     {
         $new = clone $this;
         $new->subject = $subject;
@@ -120,7 +142,7 @@ final class DummyMessage implements MessageInterface
         return $this->date;
     }
 
-    public function withDate(DateTimeInterface|null $date): static
+    public function withDate(?DateTimeInterface $date): static
     {
         if ($date instanceof DateTime) {
             $immutable = new DateTimeImmutable('@' . $date->getTimestamp());
@@ -137,7 +159,7 @@ final class DummyMessage implements MessageInterface
         return $this->priority;
     }
 
-    public function withPriority(Priority|null $priority): static
+    public function withPriority(?Priority $priority): static
     {
         $new = clone $this;
         $new->priority = $priority;
@@ -149,7 +171,7 @@ final class DummyMessage implements MessageInterface
         return $this->returnPath;
     }
 
-    public function withReturnPath(string|null $address): static
+    public function withReturnPath(?string $address): static
     {
         $new = clone $this;
         $new->returnPath = $address;
@@ -161,7 +183,7 @@ final class DummyMessage implements MessageInterface
         return $this->sender;
     }
 
-    public function withSender(string|null $address): static
+    public function withSender(?string $address): static
     {
         $new = clone $this;
         $new->sender = $address;
@@ -173,7 +195,7 @@ final class DummyMessage implements MessageInterface
         return $this->textBody;
     }
 
-    public function withTextBody(string|null $text): static
+    public function withTextBody(?string $text): static
     {
         $new = clone $this;
         $new->textBody = $text;
@@ -185,7 +207,7 @@ final class DummyMessage implements MessageInterface
         return $this->htmlBody;
     }
 
-    public function withHtmlBody(string|null $html): static
+    public function withHtmlBody(?string $html): static
     {
         $new = clone $this;
         $new->htmlBody = $html;
@@ -217,7 +239,7 @@ final class DummyMessage implements MessageInterface
         return $this;
     }
 
-    public function withHeaders(array|null $headers): static
+    public function withHeaders(?array $headers): static
     {
         return $this;
     }
@@ -259,7 +281,7 @@ final class DummyMessage implements MessageInterface
         return $this;
     }
 
-    public function getAttachments(): array|null
+    public function getAttachments(): ?array
     {
         return [];
     }
@@ -279,7 +301,7 @@ final class DummyMessage implements MessageInterface
         return $this;
     }
 
-    public function getEmbeddings(): array|null
+    public function getEmbeddings(): ?array
     {
         return [];
     }
@@ -299,28 +321,8 @@ final class DummyMessage implements MessageInterface
         return $this;
     }
 
-    public function getHeaders(): array|null
+    public function getHeaders(): ?array
     {
         return [];
-    }
-
-    public function __toString(): string
-    {
-        return json_encode([
-            'charset' => $this->charset,
-            'from' => $this->from,
-            'to' => $this->to,
-            'replyTo' => $this->replyTo,
-            'cc' => $this->cc,
-            'bcc' => $this->bcc,
-            'subject' => $this->subject,
-            'date' => (array) $this->date,
-            'priority' => $this->priority,
-            'returnPath' => $this->returnPath,
-            'sender' => $this->sender,
-            'htmlBody' => $this->htmlBody,
-            'textBody' => $this->textBody,
-            'error' => (string) $this->error,
-        ], JSON_THROW_ON_ERROR);
     }
 }

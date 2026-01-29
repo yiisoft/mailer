@@ -33,9 +33,8 @@ final class File
         private readonly ?string $name,
         private readonly ?string $path,
         private readonly ?string $content,
-        private readonly ?string $contentType
-    ) {
-    }
+        private readonly ?string $contentType,
+    ) {}
 
     /**
      * Creates a new file instance from the specified content.

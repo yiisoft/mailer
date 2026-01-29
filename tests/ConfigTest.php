@@ -35,8 +35,8 @@ final class ConfigTest extends TestCase
                                 ],
                             ],
                         ],
-                    ]
-                )
+                    ],
+                ),
         );
 
         $fileMailer = $container->get(FileMailer::class);
@@ -59,7 +59,7 @@ final class ConfigTest extends TestCase
         $container = new Container(
             ContainerConfig::create()
                 ->withDefinitions($this->getDiConfig())
-                ->withStrictMode(true)
+                ->withStrictMode(true),
         );
 
         $exception = null;
@@ -87,7 +87,7 @@ final class ConfigTest extends TestCase
         $container = new Container(
             ContainerConfig::create()
                 ->withDefinitions($this->getDiConfig($params))
-                ->withStrictMode(true)
+                ->withStrictMode(true),
         );
 
         $fileMailer = $container->get(FileMailer::class);

@@ -15,9 +15,8 @@ final class MailerInterfaceProxy implements MailerInterface
 {
     public function __construct(
         private MailerInterface $decorated,
-        private MailerCollector $collector
-    ) {
-    }
+        private MailerCollector $collector,
+    ) {}
 
     public function send(MessageInterface $message): void
     {

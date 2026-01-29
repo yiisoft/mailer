@@ -62,7 +62,7 @@ final class FileMailerTest extends TestCase
                 "test-file-{$time}.txt",
             ],
             'with-message' => [
-                static fn (MessageInterface $message) => "{$message->getFrom()}-{$time}.txt",
+                static fn(MessageInterface $message) => "{$message->getFrom()}-{$time}.txt",
                 "from@example.com-{$time}.txt",
             ],
         ];
@@ -92,12 +92,12 @@ final class FileMailerTest extends TestCase
     public static function dataInvalidFilenameCallbackProvider(): array
     {
         return [
-            'int' => ['int', static fn (): int => 1],
-            'float' => ['float', static fn (): float => 1,1],
-            'bool' => ['bool', static fn (): bool => true],
-            'array' => ['array', static fn (): array => []],
-            'object' => ['stdClass', static fn (): stdClass => new stdClass()],
-            'callable' => ['Closure', static fn (): Closure => static fn () => 'string'],
+            'int' => ['int', static fn(): int => 1],
+            'float' => ['float', static fn(): float => 1,1],
+            'bool' => ['bool', static fn(): bool => true],
+            'array' => ['array', static fn(): array => []],
+            'object' => ['stdClass', static fn(): stdClass => new stdClass()],
+            'callable' => ['Closure', static fn(): Closure => static fn() => 'string'],
         ];
     }
 

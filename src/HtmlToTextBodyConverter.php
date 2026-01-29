@@ -9,6 +9,9 @@ use function preg_match;
 use function preg_replace;
 use function strip_tags;
 
+use const ENT_HTML5;
+use const ENT_QUOTES;
+
 /**
  * Utility for converting HTML body to text body.
  *
@@ -16,6 +19,11 @@ use function strip_tags;
  */
 final class HtmlToTextBodyConverter
 {
+    public function __invoke(string $html): string
+    {
+        return self::convert($html);
+    }
+
     /**
      * Generates a text body from an HTML body.
      *
@@ -50,10 +58,5 @@ final class HtmlToTextBodyConverter
          * @var string We use valid regular expression, so `preg_replace()` will return string.
          */
         return preg_replace('~\R\R+~mu', "\n\n", $text);
-    }
-
-    public function __invoke(string $html): string
-    {
-        return self::convert($html);
     }
 }
