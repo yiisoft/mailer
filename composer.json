@@ -35,6 +35,7 @@
         "phpunit/phpunit": "^10.5.45",
         "psr/event-dispatcher": "^1.0",
         "rector/rector": "^2.0.10",
+        "roave/infection-static-analysis-plugin": "^1.35",
         "vimeo/psalm": "^5.26.1 || ^6.9.4",
         "yiisoft/aliases": "^3.0",
         "yiisoft/code-style": "^1.0",
@@ -74,7 +75,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true,
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "infection/extension-installer": true
         }
     },
     "scripts": {
