@@ -27,7 +27,7 @@
 /.gitattributes         export-ignore
 /.gitignore             export-ignore
 /.phpunit-watcher.yml   export-ignore
-/.styleci.yml           export-ignore
+/.php-cs-fixer.dist     export-ignore
 /infection.json.dist    export-ignore
 /phpunit.xml.dist       export-ignore
 /psalm.xml              export-ignore
