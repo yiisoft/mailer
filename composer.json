@@ -30,13 +30,12 @@
         "php": "8.1 - 8.4"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8.3",
         "friendsofphp/php-cs-fixer": "^3.93",
-        "maglnet/composer-require-checker": "^4.7.1",
         "phpunit/phpunit": "^10.5.45",
         "psr/event-dispatcher": "^1.0",
         "rector/rector": "^2.0.10",
         "roave/infection-static-analysis-plugin": "^1.35",
-        "spatie/phpunit-watcher": "^1.24",
         "vimeo/psalm": "^5.26.1 || ^6.9.4",
         "yiisoft/aliases": "^3.0",
         "yiisoft/code-style": "^1.0",
@@ -62,6 +61,11 @@
         }
     },
     "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "target-directory": "tools",
+            "forward-command": true
+        },
         "config-plugin": {
             "params": "config/params.php",
             "di": "config/di.php"
@@ -70,14 +74,14 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "infection/extension-installer": true,
-            "composer/package-versions-deprecated": true
+            "bamarni/composer-bin-plugin": true,
+            "composer/package-versions-deprecated": true,
+            "infection/extension-installer": true
         }
     },
     "scripts": {
         "psalm": "psalm",
         "test": "phpunit --testdox --no-interaction",
-        "test-watch": "phpunit-watcher watch",
         "cs-fix": "php-cs-fixer fix"
     }
 }
