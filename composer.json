@@ -73,6 +73,7 @@
         }
     },
     "scripts": {
+        "psalm": "psalm",
         "test": "phpunit --testdox --no-interaction",
         "test-watch": "phpunit-watcher watch"
     }
