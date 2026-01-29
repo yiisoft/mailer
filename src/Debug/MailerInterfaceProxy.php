@@ -8,6 +8,9 @@ use Yiisoft\Mailer\MailerInterface;
 use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Mailer\SendResults;
 
+/**
+ * @api
+ */
 final class MailerInterfaceProxy implements MailerInterface
 {
     public function __construct(

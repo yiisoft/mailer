@@ -8,6 +8,9 @@ use Yiisoft\Mailer\MessageInterface;
 use Yiisoft\Yii\Debug\Collector\CollectorTrait;
 use Yiisoft\Yii\Debug\Collector\SummaryCollectorInterface;
 
+/**
+ * @api
+ */
 final class MailerCollector implements SummaryCollectorInterface
 {
     use CollectorTrait;
