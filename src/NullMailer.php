@@ -11,9 +11,7 @@ namespace Yiisoft\Mailer;
  */
 final class NullMailer implements MailerInterface
 {
-    public function send(MessageInterface $message): void
-    {
-    }
+    public function send(MessageInterface $message): void {}
 
     public function sendMultiple(array $messages): SendResults
     {

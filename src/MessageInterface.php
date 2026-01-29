@@ -13,7 +13,7 @@ use Stringable;
  *
  * A message represents the settings and content of an email, such as the sender, recipient, subject, body, etc.
  *
- * Messages are sent by a {@see \Yiisoft\Mailer\MailerInterface}, like the following:
+ * Messages are sent by a {@see MailerInterface}, like the following:
  *
  * ```php
  * $message = (new Message())
@@ -38,7 +38,7 @@ interface MessageInterface extends Stringable
      *
      * @return string|null The charset of this message.
      */
-    public function getCharset(): string|null;
+    public function getCharset(): ?string;
 
     /**
      * Returns a new instance with the specified charset.
@@ -48,7 +48,7 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $charset The charset name.
      */
-    public function withCharset(string|null $charset): static;
+    public function withCharset(?string $charset): static;
 
     /**
      * Returns the message sender email address.
@@ -200,7 +200,7 @@ interface MessageInterface extends Stringable
      *
      * @return string|null The message subject.
      */
-    public function getSubject(): string|null;
+    public function getSubject(): ?string;
 
     /**
      * Returns a new instance with the specified message subject.
@@ -210,14 +210,14 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $subject The message subject.
      */
-    public function withSubject(string|null $subject): static;
+    public function withSubject(?string $subject): static;
 
     /**
      * Returns the date when the message was sent, or null if it was not set.
      *
      * @return DateTimeImmutable|null The date when the message was sent.
      */
-    public function getDate(): DateTimeImmutable|null;
+    public function getDate(): ?DateTimeImmutable;
 
     /**
      * Returns a new instance with the specified date when the message was sent.
@@ -227,14 +227,14 @@ interface MessageInterface extends Stringable
      *
      * @param DateTimeInterface|null $date The date when the message was sent.
      */
-    public function withDate(DateTimeInterface|null $date): static;
+    public function withDate(?DateTimeInterface $date): static;
 
     /**
      * Returns the priority of this message.
      *
      * @return Priority|null The message priority.
      */
-    public function getPriority(): Priority|null;
+    public function getPriority(): ?Priority;
 
     /**
      * Returns a new instance with the specified priority of this message.
@@ -244,14 +244,14 @@ interface MessageInterface extends Stringable
      *
      * @param Priority|null $priority The message priority.
      */
-    public function withPriority(Priority|null $priority): static;
+    public function withPriority(?Priority $priority): static;
 
     /**
      * Returns the return-path (the bounce address) of this message.
      *
      * @return string|null The bounce email address.
      */
-    public function getReturnPath(): string|null;
+    public function getReturnPath(): ?string;
 
     /**
      * Returns a new instance with the specified return-path (the bounce address) of this message.
@@ -261,14 +261,14 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $address The bounce email address.
      */
-    public function withReturnPath(string|null $address): static;
+    public function withReturnPath(?string $address): static;
 
     /**
      * Returns the message actual sender email address.
      *
      * @return string|null The actual sender email address.
      */
-    public function getSender(): string|null;
+    public function getSender(): ?string;
 
     /**
      * Returns a new instance with the specified actual sender email address.
@@ -278,14 +278,14 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $address The actual sender email address.
      */
-    public function withSender(string|null $address): static;
+    public function withSender(?string $address): static;
 
     /**
      * Returns the message HTML body.
      *
      * @return string|null The message HTML body.
      */
-    public function getHtmlBody(): string|null;
+    public function getHtmlBody(): ?string;
 
     /**
      * Returns a new instance with the specified message HTML content.
@@ -295,14 +295,14 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $html message HTML content.
      */
-    public function withHtmlBody(string|null $html): static;
+    public function withHtmlBody(?string $html): static;
 
     /**
      * Returns the message text body.
      *
      * @return string|null The message text body.
      */
-    public function getTextBody(): string|null;
+    public function getTextBody(): ?string;
 
     /**
      * Returns a new instance with the specified message plain text content.
@@ -312,13 +312,13 @@ interface MessageInterface extends Stringable
      *
      * @param string|null $text The message plain text content.
      */
-    public function withTextBody(string|null $text): static;
+    public function withTextBody(?string $text): static;
 
     /**
      * @return File[]|null
      * @psalm-return list<File>|null
      */
-    public function getAttachments(): array|null;
+    public function getAttachments(): ?array;
 
     /**
      * Returns a new instance with the specified attached files.
@@ -353,7 +353,7 @@ interface MessageInterface extends Stringable
      * @return File[]|null
      * @psalm-return list<File>|null
      */
-    public function getEmbeddings(): array|null;
+    public function getEmbeddings(): ?array;
 
     /**
      * Returns a new instance with the specified embedded files.
@@ -400,7 +400,7 @@ interface MessageInterface extends Stringable
     /**
      * @psalm-return array<string,list<string>>|null
      */
-    public function getHeaders(): array|null;
+    public function getHeaders(): ?array;
 
     /**
      * Returns a new instance with the specified added custom header value.
@@ -438,5 +438,5 @@ interface MessageInterface extends Stringable
      *
      * @psalm-param array<string, string|list<string>>|null $headers
      */
-    public function withHeaders(array|null $headers): static;
+    public function withHeaders(?array $headers): static;
 }

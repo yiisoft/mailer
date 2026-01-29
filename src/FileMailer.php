@@ -19,6 +19,8 @@ use function mkdir;
 use function random_int;
 use function sprintf;
 
+use const DIRECTORY_SEPARATOR;
+
 /**
  * `FileMailer` is a mock mailer that save email messages in files instead of sending them.
  *

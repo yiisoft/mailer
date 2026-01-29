@@ -21,8 +21,7 @@ abstract class BaseMailer implements MailerInterface
     public function __construct(
         private readonly ?MessageSettings $defaultMessageSettings = null,
         private readonly ?EventDispatcherInterface $eventDispatcher = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Sends the given email message. Child classes should implement {@see BaseMailer::sendMessage()} with the actual

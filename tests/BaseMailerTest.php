@@ -64,7 +64,7 @@ final class BaseMailerTest extends TestCase
                 if ($event instanceof BeforeSend) {
                     $event->preventSendingMessage = true;
                 }
-            }
+            },
         );
         $mailer = new DummyMailer(eventDispatcher: $eventDispatcher);
 

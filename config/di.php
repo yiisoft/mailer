@@ -20,14 +20,14 @@ return [
                     }
                     if (str_starts_with($params['yiisoft/mailer']['fileMailer']['path'], '@')) {
                         throw new LogicException(
-                            sprintf(
+                            \sprintf(
                                 'yiisoft/aliases dependency is required to resolve path "%s".',
-                                $params['yiisoft/mailer']['fileMailer']['path']
-                            )
+                                $params['yiisoft/mailer']['fileMailer']['path'],
+                            ),
                         );
                     }
                     return $params['yiisoft/mailer']['fileMailer']['path'];
-                }
+                },
             ),
         ],
     ],

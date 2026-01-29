@@ -19,7 +19,7 @@ final class Message implements MessageInterface
      * @var array[]|null
      * @psalm-var array<string,list<string>>|null
      */
-    private array|null $headers;
+    private ?array $headers;
 
     /**
      * @param string|string[]|null $from The sender email address(es). You may also specify sender name in addition
@@ -41,32 +41,46 @@ final class Message implements MessageInterface
      * @psalm-param array<string,string|list<string>>|null $headers
      */
     public function __construct(
-        private string|null $charset = null,
+        private ?string $charset = null,
         private array|string|null $from = null,
         private array|string|null $to = null,
         private array|string|null $replyTo = null,
         private array|string|null $cc = null,
         private array|string|null $bcc = null,
-        private string|null $subject = null,
-        private DateTimeImmutable|null $date = null,
-        private Priority|null $priority = null,
-        private string|null $returnPath = null,
-        private string|null $sender = null,
-        private string|null $textBody = null,
-        private string|null $htmlBody = null,
-        private array|null $attachments = null,
-        private array|null $embeddings = null,
-        array|null $headers = null,
+        private ?string $subject = null,
+        private ?DateTimeImmutable $date = null,
+        private ?Priority $priority = null,
+        private ?string $returnPath = null,
+        private ?string $sender = null,
+        private ?string $textBody = null,
+        private ?string $htmlBody = null,
+        private ?array $attachments = null,
+        private ?array $embeddings = null,
+        ?array $headers = null,
     ) {
         $this->setHeaders($headers);
     }
 
-    public function getCharset(): string|null
+    public function __toString(): string
+    {
+        $result = [];
+        if ($this->headers !== null) {
+            foreach ($this->headers as $name => $values) {
+                foreach ($values as $value) {
+                    $result[] = $name . ': ' . $value;
+                }
+            }
+        }
+        $result[] = $this->textBody;
+        return implode("\n", $result);
+    }
+
+    public function getCharset(): ?string
     {
         return $this->charset;
     }
 
-    public function withCharset(string|null $charset): static
+    public function withCharset(?string $charset): static
     {
         $new = clone $this;
         $new->charset = $charset;
@@ -88,7 +102,7 @@ final class Message implements MessageInterface
     public function withAddedFrom(array|string $from): static
     {
         return $this->withFrom(
-            $this->mergeAddresses($this->from, $from)
+            $this->mergeAddresses($this->from, $from),
         );
     }
 
@@ -107,7 +121,7 @@ final class Message implements MessageInterface
     public function withAddedTo(array|string $to): static
     {
         return $this->withTo(
-            $this->mergeAddresses($this->to, $to)
+            $this->mergeAddresses($this->to, $to),
         );
     }
 
@@ -126,7 +140,7 @@ final class Message implements MessageInterface
     public function withAddedReplyTo(array|string $replyTo): static
     {
         return $this->withReplyTo(
-            $this->mergeAddresses($this->replyTo, $replyTo)
+            $this->mergeAddresses($this->replyTo, $replyTo),
         );
     }
 
@@ -145,7 +159,7 @@ final class Message implements MessageInterface
     public function withAddedCc(array|string $cc): static
     {
         return $this->withCc(
-            $this->mergeAddresses($this->cc, $cc)
+            $this->mergeAddresses($this->cc, $cc),
         );
     }
 
@@ -164,28 +178,28 @@ final class Message implements MessageInterface
     public function withAddedBcc(array|string $bcc): static
     {
         return $this->withBcc(
-            $this->mergeAddresses($this->bcc, $bcc)
+            $this->mergeAddresses($this->bcc, $bcc),
         );
     }
 
-    public function getSubject(): string|null
+    public function getSubject(): ?string
     {
         return $this->subject;
     }
 
-    public function withSubject(string|null $subject): static
+    public function withSubject(?string $subject): static
     {
         $new = clone $this;
         $new->subject = $subject;
         return $new;
     }
 
-    public function getDate(): DateTimeImmutable|null
+    public function getDate(): ?DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function withDate(DateTimeInterface|null $date): static
+    public function withDate(?DateTimeInterface $date): static
     {
         $new = clone $this;
         if ($date === null) {
@@ -196,67 +210,67 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function getPriority(): Priority|null
+    public function getPriority(): ?Priority
     {
         return $this->priority;
     }
 
-    public function withPriority(Priority|null $priority): static
+    public function withPriority(?Priority $priority): static
     {
         $new = clone $this;
         $new->priority = $priority;
         return $new;
     }
 
-    public function getReturnPath(): string|null
+    public function getReturnPath(): ?string
     {
         return $this->returnPath;
     }
 
-    public function withReturnPath(string|null $address): static
+    public function withReturnPath(?string $address): static
     {
         $new = clone $this;
         $new->returnPath = $address;
         return $new;
     }
 
-    public function getSender(): string|null
+    public function getSender(): ?string
     {
         return $this->sender;
     }
 
-    public function withSender(string|null $address): static
+    public function withSender(?string $address): static
     {
         $new = clone $this;
         $new->sender = $address;
         return $new;
     }
 
-    public function getHtmlBody(): string|null
+    public function getHtmlBody(): ?string
     {
         return $this->htmlBody;
     }
 
-    public function withHtmlBody(string|null $html): static
+    public function withHtmlBody(?string $html): static
     {
         $new = clone $this;
         $new->htmlBody = $html;
         return $new;
     }
 
-    public function getTextBody(): string|null
+    public function getTextBody(): ?string
     {
         return $this->textBody;
     }
 
-    public function withTextBody(string|null $text): static
+    public function withTextBody(?string $text): static
     {
         $new = clone $this;
         $new->textBody = $text;
         return $new;
     }
 
-    public function getAttachments(): array|null
+    public function getAttachments(): ?array
     {
         return $this->attachments;
     }
@@ -288,7 +302,7 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function getEmbeddings(): array|null
+    public function getEmbeddings(): ?array
     {
         return $this->embeddings;
     }
@@ -325,7 +339,7 @@ final class Message implements MessageInterface
         return $this->headers[$name] ?? [];
     }
 
-    public function getHeaders(): array|null
+    public function getHeaders(): ?array
     {
         return $this->headers;
     }
@@ -345,31 +359,17 @@ final class Message implements MessageInterface
         return $new;
     }
 
-    public function withHeaders(array|null $headers): static
+    public function withHeaders(?array $headers): static
     {
         $new = clone $this;
         $new->setHeaders($headers);
         return $new;
     }
 
-    public function __toString(): string
-    {
-        $result = [];
-        if ($this->headers !== null) {
-            foreach ($this->headers as $name => $values) {
-                foreach ($values as $value) {
-                    $result[] = $name . ': ' . $value;
-                }
-            }
-        }
-        $result[] = $this->textBody;
-        return implode("\n", $result);
-    }
-
     /**
      * @psalm-param array<string,string|list<string>>|null $headers
      */
-    private function setHeaders(array|null $headers): void
+    private function setHeaders(?array $headers): void
     {
         $this->headers = HeadersNormalizer::normalize($headers);
     }

@@ -13,7 +13,7 @@ final class HeadersNormalizer
      * @psalm-param array<string,string|list<string>>|null $headers
      * @psalm-return array<string,list<string>>|null
      */
-    public static function normalize(array|null $headers): array|null
+    public static function normalize(?array $headers): ?array
     {
         if ($headers === null) {
             return null;
