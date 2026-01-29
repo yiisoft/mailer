@@ -10,6 +10,9 @@ use Yiisoft\Yii\Debug\Collector\SummaryCollectorInterface;
 
 use function count;
 
+/**
+ * @api
+ */
 final class MailerCollector implements SummaryCollectorInterface
 {
     use CollectorTrait;
@@ -40,7 +43,7 @@ final class MailerCollector implements SummaryCollectorInterface
                 'subject' => $message->getSubject(),
                 'textBody' => $message->getTextBody(),
                 'htmlBody' => $message->getCharset() === 'quoted-printable'
-                    ? quoted_printable_decode($message->getHtmlBody())
+                    ? quoted_printable_decode($message->getHtmlBody() ?? '')
                     : $message->getHtmlBody(),
                 'replyTo' => (array) $message->getReplyTo(),
                 'cc' => (array) $message->getCc(),
