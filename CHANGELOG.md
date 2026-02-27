@@ -5,6 +5,7 @@
 - New #72: Add debug collector (@xepozz)
 - Enh #118: Explicitly import classes, functions, and constants in "use" section (@mspirkov)
 - Enh #118: Remove unnecessary files from Composer package (@mspirkov)
+- Enh #122: Add PHP 8.5 support (@samdark)
 
 ## 6.0.1 March 25, 2025
 
