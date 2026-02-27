@@ -1,6 +1,6 @@
 # Yii Mailer Change Log
 
-## 6.0.2 under development
+## 6.1.0 February 27, 2026
 
 - New #72: Add debug collector (@xepozz)
 - Enh #118: Explicitly import classes, functions, and constants in "use" section (@mspirkov)
