@@ -1,5 +1,9 @@
 # Yii Mailer Change Log
 
+## 6.1.1 under development
+
+- no changes in this release.
+
 ## 6.1.0 February 27, 2026
 
 - New #72: Add debug collector (@xepozz)
