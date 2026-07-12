@@ -6,6 +6,7 @@ on:
       - 'config/**'
       - 'src/**'
       - '.github/workflows/bc.yml'
+      - '.roave-backward-compatibility-check.xml'
       - 'composer.json'
   push:
     branches: ['master']
