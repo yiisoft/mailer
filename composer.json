@@ -36,6 +36,7 @@
         "psr/event-dispatcher": "^1.0",
         "rector/rector": "^2.0.10",
         "roave/infection-static-analysis-plugin": "^1.35",
+        "shipmonk/composer-dependency-analyser": "^1.8",
         "vimeo/psalm": "^5.26.1 || ^6.9.4",
         "yiisoft/aliases": "^3.0",
         "yiisoft/code-style": "^1.0",
@@ -80,6 +81,7 @@
         }
     },
     "scripts": {
+        "dependency-analyser": "composer-dependency-analyser",
         "psalm": "psalm",
         "test": "phpunit --testdox --no-interaction",
         "cs-fix": "php-cs-fixer fix"
