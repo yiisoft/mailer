@@ -30,7 +30,6 @@
         "php": "8.1 - 8.5"
     },
     "require-dev": {
-        "bamarni/composer-bin-plugin": "^1.8.3",
         "friendsofphp/php-cs-fixer": "^3.93",
         "phpunit/phpunit": "^10.5.45",
         "psr/event-dispatcher": "^1.0",
@@ -62,11 +61,6 @@
         }
     },
     "extra": {
-        "bamarni-bin": {
-            "bin-links": true,
-            "target-directory": "tools",
-            "forward-command": true
-        },
         "config-plugin": {
             "params": "config/params.php",
             "di": "config/di.php"
@@ -75,7 +69,6 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "bamarni/composer-bin-plugin": true,
             "composer/package-versions-deprecated": true,
             "infection/extension-installer": true
         }
