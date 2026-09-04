@@ -62,7 +62,7 @@ $mailer->send($message);
 
 ## Documentation
 
-- [Yii guide to mailing](https://github.com/yiisoft/docs/blob/master/guide/en/tutorial/mailing.md)
+- [Yii guide to mailing](https://yiisoft.github.io/docs/guide/tutorial/mailing)
 - [Internals](docs/internals.md)
 
 If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for that.
