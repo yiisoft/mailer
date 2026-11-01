@@ -75,9 +75,7 @@ final class File
      */
     public function id(): string
     {
-        if ($this->id === null) {
-            $this->id = bin2hex(random_bytes(16)) . '@app';
-        }
+        $this->id ??= bin2hex(random_bytes(16)) . '@app';
 
         return $this->id;
     }
