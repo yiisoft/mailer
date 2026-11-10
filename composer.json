@@ -36,7 +36,7 @@
         "psr/event-dispatcher": "^1.0",
         "rector/rector": "^2.0.10",
         "shipmonk/composer-dependency-analyser": "^1.8",
-        "vimeo/psalm": "^5.26.1 || ^6.9.4",
+        "vimeo/psalm": "^5.26.1 || ^6.9.4 || ^7.0.0",
         "yiisoft/aliases": "^3.0",
         "yiisoft/code-style": "^1.0",
         "yiisoft/definitions": "^3.4",
